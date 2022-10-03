@@ -1,0 +1,168 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+
+#include "{{packageName}}/model/{{classFilename}}.h"
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{#isEnum}}
+
+namespace {
+using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}std::string{{/isNumeric}};
+
+{{classname}}::e{{classname}} toEnum(const EnumUnderlyingType& val) {
+{{#allowableValues}}
+{{#isNumeric}}
+    switch (val) {
+    {{#enumVars}}
+    case {{value}}:
+        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+    {{#-last}}
+    default:
+        break;
+    {{/-last}}
+    {{/enumVars}}
+    }
+{{/isNumeric}}
+{{^isNumeric}}
+    {{#enumVars}}
+    if (val == "{{{value}}}")
+        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+    {{/enumVars}}
+{{/isNumeric}}
+{{/allowableValues}}
+    return {};
+}
+
+EnumUnderlyingType fromEnum({{classname}}::e{{classname}} e) {
+{{#allowableValues}}
+    switch (e) {
+{{#enumVars}}
+    case {{classname}}::e{{classname}}::{{classname}}_{{name}}:
+        return {{#isNumeric}}{{value}}{{/isNumeric}}{{^isNumeric}}"{{value}}"{{/isNumeric}};
+{{#-last}}
+    default:
+        break;
+{{/-last}}
+{{/enumVars}}
+    }
+{{/allowableValues}}
+    return {};
+}
+}
+
+nlohmann::json {{classname}}::toJson() const {
+    auto val = fromEnum(m_value);
+    return nlohmann::json(val);
+}
+
+bool {{classname}}::fromJson(const nlohmann::json& val) {
+    m_value = toEnum({{#isNumeric}}val.get<int64_t>(){{/isNumeric}}{{^isNumeric}}val.get<std::string>(){{/isNumeric}});
+    return true;
+}
+
+{{classname}}::e{{classname}} {{classname}}::getValue() const {
+   return m_value;
+}
+
+void {{classname}}::setValue({{classname}}::e{{classname}} const value) {
+   m_value = value;
+}
+
+{{/isEnum}}
+
+{{^isEnum}}
+
+{{classname}}::{{classname}}() {
+    {{#vars}}
+    {{^isInherited}}
+    {{^isContainer}}
+    {{#isPrimitiveType}}
+    m_{{name}} = {{{defaultValue}}};
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{#isString}}
+    m_{{name}} = {{{defaultValue}}};
+    {{/isString}}
+    {{#isDateTime}}
+    m_{{name}} = {{{defaultValue}}};
+    {{/isDateTime}}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    m_{{name}}IsSet = false;
+    {{/isInherited}}
+    {{/vars}}
+}
+
+nlohmann::json {{classname}}::toJson() const {
+    {{#parent}}
+    nlohmann::json val = this->{{{.}}}::toJson();{{/parent}}
+    {{^parent}}
+    nlohmann::json val = nlohmann::json::object();
+    {{/parent}}
+    {{#vars}}{{^isInherited}}
+    if (m_{{name}}IsSet) {
+        val["{{baseName}}"] = ModelBase::toJson(m_{{name}});
+    }{{/isInherited}}{{/vars}}
+
+    return val;
+}
+
+bool {{classname}}::fromJson(const nlohmann::json& val) {
+    bool ok = true;
+    {{#parent}}
+    ok &= this->{{{.}}}::fromJson(val);
+    {{/parent}}
+    {{#vars}}{{^isInherited}}
+    if (val.contains("{{baseName}}")) {
+        const nlohmann::json& fieldValue = val.at("{{baseName}}");
+        if (!fieldValue.is_null()) {
+            {{{dataType}}} refVal_{{setter}};
+            ok &= ModelBase::fromJson(fieldValue, refVal_{{setter}});
+            {{setter}}(refVal_{{setter}});
+        }
+    }{{/isInherited}}{{/vars}}
+    return ok;
+}
+
+{{#vars}}
+{{^isInherited}}
+{{#isPrimitiveType}}
+{{{dataType}}} {{classname}}::{{getter}}() const {
+    return m_{{name}};
+}
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}const {{{dataType}}}& {{classname}}::{{getter}}() const {
+    return m_{{name}};
+}
+{{/isPrimitiveType}}
+
+{{#isPrimitiveType}}
+void {{classname}}::{{setter}}({{{dataType}}} value) {
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+void {{classname}}::{{setter}}(const {{{dataType}}}& value) {
+{{/isPrimitiveType}}
+    m_{{name}} = value;
+    m_{{name}}IsSet = true;
+}
+
+bool {{classname}}::{{nameInCamelCase}}IsSet() const {
+    return m_{{name}}IsSet;
+}
+
+void {{classname}}::unset{{name}}() {
+    m_{{name}}IsSet = false;
+}
+{{/isInherited}}
+{{/vars}}
+{{/isEnum}}
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+
+{{/model}}
+{{/models}}

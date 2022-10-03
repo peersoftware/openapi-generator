@@ -1,0 +1,221 @@
+{{>licenseInfo}}
+{{#operations}}
+
+#include "{{packageName}}/api/{{classname}}.h"
+
+#include <optional>
+#include <stdexcept>
+#include <unordered_set>
+#include <utility>
+
+#include "{{packageName}}/Utility.h"
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{modelNamespace}};
+using org::openapitools::client::api::replaceAll;
+
+{{classname}}::{{classname}}(const std::shared_ptr<const ApiClient> &apiClient)
+    : m_ApiClient(apiClient) {
+}
+
+{{#operation}}
+{{#returnType}}std::pair<ApiResponse, {{{returnType}}}>{{/returnType}}{{^returnType}}ApiResponse{{/returnType}}
+{{classname}}::{{operationId}}(
+{{#allParams}}
+    {{#required}}
+        {{#isPrimitiveType}}
+        {{^isContainer}}
+    {{{dataType}}} {{paramName}}{{^-last}},{{/-last}}
+        {{/isContainer}}
+        {{#isContainer}}
+    const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+    const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
+        {{/isPrimitiveType}}
+    {{/required}}
+    {{^required}}
+    std::optional<{{{dataType}}}> {{paramName}}{{^-last}},{{/-last}}
+    {{/required}}
+{{/allParams}}) const {
+{{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == nullptr) {
+        throw std::invalid_argument("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
+    }
+{{/isContainer}}{{/isPrimitiveType}}{{/required}}{{/allParams}}
+
+    std::string localVarPath = "{{{path}}}";
+    {{#pathParams}}replaceAll(localVarPath, "{{=<% %>=}}{<%baseName%>}"<%={{ }}=%>, ApiClient::parameterToString({{{paramName}}}));
+    {{/pathParams}}
+
+    std::map<std::string, std::string> localVarQueryParams;
+    std::map<std::string, std::string> localVarHeaderParams;
+    std::map<std::string, std::string> localVarFormParams;
+
+    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    {{#produces}}
+    localVarResponseHttpContentTypes.insert("{{{mediaType}}}");
+    {{/produces}}
+
+    std::string localVarResponseHttpContentType;
+
+    // use JSON if possible
+    if (localVarResponseHttpContentTypes.size() == 0) {
+        {{#vendorExtensions.x-codegen-response.isString}}
+        localVarResponseHttpContentType = "text/plain";
+        {{/vendorExtensions.x-codegen-response.isString}}
+        {{^vendorExtensions.x-codegen-response.isString}}
+        localVarResponseHttpContentType = "application/json";
+        {{/vendorExtensions.x-codegen-response.isString}}
+    } else if (localVarResponseHttpContentTypes.find("application/json") !=
+            localVarResponseHttpContentTypes.end()) {
+        localVarResponseHttpContentType = "application/json";
+    }
+    {{#vendorExtensions.x-codegen-response.isString}}
+    else if (localVarResponseHttpContentTypes.find("text/plain") !=
+            localVarResponseHttpContentTypes.end()) {
+        localVarResponseHttpContentType = "text/plain";
+    }
+    {{/vendorExtensions.x-codegen-response.isString}}
+    {{#vendorExtensions.x-codegen-response-ishttpcontent}}
+    else {
+        //It's going to be binary, so just use the first one.
+        localVarResponseHttpContentType = *localVarResponseHttpContentTypes.begin();
+    }
+    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+    {{^vendorExtensions.x-codegen-response-ishttpcontent}}
+    else {
+        throw std::invalid_argument("{{classname}}->{{operationId}} does not produce any supported media type");
+    }
+    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+
+    localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
+
+    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    {{#consumes}}
+    localVarConsumeHttpContentTypes.insert("{{{mediaType}}}");
+    {{/consumes}}
+
+    {{#allParams}}
+    {{^isBodyParam}}
+    {{^isPathParam}}
+    {{#required}}
+        {{^isPrimitiveType}}
+        {{^isContainer}}
+    if ({{paramName}} != nullptr)
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+    {{/required}}
+    {{^required}}
+        {{^isPrimitiveType}}
+        {{^isContainer}}
+    if ({{paramName}} && *{{paramName}} != nullptr)
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+    if ({{paramName}})
+        {{/isPrimitiveType}}
+        {{#isContainer}}
+    if ({{paramName}})
+        {{/isContainer}}
+    {{/required}}
+    {
+        {{#isQueryParam}}
+        localVarQueryParams["{{baseName}}"] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
+        {{/isQueryParam}}
+        {{#isHeaderParam}}
+        localVarHeaderParams["{{baseName}}"] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
+        {{/isHeaderParam}}
+        {{#isFormParam}}
+        localVarFormParams["{{baseName}}"] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
+        {{/isFormParam}}
+    }
+    {{/isPathParam}}
+    {{/isBodyParam}}
+    {{/allParams}}
+
+    std::string localVarRequestHttpContentType;
+    std::string localVarHttpBody;
+
+    // use JSON if possible
+    if (localVarConsumeHttpContentTypes.size() == 0 ||
+            localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
+        localVarRequestHttpContentType = "application/json";
+        {{#bodyParam}}
+        nlohmann::json localVarJson;
+
+        {{#isPrimitiveType}}
+        localVarJson = ModelBase::toJson({{paramName}}{{^required}}.get(){{/required}});
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isArray}}
+        {
+            localVarJson = nlohmann::json::array();
+            for (auto& localVarItem : {{paramName}}{{^required}}.get(){{/required}}) {
+                {{#items.isPrimitiveType}}localVarJson.push_back(ModelBase::toJson(localVarItem));
+                {{/items.isPrimitiveType}}{{^items.isPrimitiveType}}{{#items.isString}}localVarJson.push_back(ModelBase::toJson(localVarItem));
+                {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}localVarJson.push_back(ModelBase::toJson(localVarItem));
+                {{/items.isDateTime}}{{^items.isDateTime}}if (localVarItem.get()) {
+                    localVarJson.push_back(localVarItem->toJson());
+                }
+                {{/items.isDateTime}}{{/items.isString}}{{/items.isPrimitiveType}}
+            }
+        }
+        {{/isArray}}
+        {{^isArray}}{{#required}}localVarJson = ModelBase::toJson({{paramName}});
+        {{/required}}{{^required}}if ({{paramName}})
+        localVarJson = ModelBase::toJson(*{{paramName}});{{/required}}
+        {{/isArray}}
+        {{/isPrimitiveType}}
+        localVarHttpBody = localVarJson.get<std::string>();
+        {{/bodyParam}}
+    } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
+        localVarRequestHttpContentType = "application/x-www-form-urlencoded";
+    } else {
+        throw std::invalid_argument("{{classname}}->{{operationId}} does not consume any supported media type");
+    }
+
+    auto response = m_ApiClient->callApi(
+        localVarPath, "{{httpMethod}}", localVarQueryParams, localVarHeaderParams,
+        localVarFormParams, localVarRequestHttpContentType, localVarHttpBody);
+
+    {{^returnType}}
+    return response;
+    {{/returnType}}
+    {{#returnType}}
+
+    if (response.getError().isError() || response.isHttpError()) {
+        return std::make_pair(response, {{{returnType}}}());
+    }
+
+    {{#returnContainer}}
+    {{{returnType}}} localVarResult;
+    {{/returnContainer}}
+    {{^returnContainer}}
+    {{{returnType}}} localVarResult({{{defaultResponse}}});
+    {{/returnContainer}}
+
+    if (localVarResponseHttpContentType == "application/json") {
+        auto localVarJson = nlohmann::json::parse(response.getData());
+
+        ModelBase::fromJson(localVarJson, localVarResult);
+    }{{#vendorExtensions.x-codegen-response.isString}}
+    else if (localVarResponseHttpContentType == "text/plain") {
+        localVarResult = response.getData();
+    }{{/vendorExtensions.x-codegen-response.isString}}
+
+    return std::make_pair(response, localVarResult);
+    {{/returnType}}
+}
+{{/operation}}
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}

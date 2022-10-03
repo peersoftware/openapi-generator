@@ -1,0 +1,96 @@
+{{>licenseInfo}}
+/*
+ * ApiClient.h
+ *
+ * This is an API client responsible for stating the HTTP calls
+ */
+
+#ifndef {{apiHeaderGuardPrefix}}_ApiClient_H_
+#define {{apiHeaderGuardPrefix}}_ApiClient_H_
+
+{{{defaultInclude}}}
+
+#include <functional>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
+
+#include "{{packageName}}/ApiConfiguration.h"
+#include "{{packageName}}/ApiResponse.h"
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+class {{declspec}} ApiClient {
+public:
+    explicit ApiClient(std::shared_ptr<const ApiConfiguration> configuration = nullptr);
+    virtual ~ApiClient() = default;
+
+    std::shared_ptr<const ApiConfiguration> getConfiguration() const;
+    void setConfiguration(std::shared_ptr<const ApiConfiguration> configuration);
+
+    static std::string parameterToString(std::string value);
+    static std::string parameterToString(int32_t value);
+    static std::string parameterToString(int64_t value);
+    static std::string parameterToString(float value);
+    static std::string parameterToString(double value);
+    static std::string parameterToString(bool value);
+    template<class T>
+    static std::string parameterToString(const std::vector<T>& value);
+    template<class T>
+    static std::string parameterToString(const std::shared_ptr<T>& value);
+
+    static std::string BuildTargetUrl(
+        const std::string &base, const std::string &path,
+        const std::map<std::string, std::string> &queryParams);
+
+    ApiResponse callApi(
+        const std::string &path,
+        const std::string &method,
+        const std::map<std::string, std::string> &queryParams,
+        const std::map<std::string, std::string> &headerParams,
+        const std::map<std::string, std::string> &formParams,
+        const std::string &contentType,
+        const std::string &postData
+    ) const;
+
+    /*
+     * Recommended to be called once prior to making requests,
+     * it is not guaranteed to be thread safe.
+     */
+    static void setupGlobalEnv();
+    /*
+     * Call once completely done with making requests and setupGlobalEnv() had been
+     * preoviously called.
+     */
+    static void cleanupGlobalEnv();
+
+protected:
+    std::shared_ptr<const ApiConfiguration> m_Configuration;
+};
+
+template<class T>
+std::string ApiClient::parameterToString(const std::vector<T>& value) {
+    std::string str;
+
+    for (size_t i = 0; i < value.size(); i++) {
+        if (i > 0) str += ",";
+        str += parameterToString(value[i]);
+    }
+
+    return str;
+}
+
+template<class T>
+std::string ApiClient::parameterToString(const std::shared_ptr<T>& value) {
+    return parameterToString(*value.get());
+}
+
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif /* {{apiHeaderGuardPrefix}}_ApiClient_H_ */

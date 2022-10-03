@@ -1,0 +1,24 @@
+{{>licenseInfo}}
+/*
+ * Utility.h
+ *
+ * Utility functions.
+ */
+
+#ifndef {{apiHeaderGuardPrefix}}_Utility_H_
+#define {{apiHeaderGuardPrefix}}_Utility_H_
+
+#include <string>
+#include <string_view>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+void replaceAll(std::string &str, std::string_view what, std::string_view with);
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif /* {{apiHeaderGuardPrefix}}_Utility_H_ */

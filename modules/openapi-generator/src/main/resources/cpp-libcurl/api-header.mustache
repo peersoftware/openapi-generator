@@ -1,0 +1,76 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{apiHeaderGuardPrefix}}_{{classname}}_H_
+#define {{apiHeaderGuardPrefix}}_{{classname}}_H_
+
+{{{defaultInclude}}}
+#include <memory>
+#include <optional>
+#include <utility>
+
+#include "{{packageName}}/ApiClient.h"
+#include "{{packageName}}/ApiResponse.h"
+{{^hasModelImport}}#include "{{packageName}}/ModelBase.h"{{/hasModelImport}}
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{modelNamespace}};
+
+class {{declspec}} {{classname}} {
+public:
+    explicit {{classname}}(const std::shared_ptr<const ApiClient> &apiClient);
+
+    virtual ~{{classname}}() = default;
+
+    {{#operation}}
+    /// <summary>
+    /// {{summary}}
+    /// </summary>
+    /// <remarks>
+    /// {{notes}}
+    /// </remarks>
+    {{#allParams}}
+    /// <param name="{{paramName}}">{{#lambda.multiline_comment_4}}{{description}}{{/lambda.multiline_comment_4}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+    {{/allParams}}
+    {{#returnType}}std::pair<ApiResponse, {{{returnType}}}>{{/returnType}}{{^returnType}}ApiResponse{{/returnType}} {{operationId}}(
+        {{#allParams}}
+        {{#required}}
+            {{#isPrimitiveType}}
+            {{^isContainer}}
+        {{{dataType}}} {{paramName}}{{^-last}},{{/-last}}
+            {{/isContainer}}
+            {{#isContainer}}
+        const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
+            {{/isContainer}}
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+        const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
+            {{/isPrimitiveType}}
+        {{/required}}
+        {{^required}}
+        std::optional<{{{dataType}}}> {{paramName}}{{^-last}},{{/-last}}
+        {{/required}}
+        {{/allParams}}
+    ) const;
+    {{/operation}}
+
+protected:
+    std::shared_ptr<const ApiClient> m_ApiClient;
+};
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif /* {{apiHeaderGuardPrefix}}_{{classname}}_H_ */
+
+{{/operations}}

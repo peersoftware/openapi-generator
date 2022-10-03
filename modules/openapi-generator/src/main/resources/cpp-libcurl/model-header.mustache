@@ -1,0 +1,116 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{modelHeaderGuardPrefix}}_{{classname}}_H_
+#define {{modelHeaderGuardPrefix}}_{{classname}}_H_
+
+{{^parent}}
+{{{defaultInclude}}}
+#include <nlohmann/json.hpp>
+
+#include "{{packageName}}/ModelBase.h"
+{{/parent}}
+
+{{#imports}}{{{this}}}
+{{/imports}}
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{#vendorExtensions.x-has-forward-declarations}}
+{{#vendorExtensions.x-forward-declarations}}{{.}}
+{{/vendorExtensions.x-forward-declarations}}
+{{/vendorExtensions.x-has-forward-declarations}}
+{{#isEnum}}
+class {{declspec}} {{classname}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}} {
+public:
+    virtual ~{{classname}}() = default;
+
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+    nlohmann::json toJson() const override;
+    bool fromJson(const nlohmann::json& json) override;
+
+    enum class e{{classname}} {
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{#enumDescription}}
+        /// <summary>
+        /// {{.}}
+        /// </summary>
+        {{/enumDescription}}
+        {{classname}}_{{{name}}}{{^last}},{{/last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+    };
+
+    e{{classname}} getValue() const;
+    void setValue(e{{classname}} const value);
+
+    protected:
+        e{{classname}} m_value;
+};
+{{/isEnum}}
+{{^isEnum}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+class {{declspec}} {{classname}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}} {
+public:
+    {{classname}}();
+    virtual ~{{classname}}() = default;
+
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+    nlohmann::json toJson() const override;
+    bool fromJson(const nlohmann::json& json) override;
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+
+    {{#vars}}
+    {{^isInherited}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{#isPrimitiveType}}{{{dataType}}} {{getter}}() const;
+    {{/isPrimitiveType}}{{^isPrimitiveType}}const {{{dataType}}}& {{getter}}() const;
+    {{/isPrimitiveType}}bool {{nameInCamelCase}}IsSet() const;
+    void unset{{name}}();
+
+    {{#isPrimitiveType}}
+    void {{setter}}({{{dataType}}} value);
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    void {{setter}}(const {{{dataType}}}& value);
+    {{/isPrimitiveType}}
+
+    {{/isInherited}}
+    {{/vars}}
+
+protected:
+    {{#vars}}
+    {{^isInherited}}
+    {{{dataType}}} m_{{name}};
+    bool m_{{name}}IsSet;
+    {{/isInherited}}
+    {{/vars}}
+};
+
+{{/isEnum}}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{modelHeaderGuardPrefix}}_{{classname}}_H_ */
+{{/model}}
+{{/models}}

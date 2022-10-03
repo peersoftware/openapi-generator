@@ -1,0 +1,62 @@
+{{>licenseInfo}}
+/*
+ * ApiResponse.h
+ *
+ * Response class returned by API requests.
+ */
+
+#ifndef {{apiHeaderGuardPrefix}}_ApiResponse_H_
+#define {{apiHeaderGuardPrefix}}_ApiResponse_H_
+
+{{{defaultInclude}}}
+
+#include <string>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+class {{declspec}} ErrorResponse {
+public:
+    ErrorResponse() = default;
+    virtual ~ErrorResponse() = default;
+
+    long getCode() const;
+    void setCode(long code);
+
+    const std::string &getMessage() const;
+    void setMessage(std::string &&message);
+
+    bool isError() const;
+
+protected:
+    long m_code{};
+    std::string m_message{};
+};
+
+class {{declspec}} ApiResponse {
+public:
+    ApiResponse() = default;
+    virtual ~ApiResponse() = default;
+
+    const ErrorResponse &getError() const;
+    void setError(long code, std::string &&message);
+
+    long getHttpStatus() const;
+    void setHttpStatus(long status);
+    bool isHttpError() const;
+
+    const std::string &getData() const;
+    void setData(std::string &&data);
+
+protected:
+    ErrorResponse m_error{};
+    long m_status{};
+    std::string m_data{};
+};
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif /* {{apiHeaderGuardPrefix}}_ApiResponse_H_ */

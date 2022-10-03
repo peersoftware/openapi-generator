@@ -1,0 +1,22 @@
+{{>licenseInfo}}
+#include "{{packageName}}/Utility.h"
+
+#include <string>
+#include <string_view>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+void replaceAll(std::string &str, std::string_view what,
+                std::string_view with) {
+    for (std::string::size_type pos{};
+        (pos = str.find(what.data(), pos, what.length())) != str.npos;
+        pos += with.length()) {
+        str.replace(pos, what.length(), with.data(), with.length());
+    }
+}
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
