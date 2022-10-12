@@ -13,24 +13,11 @@
 
 #include "CppLibcurlOpenAPIClient/model/r_ApiResponse.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
-
-r_ApiResponse::r_ApiResponse() {
-    m_Code = 0;
-    m_CodeIsSet = false;
-    m_Type = "";
-    m_TypeIsSet = false;
-    m_Message = "";
-    m_MessageIsSet = false;
-}
 
 nlohmann::json r_ApiResponse::toJson() const {
-
     nlohmann::json val = nlohmann::json::object();
     
     if (m_CodeIsSet) {
@@ -96,7 +83,7 @@ const std::string& r_ApiResponse::getType() const {
     return m_Type;
 }
 
-void r_ApiResponse::setType(const std::string& value) {
+void r_ApiResponse::setType(std::string_view value) {
     m_Type = value;
     m_TypeIsSet = true;
 }
@@ -112,7 +99,7 @@ const std::string& r_ApiResponse::getMessage() const {
     return m_Message;
 }
 
-void r_ApiResponse::setMessage(const std::string& value) {
+void r_ApiResponse::setMessage(std::string_view value) {
     m_Message = value;
     m_MessageIsSet = true;
 }
@@ -123,9 +110,6 @@ bool r_ApiResponse::messageIsSet() const {
 
 void r_ApiResponse::unsetMessage() {
     m_MessageIsSet = false;
-}
-}
-}
 }
 }
 

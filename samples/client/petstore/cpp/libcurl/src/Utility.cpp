@@ -14,21 +14,15 @@
 #include <string>
 #include <string_view>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 void replaceAll(std::string &str, std::string_view what,
                 std::string_view with) {
     for (std::string::size_type pos{};
-        (pos = str.find(what.data(), pos, what.length())) != str.npos;
+        (pos = str.find(what.data(), pos, what.length())) != std::string::npos;
         pos += with.length()) {
         str.replace(pos, what.length(), with.data(), with.length());
     }
 }
 
-}
-}
-}
 }

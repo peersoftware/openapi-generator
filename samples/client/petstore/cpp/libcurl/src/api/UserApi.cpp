@@ -12,6 +12,7 @@
 
 #include "CppLibcurlOpenAPIClient/api/UserApi.h"
 
+#include <functional>
 #include <optional>
 #include <stdexcept>
 #include <unordered_set>
@@ -19,10 +20,7 @@
 
 #include "CppLibcurlOpenAPIClient/Utility.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 using namespace org::openapitools::client::model;
 using org::openapitools::client::api::replaceAll;
@@ -44,16 +42,16 @@ UserApi::createUser(
 
     std::string localVarPath = "/user";
     
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -66,14 +64,14 @@ UserApi::createUser(
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
     std::unordered_set<std::string> localVarConsumeHttpContentTypes;
-    localVarConsumeHttpContentTypes.insert("application/json");
+    localVarConsumeHttpContentTypes.emplace("application/json");
 
 
     std::string localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
         nlohmann::json localVarJson;
@@ -101,16 +99,16 @@ UserApi::createUsersWithArrayInput(
 
     std::string localVarPath = "/user/createWithArray";
     
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -123,14 +121,14 @@ UserApi::createUsersWithArrayInput(
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
     std::unordered_set<std::string> localVarConsumeHttpContentTypes;
-    localVarConsumeHttpContentTypes.insert("application/json");
+    localVarConsumeHttpContentTypes.emplace("application/json");
 
 
     std::string localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
         nlohmann::json localVarJson;
@@ -165,16 +163,16 @@ UserApi::createUsersWithListInput(
 
     std::string localVarPath = "/user/createWithList";
     
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -187,14 +185,14 @@ UserApi::createUsersWithListInput(
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
     std::unordered_set<std::string> localVarConsumeHttpContentTypes;
-    localVarConsumeHttpContentTypes.insert("application/json");
+    localVarConsumeHttpContentTypes.emplace("application/json");
 
 
     std::string localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
         nlohmann::json localVarJson;
@@ -223,23 +221,23 @@ UserApi::createUsersWithListInput(
 }
 ApiResponse
 UserApi::deleteUser(
-    std::string username
+    const std::string& username
 ) const {
 
 
     std::string localVarPath = "/user/{username}";
     replaceAll(localVarPath, "{username}", ApiClient::parameterToString(username));
 
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -258,7 +256,7 @@ UserApi::deleteUser(
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
@@ -275,25 +273,25 @@ UserApi::deleteUser(
 }
 std::pair<ApiResponse, std::shared_ptr<User>>
 UserApi::getUserByName(
-    std::string username
+    const std::string& username
 ) const {
 
 
     std::string localVarPath = "/user/{username}";
     replaceAll(localVarPath, "{username}", ApiClient::parameterToString(username));
 
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
-    localVarResponseHttpContentTypes.insert("application/xml");
-    localVarResponseHttpContentTypes.insert("application/json");
+    localVarResponseHttpContentTypes.emplace("application/xml");
+    localVarResponseHttpContentTypes.emplace("application/json");
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -312,7 +310,7 @@ UserApi::getUserByName(
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
@@ -342,25 +340,25 @@ UserApi::getUserByName(
 }
 std::pair<ApiResponse, std::string>
 UserApi::loginUser(
-    std::string username,
-    std::string password
+    const std::string& username,
+    const std::string& password
 ) const {
 
 
     std::string localVarPath = "/user/login";
     
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
-    localVarResponseHttpContentTypes.insert("application/xml");
-    localVarResponseHttpContentTypes.insert("application/json");
+    localVarResponseHttpContentTypes.emplace("application/xml");
+    localVarResponseHttpContentTypes.emplace("application/json");
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "text/plain";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -389,7 +387,7 @@ UserApi::loginUser(
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
@@ -427,16 +425,16 @@ UserApi::logoutUser(
 
     std::string localVarPath = "/user/logout";
     
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -455,7 +453,7 @@ UserApi::logoutUser(
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
@@ -472,7 +470,7 @@ UserApi::logoutUser(
 }
 ApiResponse
 UserApi::updateUser(
-    std::string username,
+    const std::string& username,
     const std::shared_ptr<User>& user
 ) const {
 
@@ -485,16 +483,16 @@ UserApi::updateUser(
     std::string localVarPath = "/user/{username}";
     replaceAll(localVarPath, "{username}", ApiClient::parameterToString(username));
 
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -507,14 +505,14 @@ UserApi::updateUser(
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
     std::unordered_set<std::string> localVarConsumeHttpContentTypes;
-    localVarConsumeHttpContentTypes.insert("application/json");
+    localVarConsumeHttpContentTypes.emplace("application/json");
 
 
     std::string localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
         nlohmann::json localVarJson;
@@ -535,8 +533,5 @@ UserApi::updateUser(
     return response;
 }
 
-}
-}
-}
 }
 

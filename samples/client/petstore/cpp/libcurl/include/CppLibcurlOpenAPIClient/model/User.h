@@ -25,10 +25,7 @@
 
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
 /// <summary>
@@ -37,9 +34,6 @@ namespace model {
 class  User
     : public ModelBase {
 public:
-    User();
-    virtual ~User() = default;
-
     /////////////////////////////////////////////
     /// ModelBase overrides
     nlohmann::json toJson() const override;
@@ -64,7 +58,7 @@ public:
     bool usernameIsSet() const;
     void unsetUsername();
 
-    void setUsername(const std::string& value);
+    void setUsername(std::string_view value);
 
     /// <summary>
     /// 
@@ -73,7 +67,7 @@ public:
     bool firstNameIsSet() const;
     void unsetFirstName();
 
-    void setFirstName(const std::string& value);
+    void setFirstName(std::string_view value);
 
     /// <summary>
     /// 
@@ -82,7 +76,7 @@ public:
     bool lastNameIsSet() const;
     void unsetLastName();
 
-    void setLastName(const std::string& value);
+    void setLastName(std::string_view value);
 
     /// <summary>
     /// 
@@ -91,7 +85,7 @@ public:
     bool emailIsSet() const;
     void unsetEmail();
 
-    void setEmail(const std::string& value);
+    void setEmail(std::string_view value);
 
     /// <summary>
     /// 
@@ -100,7 +94,7 @@ public:
     bool passwordIsSet() const;
     void unsetPassword();
 
-    void setPassword(const std::string& value);
+    void setPassword(std::string_view value);
 
     /// <summary>
     /// 
@@ -109,7 +103,7 @@ public:
     bool phoneIsSet() const;
     void unsetPhone();
 
-    void setPhone(const std::string& value);
+    void setPhone(std::string_view value);
 
     /// <summary>
     /// User Status
@@ -121,29 +115,26 @@ public:
     void setUserStatus(int32_t value);
 
 
-protected:
-    int64_t m_Id;
-    bool m_IdIsSet;
-    std::string m_Username;
-    bool m_UsernameIsSet;
-    std::string m_FirstName;
-    bool m_FirstNameIsSet;
-    std::string m_LastName;
-    bool m_LastNameIsSet;
-    std::string m_Email;
-    bool m_EmailIsSet;
-    std::string m_Password;
-    bool m_PasswordIsSet;
-    std::string m_Phone;
-    bool m_PhoneIsSet;
-    int32_t m_UserStatus;
-    bool m_UserStatusIsSet;
+private:
+    int64_t m_Id{ 0L };
+    bool m_IdIsSet{false};
+    std::string m_Username{ "" };
+    bool m_UsernameIsSet{false};
+    std::string m_FirstName{ "" };
+    bool m_FirstNameIsSet{false};
+    std::string m_LastName{ "" };
+    bool m_LastNameIsSet{false};
+    std::string m_Email{ "" };
+    bool m_EmailIsSet{false};
+    std::string m_Password{ "" };
+    bool m_PasswordIsSet{false};
+    std::string m_Phone{ "" };
+    bool m_PhoneIsSet{false};
+    int32_t m_UserStatus{ 0 };
+    bool m_UserStatusIsSet{false};
 };
 
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_User_H_ */

@@ -11,32 +11,33 @@
 
 #include "CppLibcurlOpenAPIClient/ApiConfiguration.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+#include <functional>
+#include <string>
+#include <string_view>
+
+namespace org::openapitools::client::api {
 
 const std::string &ApiConfiguration::getBaseUrl() const { return m_BaseUrl; }
 
-void ApiConfiguration::setBaseUrl(const std::string &value) {
+void ApiConfiguration::setBaseUrl(std::string_view value) {
     m_BaseUrl = value;
 }
 
 const std::string &ApiConfiguration::getClientCert() const { return m_ClientCertFile; }
 
-void ApiConfiguration::setClientCert(const std::string &value) {
+void ApiConfiguration::setClientCert(std::string_view value) {
     m_ClientCertFile = value;
 }
 
 const std::string &ApiConfiguration::getClientKey() const { return m_ClientKeyFile; }
 
-void ApiConfiguration::setClientKey(const std::string &value) {
+void ApiConfiguration::setClientKey(std::string_view value) {
     m_ClientKeyFile = value;
 }
 
 const std::string &ApiConfiguration::getCACert() const { return m_CACertFile; }
 
-void ApiConfiguration::setCACert(const std::string &value) {
+void ApiConfiguration::setCACert(std::string_view value) {
     m_CACertFile = value;
 }
 
@@ -44,20 +45,19 @@ bool ApiConfiguration::getSkipTlsVerify() const { return m_SkipTlsVerify; }
 
 void ApiConfiguration::setSkipTlsVerify(bool value) { m_SkipTlsVerify = value; }
 
-const std::map<std::string, std::string> &ApiConfiguration::getApiKeys() const { return m_ApiKeys; }
+const std::map<std::string, std::string, std::less<>> &ApiConfiguration::getApiKeys() const {
+    return m_ApiKeys;
+}
 
-void ApiConfiguration::setApiKeys(const std::map<std::string, std::string> &value) {
+void ApiConfiguration::setApiKeys(const std::map<std::string, std::string, std::less<>> &value) {
     m_ApiKeys = value;
 }
 
 const std::string &ApiConfiguration::getAccessToken() const { return m_AccessToken; }
 
-void ApiConfiguration::setAccessToken(const std::string &value) {
+void ApiConfiguration::setAccessToken(std::string_view value) {
     m_AccessToken = value;
 }
 
 
-}
-}
-}
 }

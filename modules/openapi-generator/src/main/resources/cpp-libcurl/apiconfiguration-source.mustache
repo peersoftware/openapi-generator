@@ -1,31 +1,35 @@
 {{>licenseInfo}}
 #include "{{packageName}}/ApiConfiguration.h"
 
+#include <functional>
+#include <string>
+#include <string_view>
+
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
 const std::string &ApiConfiguration::getBaseUrl() const { return m_BaseUrl; }
 
-void ApiConfiguration::setBaseUrl(const std::string &value) {
+void ApiConfiguration::setBaseUrl(std::string_view value) {
     m_BaseUrl = value;
 }
 
 const std::string &ApiConfiguration::getClientCert() const { return m_ClientCertFile; }
 
-void ApiConfiguration::setClientCert(const std::string &value) {
+void ApiConfiguration::setClientCert(std::string_view value) {
     m_ClientCertFile = value;
 }
 
 const std::string &ApiConfiguration::getClientKey() const { return m_ClientKeyFile; }
 
-void ApiConfiguration::setClientKey(const std::string &value) {
+void ApiConfiguration::setClientKey(std::string_view value) {
     m_ClientKeyFile = value;
 }
 
 const std::string &ApiConfiguration::getCACert() const { return m_CACertFile; }
 
-void ApiConfiguration::setCACert(const std::string &value) {
+void ApiConfiguration::setCACert(std::string_view value) {
     m_CACertFile = value;
 }
 
@@ -38,13 +42,13 @@ void ApiConfiguration::setSkipTlsVerify(bool value) { m_SkipTlsVerify = value; }
 
 const std::string &ApiConfiguration::getUsername() const { return m_Username; }
 
-void ApiConfiguration::setUsername(const std::string &value) {
+void ApiConfiguration::setUsername(std::string_view value) {
     m_Username = value;
 }
 
 const std::string &ApiConfiguration::getPassword() const { return m_Password; }
 
-void ApiConfiguration::setPassword(const std::string &value) {
+void ApiConfiguration::setPassword(std::string_view value) {
     m_Password = value;
 }
 {{/isBasic}}
@@ -52,15 +56,17 @@ void ApiConfiguration::setPassword(const std::string &value) {
 
 const std::string &ApiConfiguration::getAccessToken() const { return m_AccessToken; }
 
-void ApiConfiguration::setAccessToken(const std::string &value) {
+void ApiConfiguration::setAccessToken(std::string_view value) {
     m_AccessToken = value;
 }
 {{/isOAuth}}
 {{#isApiKey}}
 
-const std::map<std::string, std::string> &ApiConfiguration::getApiKeys() const { return m_ApiKeys; }
+const std::map<std::string, std::string, std::less<>> &ApiConfiguration::getApiKeys() const {
+    return m_ApiKeys;
+}
 
-void ApiConfiguration::setApiKeys(const std::map<std::string, std::string> &value) {
+void ApiConfiguration::setApiKeys(const std::map<std::string, std::string, std::less<>> &value) {
     m_ApiKeys = value;
 }
 {{/isApiKey}}

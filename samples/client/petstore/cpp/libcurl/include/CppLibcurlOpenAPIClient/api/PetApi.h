@@ -30,18 +30,13 @@
 #include "CppLibcurlOpenAPIClient/model/R_ApiResponse.h"
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 using namespace org::openapitools::client::model;
 
 class  PetApi {
 public:
     explicit PetApi(const std::shared_ptr<const ApiClient> &apiClient);
-
-    virtual ~PetApi() = default;
 
     /// <summary>
     /// Add a new pet to the store
@@ -134,13 +129,10 @@ public:
         std::optional<std::string> file
     ) const;
 
-protected:
+private:
     std::shared_ptr<const ApiClient> m_ApiClient;
 };
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_PetApi_H_ */

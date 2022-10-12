@@ -28,10 +28,7 @@
 #include <vector>
 #include "CppLibcurlOpenAPIClient/model/Tag.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 class Category;
 class Tag;
@@ -42,9 +39,6 @@ class Tag;
 class  Pet
     : public ModelBase {
 public:
-    Pet();
-    virtual ~Pet() = default;
-
     /////////////////////////////////////////////
     /// ModelBase overrides
     nlohmann::json toJson() const override;
@@ -78,7 +72,7 @@ public:
     bool nameIsSet() const;
     void unsetName();
 
-    void setName(const std::string& value);
+    void setName(std::string_view value);
 
     /// <summary>
     /// 
@@ -105,28 +99,25 @@ public:
     bool statusIsSet() const;
     void unsetStatus();
 
-    void setStatus(const std::string& value);
+    void setStatus(std::string_view value);
 
 
-protected:
-    int64_t m_Id;
-    bool m_IdIsSet;
+private:
+    int64_t m_Id{ 0L };
+    bool m_IdIsSet{false};
     std::shared_ptr<Category> m_Category;
-    bool m_CategoryIsSet;
-    std::string m_Name;
-    bool m_NameIsSet;
+    bool m_CategoryIsSet{false};
+    std::string m_Name{ "" };
+    bool m_NameIsSet{false};
     std::vector<std::string> m_PhotoUrls;
-    bool m_PhotoUrlsIsSet;
+    bool m_PhotoUrlsIsSet{false};
     std::vector<std::shared_ptr<Tag>> m_Tags;
-    bool m_TagsIsSet;
-    std::string m_Status;
-    bool m_StatusIsSet;
+    bool m_TagsIsSet{false};
+    std::string m_Status{ "" };
+    bool m_StatusIsSet{false};
 };
 
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Pet_H_ */

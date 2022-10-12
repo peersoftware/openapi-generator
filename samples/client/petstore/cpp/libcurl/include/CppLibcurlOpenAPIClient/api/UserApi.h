@@ -30,18 +30,13 @@
 #include <string>
 #include <vector>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 using namespace org::openapitools::client::model;
 
 class  UserApi {
 public:
     explicit UserApi(const std::shared_ptr<const ApiClient> &apiClient);
-
-    virtual ~UserApi() = default;
 
     /// <summary>
     /// Create user
@@ -81,7 +76,7 @@ public:
     /// </remarks>
     /// <param name="username">The name that needs to be deleted</param>
     ApiResponse deleteUser(
-        std::string username
+        const std::string& username
     ) const;
     /// <summary>
     /// Get user by user name
@@ -91,7 +86,7 @@ public:
     /// </remarks>
     /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
     std::pair<ApiResponse, std::shared_ptr<User>> getUserByName(
-        std::string username
+        const std::string& username
     ) const;
     /// <summary>
     /// Logs user into the system
@@ -102,8 +97,8 @@ public:
     /// <param name="username">The user name for login</param>
     /// <param name="password">The password for login in clear text</param>
     std::pair<ApiResponse, std::string> loginUser(
-        std::string username,
-        std::string password
+        const std::string& username,
+        const std::string& password
     ) const;
     /// <summary>
     /// Logs out current logged in user session
@@ -122,17 +117,14 @@ public:
     /// <param name="username">name that need to be deleted</param>
     /// <param name="user">Updated user object</param>
     ApiResponse updateUser(
-        std::string username,
+        const std::string& username,
         const std::shared_ptr<User>& user
     ) const;
 
-protected:
+private:
     std::shared_ptr<const ApiClient> m_ApiClient;
 };
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_UserApi_H_ */

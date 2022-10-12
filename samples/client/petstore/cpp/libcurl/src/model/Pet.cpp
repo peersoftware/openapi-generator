@@ -13,27 +13,11 @@
 
 #include "CppLibcurlOpenAPIClient/model/Pet.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
-
-Pet::Pet() {
-    m_Id = 0L;
-    m_IdIsSet = false;
-    m_CategoryIsSet = false;
-    m_Name = "";
-    m_NameIsSet = false;
-    m_PhotoUrlsIsSet = false;
-    m_TagsIsSet = false;
-    m_Status = "";
-    m_StatusIsSet = false;
-}
 
 nlohmann::json Pet::toJson() const {
-
     nlohmann::json val = nlohmann::json::object();
     
     if (m_IdIsSet) {
@@ -148,7 +132,7 @@ const std::string& Pet::getName() const {
     return m_Name;
 }
 
-void Pet::setName(const std::string& value) {
+void Pet::setName(std::string_view value) {
     m_Name = value;
     m_NameIsSet = true;
 }
@@ -196,7 +180,7 @@ const std::string& Pet::getStatus() const {
     return m_Status;
 }
 
-void Pet::setStatus(const std::string& value) {
+void Pet::setStatus(std::string_view value) {
     m_Status = value;
     m_StatusIsSet = true;
 }
@@ -207,9 +191,6 @@ bool Pet::statusIsSet() const {
 
 void Pet::unsetStatus() {
     m_StatusIsSet = false;
-}
-}
-}
 }
 }
 

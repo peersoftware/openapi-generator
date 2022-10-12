@@ -25,10 +25,7 @@
 
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
 /// <summary>
@@ -37,9 +34,6 @@ namespace model {
 class  Order
     : public ModelBase {
 public:
-    Order();
-    virtual ~Order() = default;
-
     /////////////////////////////////////////////
     /// ModelBase overrides
     nlohmann::json toJson() const override;
@@ -91,7 +85,7 @@ public:
     bool statusIsSet() const;
     void unsetStatus();
 
-    void setStatus(const std::string& value);
+    void setStatus(std::string_view value);
 
     /// <summary>
     /// 
@@ -103,25 +97,22 @@ public:
     void setComplete(bool value);
 
 
-protected:
-    int64_t m_Id;
-    bool m_IdIsSet;
-    int64_t m_PetId;
-    bool m_PetIdIsSet;
-    int32_t m_Quantity;
-    bool m_QuantityIsSet;
+private:
+    int64_t m_Id{ 0L };
+    bool m_IdIsSet{false};
+    int64_t m_PetId{ 0L };
+    bool m_PetIdIsSet{false};
+    int32_t m_Quantity{ 0 };
+    bool m_QuantityIsSet{false};
     std::string m_ShipDate;
-    bool m_ShipDateIsSet;
-    std::string m_Status;
-    bool m_StatusIsSet;
-    bool m_Complete;
-    bool m_CompleteIsSet;
+    bool m_ShipDateIsSet{false};
+    std::string m_Status{ "" };
+    bool m_StatusIsSet{false};
+    bool m_Complete{ false };
+    bool m_CompleteIsSet{false};
 };
 
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Order_H_ */

@@ -30,18 +30,13 @@
 #include <map>
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 using namespace org::openapitools::client::model;
 
 class  StoreApi {
 public:
     explicit StoreApi(const std::shared_ptr<const ApiClient> &apiClient);
-
-    virtual ~StoreApi() = default;
 
     /// <summary>
     /// Delete purchase order by ID
@@ -51,7 +46,7 @@ public:
     /// </remarks>
     /// <param name="orderId">ID of the order that needs to be deleted</param>
     ApiResponse deleteOrder(
-        std::string orderId
+        const std::string& orderId
     ) const;
     /// <summary>
     /// Returns pet inventories by status
@@ -59,7 +54,7 @@ public:
     /// <remarks>
     /// Returns a map of status codes to quantities
     /// </remarks>
-    std::pair<ApiResponse, std::map<std::string, int32_t>> getInventory(
+    std::pair<ApiResponse, std::map<std::string, int32_t, std::less<>>> getInventory(
     ) const;
     /// <summary>
     /// Find purchase order by ID
@@ -82,13 +77,10 @@ public:
         const std::shared_ptr<Order>& order
     ) const;
 
-protected:
+private:
     std::shared_ptr<const ApiClient> m_ApiClient;
 };
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_StoreApi_H_ */

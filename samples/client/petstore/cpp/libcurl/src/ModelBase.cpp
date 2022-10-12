@@ -11,10 +11,7 @@
 
 #include "CppLibcurlOpenAPIClient/ModelBase.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 bool ModelBase::isSet() const {
     return m_IsSet;
@@ -70,7 +67,4 @@ bool ModelBase::fromJson(const nlohmann::json& val, nlohmann::json & outVal) {
     return !val.is_null();
 }
 
-}
-}
-}
 }

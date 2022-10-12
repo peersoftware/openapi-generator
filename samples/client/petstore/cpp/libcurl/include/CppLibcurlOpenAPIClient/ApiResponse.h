@@ -22,16 +22,10 @@
 
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 class  ErrorResponse {
 public:
-    ErrorResponse() = default;
-    virtual ~ErrorResponse() = default;
-
     long getCode() const;
     void setCode(long code);
 
@@ -40,16 +34,13 @@ public:
 
     bool isError() const;
 
-protected:
+private:
     long m_code{};
     std::string m_message{};
 };
 
 class  ApiResponse {
 public:
-    ApiResponse() = default;
-    virtual ~ApiResponse() = default;
-
     const ErrorResponse &getError() const;
     void setError(long code, std::string &&message);
 
@@ -60,15 +51,12 @@ public:
     const std::string &getData() const;
     void setData(std::string &&data);
 
-protected:
+private:
     ErrorResponse m_error{};
     long m_status{};
     std::string m_data{};
 };
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_ApiResponse_H_ */

@@ -13,30 +13,11 @@
 
 #include "CppLibcurlOpenAPIClient/model/Order.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
-
-Order::Order() {
-    m_Id = 0L;
-    m_IdIsSet = false;
-    m_PetId = 0L;
-    m_PetIdIsSet = false;
-    m_Quantity = 0;
-    m_QuantityIsSet = false;
-    m_ShipDate = "";
-    m_ShipDateIsSet = false;
-    m_Status = "";
-    m_StatusIsSet = false;
-    m_Complete = false;
-    m_CompleteIsSet = false;
-}
 
 nlohmann::json Order::toJson() const {
-
     nlohmann::json val = nlohmann::json::object();
     
     if (m_IdIsSet) {
@@ -183,7 +164,7 @@ const std::string& Order::getStatus() const {
     return m_Status;
 }
 
-void Order::setStatus(const std::string& value) {
+void Order::setStatus(std::string_view value) {
     m_Status = value;
     m_StatusIsSet = true;
 }
@@ -210,9 +191,6 @@ bool Order::completeIsSet() const {
 
 void Order::unsetComplete() {
     m_CompleteIsSet = false;
-}
-}
-}
 }
 }
 

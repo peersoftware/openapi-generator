@@ -13,22 +13,11 @@
 
 #include "CppLibcurlOpenAPIClient/model/Tag.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
-
-Tag::Tag() {
-    m_Id = 0L;
-    m_IdIsSet = false;
-    m_Name = "";
-    m_NameIsSet = false;
-}
 
 nlohmann::json Tag::toJson() const {
-
     nlohmann::json val = nlohmann::json::object();
     
     if (m_IdIsSet) {
@@ -83,7 +72,7 @@ const std::string& Tag::getName() const {
     return m_Name;
 }
 
-void Tag::setName(const std::string& value) {
+void Tag::setName(std::string_view value) {
     m_Name = value;
     m_NameIsSet = true;
 }
@@ -94,9 +83,6 @@ bool Tag::nameIsSet() const {
 
 void Tag::unsetName() {
     m_NameIsSet = false;
-}
-}
-}
 }
 }
 

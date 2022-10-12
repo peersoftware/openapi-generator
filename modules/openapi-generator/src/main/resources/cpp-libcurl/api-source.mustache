@@ -3,6 +3,7 @@
 
 #include "{{packageName}}/api/{{classname}}.h"
 
+#include <functional>
 #include <optional>
 #include <stdexcept>
 #include <unordered_set>
@@ -27,12 +28,12 @@ using org::openapitools::client::api::replaceAll;
 {{#allParams}}
     {{#required}}
         {{#isPrimitiveType}}
-        {{^isContainer}}
+        {{^isString}}
     {{{dataType}}} {{paramName}}{{^-last}},{{/-last}}
-        {{/isContainer}}
-        {{#isContainer}}
+        {{/isString}}
+        {{#isString}}
     const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
-        {{/isContainer}}
+        {{/isString}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
     const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
@@ -53,19 +54,19 @@ using org::openapitools::client::api::replaceAll;
     {{#pathParams}}replaceAll(localVarPath, "{{=<% %>=}}{<%baseName%>}"<%={{ }}=%>, ApiClient::parameterToString({{{paramName}}}));
     {{/pathParams}}
 
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
     {{#produces}}
-    localVarResponseHttpContentTypes.insert("{{{mediaType}}}");
+    localVarResponseHttpContentTypes.emplace("{{{mediaType}}}");
     {{/produces}}
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         {{#vendorExtensions.x-codegen-response.isString}}
         localVarResponseHttpContentType = "text/plain";
         {{/vendorExtensions.x-codegen-response.isString}}
@@ -98,7 +99,7 @@ using org::openapitools::client::api::replaceAll;
 
     std::unordered_set<std::string> localVarConsumeHttpContentTypes;
     {{#consumes}}
-    localVarConsumeHttpContentTypes.insert("{{{mediaType}}}");
+    localVarConsumeHttpContentTypes.emplace("{{{mediaType}}}");
     {{/consumes}}
 
     {{#allParams}}
@@ -143,7 +144,7 @@ using org::openapitools::client::api::replaceAll;
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
         {{#bodyParam}}

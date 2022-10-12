@@ -20,39 +20,36 @@
 
 
 
+#include <functional>
 #include <map>
 #include <string>
+#include <string_view>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 class  ApiConfiguration {
 public:
-    virtual ~ApiConfiguration() = default;
-
     const std::string &getBaseUrl() const;
-    void setBaseUrl(const std::string &value);
+    void setBaseUrl(std::string_view value);
 
     const std::string &getClientCert() const;
-    void setClientCert(const std::string &value);
+    void setClientCert(std::string_view value);
 
     const std::string &getClientKey() const;
-    void setClientKey(const std::string &value);
+    void setClientKey(std::string_view value);
 
     const std::string &getCACert() const;
-    void setCACert(const std::string &value);
+    void setCACert(std::string_view value);
 
     bool getSkipTlsVerify() const;
     void setSkipTlsVerify(bool value);
 
-    const std::map<std::string, std::string> &getApiKeys() const;
-    void setApiKeys(const std::map<std::string, std::string> &value);
+    const std::map<std::string, std::string, std::less<>> &getApiKeys() const;
+    void setApiKeys(const std::map<std::string, std::string, std::less<>> &value);
     const std::string &getAccessToken() const;
-    void setAccessToken(const std::string &value);
+    void setAccessToken(std::string_view value);
 
-protected:
+private:
     std::string m_BaseUrl;
     std::string m_ClientCertFile; /* client certificate */
     std::string m_ClientKeyFile;  /* client private key */
@@ -60,12 +57,9 @@ protected:
     bool m_SkipTlsVerify{false};  /* false -- verify server certificate */
                                   /* true -- skip ssl verify for server certificate */
 
-    std::map<std::string, std::string> m_ApiKeys;
+    std::map<std::string, std::string, std::less<>> m_ApiKeys;
     std::string m_AccessToken;
 };
 
-}
-}
-}
 }
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_ApiConfiguration_H_ */

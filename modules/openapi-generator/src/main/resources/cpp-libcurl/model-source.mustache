@@ -75,30 +75,10 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value) {
 
 {{^isEnum}}
 
-{{classname}}::{{classname}}() {
-    {{#vars}}
-    {{^isInherited}}
-    {{^isContainer}}
-    {{#isPrimitiveType}}
-    m_{{name}} = {{{defaultValue}}};
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
-    {{#isString}}
-    m_{{name}} = {{{defaultValue}}};
-    {{/isString}}
-    {{#isDateTime}}
-    m_{{name}} = {{{defaultValue}}};
-    {{/isDateTime}}
-    {{/isPrimitiveType}}
-    {{/isContainer}}
-    m_{{name}}IsSet = false;
-    {{/isInherited}}
-    {{/vars}}
-}
-
 nlohmann::json {{classname}}::toJson() const {
     {{#parent}}
-    nlohmann::json val = this->{{{.}}}::toJson();{{/parent}}
+    nlohmann::json val = this->{{{.}}}::toJson();
+    {{/parent}}
     {{^parent}}
     nlohmann::json val = nlohmann::json::object();
     {{/parent}}
@@ -130,20 +110,36 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
 {{#vars}}
 {{^isInherited}}
 {{#isPrimitiveType}}
+{{#isArray}}
+const {{{dataType}}}& {{classname}}::{{getter}}() const {
+{{/isArray}}
+{{^isArray}}
 {{{dataType}}} {{classname}}::{{getter}}() const {
+{{/isArray}}
     return m_{{name}};
 }
 {{/isPrimitiveType}}
-{{^isPrimitiveType}}const {{{dataType}}}& {{classname}}::{{getter}}() const {
+{{^isPrimitiveType}}
+const {{{dataType}}}& {{classname}}::{{getter}}() const {
     return m_{{name}};
 }
 {{/isPrimitiveType}}
 
 {{#isPrimitiveType}}
+{{#isArray}}
+void {{classname}}::{{setter}}(const {{{dataType}}} &value) {
+{{/isArray}}
+{{^isArray}}
 void {{classname}}::{{setter}}({{{dataType}}} value) {
+{{/isArray}}
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
+{{#isString}}
+void {{classname}}::{{setter}}(std::string_view value) {
+{{/isString}}
+{{^isString}}
 void {{classname}}::{{setter}}(const {{{dataType}}}& value) {
+{{/isString}}
 {{/isPrimitiveType}}
     m_{{name}} = value;
     m_{{name}}IsSet = true;

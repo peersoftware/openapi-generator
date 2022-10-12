@@ -29,8 +29,6 @@ class {{declspec}} {{classname}} {
 public:
     explicit {{classname}}(const std::shared_ptr<const ApiClient> &apiClient);
 
-    virtual ~{{classname}}() = default;
-
     {{#operation}}
     /// <summary>
     /// {{summary}}
@@ -45,12 +43,12 @@ public:
         {{#allParams}}
         {{#required}}
             {{#isPrimitiveType}}
-            {{^isContainer}}
+            {{^isString}}
         {{{dataType}}} {{paramName}}{{^-last}},{{/-last}}
-            {{/isContainer}}
-            {{#isContainer}}
+            {{/isString}}
+            {{#isString}}
         const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
-            {{/isContainer}}
+            {{/isString}}
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
         const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
@@ -63,7 +61,7 @@ public:
     ) const;
     {{/operation}}
 
-protected:
+private:
     std::shared_ptr<const ApiClient> m_ApiClient;
 };
 

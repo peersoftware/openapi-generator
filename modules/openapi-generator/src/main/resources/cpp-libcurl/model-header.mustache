@@ -30,8 +30,6 @@ namespace {{this}} {
 class {{declspec}} {{classname}}
     : public {{{parent}}}{{^parent}}ModelBase{{/parent}} {
 public:
-    virtual ~{{classname}}() = default;
-
     /////////////////////////////////////////////
     /// ModelBase overrides
     nlohmann::json toJson() const override;
@@ -53,8 +51,8 @@ public:
     e{{classname}} getValue() const;
     void setValue(e{{classname}} const value);
 
-    protected:
-        e{{classname}} m_value;
+private:
+    e{{classname}} m_value;
 };
 {{/isEnum}}
 {{^isEnum}}
@@ -65,9 +63,6 @@ public:
 class {{declspec}} {{classname}}
     : public {{{parent}}}{{^parent}}ModelBase{{/parent}} {
 public:
-    {{classname}}();
-    virtual ~{{classname}}() = default;
-
     /////////////////////////////////////////////
     /// ModelBase overrides
     nlohmann::json toJson() const override;
@@ -81,26 +76,60 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{#isPrimitiveType}}{{{dataType}}} {{getter}}() const;
-    {{/isPrimitiveType}}{{^isPrimitiveType}}const {{{dataType}}}& {{getter}}() const;
-    {{/isPrimitiveType}}bool {{nameInCamelCase}}IsSet() const;
+    {{#isPrimitiveType}}
+    {{#isArray}}
+    const {{{dataType}}}& {{getter}}() const;
+    {{/isArray}}
+    {{^isArray}}
+    {{{dataType}}} {{getter}}() const;
+    {{/isArray}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    const {{{dataType}}}& {{getter}}() const;
+    {{/isPrimitiveType}}
+    bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
 
     {{#isPrimitiveType}}
+    {{#isArray}}
+    void {{setter}}(const {{{dataType}}} &value);
+    {{/isArray}}
+    {{^isArray}}
     void {{setter}}({{{dataType}}} value);
+    {{/isArray}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
+    {{#isString}}
+    void {{setter}}(std::string_view value);
+    {{/isString}}
+    {{^isString}}
     void {{setter}}(const {{{dataType}}}& value);
+    {{/isString}}
     {{/isPrimitiveType}}
 
     {{/isInherited}}
     {{/vars}}
 
-protected:
+private:
     {{#vars}}
     {{^isInherited}}
+    {{#isPrimitiveType}}
+    {{#isArray}}
     {{{dataType}}} m_{{name}};
-    bool m_{{name}}IsSet;
+    {{/isArray}}
+    {{^isArray}}
+    {{{dataType}}} m_{{name}}{ {{{defaultValue}}} };
+    {{/isArray}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{#isString}}
+    {{{dataType}}} m_{{name}}{ {{{defaultValue}}} };
+    {{/isString}}
+    {{^isString}}
+    {{{dataType}}} m_{{name}};
+    {{/isString}}
+    {{/isPrimitiveType}}
+    bool m_{{name}}IsSet{false};
     {{/isInherited}}
     {{/vars}}
 };

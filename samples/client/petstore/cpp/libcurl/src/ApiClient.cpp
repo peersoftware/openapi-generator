@@ -11,9 +11,11 @@
 
 #include "CppLibcurlOpenAPIClient/ApiClient.h"
 
+#define CURL_NO_OLDIES
 #include <curl/curl.h>
 
 #include <array>
+#include <functional>
 #include <limits>
 #include <sstream>
 #include <stdexcept>
@@ -27,6 +29,11 @@ public:
         curl_easy_cleanup(m_handle);
         curl_slist_free_all(m_headers);
     }
+
+    CurlHandle(CurlHandle const &) = delete;
+    CurlHandle(CurlHandle &&) = delete;
+    CurlHandle& operator=(CurlHandle const &) = delete;
+    CurlHandle& operator=(CurlHandle &&) = delete;
 
     void AppendHeader(const char *header) {
         m_headers = curl_slist_append(m_headers, header);
@@ -42,10 +49,7 @@ private:
     struct curl_slist *m_headers{nullptr};
 };
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 using namespace org::openapitools::client::model;
 
@@ -86,7 +90,7 @@ std::string ApiClient::parameterToString(bool value) {
 }
 
 static std::string urlEscape(CURL *handle, const std::string &str) {
-    char *escaped = curl_easy_escape(handle, str.c_str(), static_cast<int>(str.length()));
+    auto escaped = curl_easy_escape(handle, str.c_str(), static_cast<int>(str.length()));
 
     if (escaped == nullptr) {
         return "";
@@ -106,7 +110,7 @@ static std::string urlEscape(CURL *handle, const std::string &str) {
 }
 
 static std::string CreateUrlEncodedParameterString(CURL *handle,
-        const std::map<std::string, std::string> &params) {
+        const std::map<std::string, std::string, std::less<>> &params) {
     std::string paramsStr;
 
     for (const auto &[key, value] : params) {
@@ -126,17 +130,18 @@ static std::string CreateUrlEncodedParameterString(CURL *handle,
 
 static std::string BuildTargetUrl(CURL *handle,
         const std::string &base, const std::string &path,
-        const std::map<std::string, std::string> &queryParams) {
+        const std::map<std::string, std::string, std::less<>> &queryParams) {
     std::string url = base + path;
 
-    if (queryParams.size() > 0) {
+    if (!queryParams.empty()) {
         url += "?" + CreateUrlEncodedParameterString(handle, queryParams);
     }
 
     return url;
 }
 
-static size_t writeDataCallback(char *data, size_t size, size_t nmemb, std::string *writerData) {
+static size_t writeDataCallback(const char *data, size_t size, size_t nmemb,
+        std::string *writerData) {
     auto length = size * nmemb;
 
     writerData->append(data, length);
@@ -163,12 +168,12 @@ static void setPostData(CURL *handle, const std::string &data) {
 ApiResponse ApiClient::callApi(
         const std::string &path,
         const std::string &method,
-        const std::map<std::string, std::string> &queryParams,
-        const std::map<std::string, std::string> &headerParams,
-        const std::map<std::string, std::string> &formParams,
+        const std::map<std::string, std::string, std::less<>> &queryParams,
+        const std::map<std::string, std::string, std::less<>> &headerParams,
+        const std::map<std::string, std::string, std::less<>> &formParams,
         const std::string &contentType,
         const std::string &postData) const {
-    if (postData.size() != 0 && formParams.size() != 0) {
+    if (!postData.empty() && !formParams.empty()) {
         throw std::invalid_argument("Cannot have body and form params");
     }
 
@@ -200,7 +205,7 @@ ApiResponse ApiClient::callApi(
     /* CURLOPT_POSTFIELDS doesn't copy the string, so retain it until request complete */
     std::string formattedFormParams;
 
-    if (formParams.size() > 0) {
+    if (!formParams.empty()) {
         if (contentType == "application/x-www-form-urlencoded") {
             formattedFormParams = CreateUrlEncodedParameterString(curlHandle, formParams);
             setPostData(curlHandle, formattedFormParams);
@@ -296,7 +301,4 @@ void ApiClient::cleanupGlobalEnv() {
     curl_global_cleanup();
 }
 
-}
-}
-}
 }

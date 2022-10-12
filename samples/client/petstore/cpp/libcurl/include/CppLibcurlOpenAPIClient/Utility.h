@@ -21,16 +21,10 @@
 #include <string>
 #include <string_view>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 void replaceAll(std::string &str, std::string_view what, std::string_view with);
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_Utility_H_ */

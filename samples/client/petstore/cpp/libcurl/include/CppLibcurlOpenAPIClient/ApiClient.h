@@ -29,10 +29,7 @@
 #include "CppLibcurlOpenAPIClient/ApiConfiguration.h"
 #include "CppLibcurlOpenAPIClient/ApiResponse.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 class  ApiClient {
 public:
@@ -56,9 +53,9 @@ public:
     ApiResponse callApi(
         const std::string &path,
         const std::string &method,
-        const std::map<std::string, std::string> &queryParams,
-        const std::map<std::string, std::string> &headerParams,
-        const std::map<std::string, std::string> &formParams,
+        const std::map<std::string, std::string, std::less<>> &queryParams,
+        const std::map<std::string, std::string, std::less<>> &headerParams,
+        const std::map<std::string, std::string, std::less<>> &formParams,
         const std::string &contentType,
         const std::string &postData
     ) const;
@@ -74,7 +71,7 @@ public:
      */
     static void cleanupGlobalEnv();
 
-protected:
+private:
     std::shared_ptr<const ApiConfiguration> m_Configuration;
 };
 
@@ -96,9 +93,6 @@ std::string ApiClient::parameterToString(const std::shared_ptr<T>& value) {
 }
 
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_ApiClient_H_ */

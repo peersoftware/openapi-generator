@@ -12,6 +12,7 @@
 
 #include "CppLibcurlOpenAPIClient/api/StoreApi.h"
 
+#include <functional>
 #include <optional>
 #include <stdexcept>
 #include <unordered_set>
@@ -19,10 +20,7 @@
 
 #include "CppLibcurlOpenAPIClient/Utility.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 using namespace org::openapitools::client::model;
 using org::openapitools::client::api::replaceAll;
@@ -33,23 +31,23 @@ StoreApi::StoreApi(const std::shared_ptr<const ApiClient> &apiClient)
 
 ApiResponse
 StoreApi::deleteOrder(
-    std::string orderId
+    const std::string& orderId
 ) const {
 
 
     std::string localVarPath = "/store/order/{orderId}";
     replaceAll(localVarPath, "{orderId}", ApiClient::parameterToString(orderId));
 
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -68,7 +66,7 @@ StoreApi::deleteOrder(
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
@@ -83,24 +81,24 @@ StoreApi::deleteOrder(
 
     return response;
 }
-std::pair<ApiResponse, std::map<std::string, int32_t>>
+std::pair<ApiResponse, std::map<std::string, int32_t, std::less<>>>
 StoreApi::getInventory(
 ) const {
 
 
     std::string localVarPath = "/store/inventory";
     
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
-    localVarResponseHttpContentTypes.insert("application/json");
+    localVarResponseHttpContentTypes.emplace("application/json");
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -119,7 +117,7 @@ StoreApi::getInventory(
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
@@ -134,10 +132,10 @@ StoreApi::getInventory(
 
 
     if (response.getError().isError() || response.isHttpError()) {
-        return std::make_pair(response, std::map<std::string, int32_t>());
+        return std::make_pair(response, std::map<std::string, int32_t, std::less<>>());
     }
 
-    std::map<std::string, int32_t> localVarResult;
+    std::map<std::string, int32_t, std::less<>> localVarResult;
 
     if (localVarResponseHttpContentType == "application/json") {
         auto localVarJson = nlohmann::json::parse(response.getData());
@@ -156,18 +154,18 @@ StoreApi::getOrderById(
     std::string localVarPath = "/store/order/{orderId}";
     replaceAll(localVarPath, "{orderId}", ApiClient::parameterToString(orderId));
 
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
-    localVarResponseHttpContentTypes.insert("application/xml");
-    localVarResponseHttpContentTypes.insert("application/json");
+    localVarResponseHttpContentTypes.emplace("application/xml");
+    localVarResponseHttpContentTypes.emplace("application/json");
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -186,7 +184,7 @@ StoreApi::getOrderById(
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
@@ -227,18 +225,18 @@ StoreApi::placeOrder(
 
     std::string localVarPath = "/store/order";
     
-    std::map<std::string, std::string> localVarQueryParams;
-    std::map<std::string, std::string> localVarHeaderParams;
-    std::map<std::string, std::string> localVarFormParams;
+    std::map<std::string, std::string, std::less<>> localVarQueryParams;
+    std::map<std::string, std::string, std::less<>> localVarHeaderParams;
+    std::map<std::string, std::string, std::less<>> localVarFormParams;
 
     std::unordered_set<std::string> localVarResponseHttpContentTypes;
-    localVarResponseHttpContentTypes.insert("application/xml");
-    localVarResponseHttpContentTypes.insert("application/json");
+    localVarResponseHttpContentTypes.emplace("application/xml");
+    localVarResponseHttpContentTypes.emplace("application/json");
 
     std::string localVarResponseHttpContentType;
 
     // use JSON if possible
-    if (localVarResponseHttpContentTypes.size() == 0) {
+    if (localVarResponseHttpContentTypes.empty()) {
         localVarResponseHttpContentType = "application/json";
     } else if (localVarResponseHttpContentTypes.find("application/json") !=
             localVarResponseHttpContentTypes.end()) {
@@ -251,14 +249,14 @@ StoreApi::placeOrder(
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
     std::unordered_set<std::string> localVarConsumeHttpContentTypes;
-    localVarConsumeHttpContentTypes.insert("application/json");
+    localVarConsumeHttpContentTypes.emplace("application/json");
 
 
     std::string localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
-    if (localVarConsumeHttpContentTypes.size() == 0 ||
+    if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
         nlohmann::json localVarJson;
@@ -292,8 +290,5 @@ StoreApi::placeOrder(
     return std::make_pair(response, localVarResult);
 }
 
-}
-}
-}
 }
 

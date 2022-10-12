@@ -13,34 +13,11 @@
 
 #include "CppLibcurlOpenAPIClient/model/User.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
-
-User::User() {
-    m_Id = 0L;
-    m_IdIsSet = false;
-    m_Username = "";
-    m_UsernameIsSet = false;
-    m_FirstName = "";
-    m_FirstNameIsSet = false;
-    m_LastName = "";
-    m_LastNameIsSet = false;
-    m_Email = "";
-    m_EmailIsSet = false;
-    m_Password = "";
-    m_PasswordIsSet = false;
-    m_Phone = "";
-    m_PhoneIsSet = false;
-    m_UserStatus = 0;
-    m_UserStatusIsSet = false;
-}
 
 nlohmann::json User::toJson() const {
-
     nlohmann::json val = nlohmann::json::object();
     
     if (m_IdIsSet) {
@@ -161,7 +138,7 @@ const std::string& User::getUsername() const {
     return m_Username;
 }
 
-void User::setUsername(const std::string& value) {
+void User::setUsername(std::string_view value) {
     m_Username = value;
     m_UsernameIsSet = true;
 }
@@ -177,7 +154,7 @@ const std::string& User::getFirstName() const {
     return m_FirstName;
 }
 
-void User::setFirstName(const std::string& value) {
+void User::setFirstName(std::string_view value) {
     m_FirstName = value;
     m_FirstNameIsSet = true;
 }
@@ -193,7 +170,7 @@ const std::string& User::getLastName() const {
     return m_LastName;
 }
 
-void User::setLastName(const std::string& value) {
+void User::setLastName(std::string_view value) {
     m_LastName = value;
     m_LastNameIsSet = true;
 }
@@ -209,7 +186,7 @@ const std::string& User::getEmail() const {
     return m_Email;
 }
 
-void User::setEmail(const std::string& value) {
+void User::setEmail(std::string_view value) {
     m_Email = value;
     m_EmailIsSet = true;
 }
@@ -225,7 +202,7 @@ const std::string& User::getPassword() const {
     return m_Password;
 }
 
-void User::setPassword(const std::string& value) {
+void User::setPassword(std::string_view value) {
     m_Password = value;
     m_PasswordIsSet = true;
 }
@@ -241,7 +218,7 @@ const std::string& User::getPhone() const {
     return m_Phone;
 }
 
-void User::setPhone(const std::string& value) {
+void User::setPhone(std::string_view value) {
     m_Phone = value;
     m_PhoneIsSet = true;
 }
@@ -268,9 +245,6 @@ bool User::userStatusIsSet() const {
 
 void User::unsetUserStatus() {
     m_UserStatusIsSet = false;
-}
-}
-}
 }
 }
 

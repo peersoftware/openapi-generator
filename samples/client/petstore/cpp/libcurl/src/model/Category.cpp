@@ -13,22 +13,11 @@
 
 #include "CppLibcurlOpenAPIClient/model/Category.h"
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
-
-Category::Category() {
-    m_Id = 0L;
-    m_IdIsSet = false;
-    m_Name = "";
-    m_NameIsSet = false;
-}
 
 nlohmann::json Category::toJson() const {
-
     nlohmann::json val = nlohmann::json::object();
     
     if (m_IdIsSet) {
@@ -83,7 +72,7 @@ const std::string& Category::getName() const {
     return m_Name;
 }
 
-void Category::setName(const std::string& value) {
+void Category::setName(std::string_view value) {
     m_Name = value;
     m_NameIsSet = true;
 }
@@ -94,9 +83,6 @@ bool Category::nameIsSet() const {
 
 void Category::unsetName() {
     m_NameIsSet = false;
-}
-}
-}
 }
 }
 

@@ -25,10 +25,7 @@
 
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
 /// <summary>
@@ -37,9 +34,6 @@ namespace model {
 class  Tag
     : public ModelBase {
 public:
-    Tag();
-    virtual ~Tag() = default;
-
     /////////////////////////////////////////////
     /// ModelBase overrides
     nlohmann::json toJson() const override;
@@ -64,20 +58,17 @@ public:
     bool nameIsSet() const;
     void unsetName();
 
-    void setName(const std::string& value);
+    void setName(std::string_view value);
 
 
-protected:
-    int64_t m_Id;
-    bool m_IdIsSet;
-    std::string m_Name;
-    bool m_NameIsSet;
+private:
+    int64_t m_Id{ 0L };
+    bool m_IdIsSet{false};
+    std::string m_Name{ "" };
+    bool m_NameIsSet{false};
 };
 
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_H_ */

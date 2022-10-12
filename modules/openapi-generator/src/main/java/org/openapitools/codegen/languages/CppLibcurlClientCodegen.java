@@ -159,10 +159,10 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
-        additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
+        additionalProperties.put("modelNamespaceDeclarations", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
-        additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
+        additionalProperties.put("apiNamespaceDeclarations", apiPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
         additionalProperties.put("declspec", declspec);
@@ -327,7 +327,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         }
         if (ModelUtils.isMapSchema(schema)) {
             Schema inner = getAdditionalProperties(schema);
-            return openAPIType + "<std::string, " + getTypeDeclaration(inner) + ">";
+            return openAPIType + "<std::string, " + getTypeDeclaration(inner) + ", std::less<>>";
         }
         if (ModelUtils.isStringSchema(schema)
                 || ModelUtils.isFileSchema(schema)
@@ -383,7 +383,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
             }
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
-            return "std::map<std::string, " + inner + ">()";
+            return "std::map<std::string, " + inner + ", std::less<>>()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();

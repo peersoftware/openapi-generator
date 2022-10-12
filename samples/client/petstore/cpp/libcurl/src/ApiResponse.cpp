@@ -14,10 +14,7 @@
 #include <string>
 #include <utility>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace api {
+namespace org::openapitools::client::api {
 
 bool ErrorResponse::isError() const {
     return m_code != 0;
@@ -36,7 +33,7 @@ const std::string &ErrorResponse::getMessage() const {
 }
 
 void ErrorResponse::setMessage(std::string &&message) {
-    m_message = message;
+    m_message = std::move(message);
 }
 
 const ErrorResponse &ApiResponse::getError() const {
@@ -70,10 +67,7 @@ const std::string &ApiResponse::getData() const {
 }
 
 void ApiResponse::setData(std::string &&data) {
-    m_data = data;
+    m_data = std::move(data);
 }
 
-}
-}
-}
 }

@@ -25,10 +25,7 @@
 
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace client {
-namespace model {
+namespace org::openapitools::client::model {
 
 
 /// <summary>
@@ -37,9 +34,6 @@ namespace model {
 class  r_ApiResponse
     : public ModelBase {
 public:
-    r_ApiResponse();
-    virtual ~r_ApiResponse() = default;
-
     /////////////////////////////////////////////
     /// ModelBase overrides
     nlohmann::json toJson() const override;
@@ -64,7 +58,7 @@ public:
     bool typeIsSet() const;
     void unsetType();
 
-    void setType(const std::string& value);
+    void setType(std::string_view value);
 
     /// <summary>
     /// 
@@ -73,22 +67,19 @@ public:
     bool messageIsSet() const;
     void unsetMessage();
 
-    void setMessage(const std::string& value);
+    void setMessage(std::string_view value);
 
 
-protected:
-    int32_t m_Code;
-    bool m_CodeIsSet;
-    std::string m_Type;
-    bool m_TypeIsSet;
-    std::string m_Message;
-    bool m_MessageIsSet;
+private:
+    int32_t m_Code{ 0 };
+    bool m_CodeIsSet{false};
+    std::string m_Type{ "" };
+    bool m_TypeIsSet{false};
+    std::string m_Message{ "" };
+    bool m_MessageIsSet{false};
 };
 
 
-}
-}
-}
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_r_ApiResponse_H_ */
