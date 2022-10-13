@@ -42,10 +42,6 @@ public:
     template<class T>
     static std::string parameterToString(const std::shared_ptr<T>& value);
 
-    static std::string BuildTargetUrl(
-        const std::string &base, const std::string &path,
-        const std::map<std::string, std::string> &queryParams);
-
     ApiResponse callApi(
         const std::string &path,
         const std::string &method,

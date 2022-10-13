@@ -13,7 +13,6 @@
 
 #include <curl/curl.h>
 
-#include <algorithm>
 #include <array>
 #include <limits>
 #include <sstream>
@@ -106,43 +105,32 @@ static std::string urlEscape(CURL *handle, const std::string &str) {
     return result;
 }
 
-static void AddUrlEncodedFormParameters(
-    CURL *handle, const std::map<std::string, std::string> &formParams) {
-    std::string params;
+static std::string CreateUrlEncodedParameterString(CURL *handle,
+        const std::map<std::string, std::string> &params) {
+    std::string paramsStr;
 
-    for (const auto &[key, value] : formParams) {
-        if (!params.empty()) {
-            params += "&";
+    for (const auto &[key, value] : params) {
+        if (!paramsStr.empty()) {
+            paramsStr += "&";
         }
 
-        params += urlEscape(handle, key);
+        paramsStr += urlEscape(handle, key);
 
         if (!value.empty()) {
-            params += "=" + urlEscape(handle, value);
+            paramsStr += "=" + urlEscape(handle, value);
         }
     }
 
-    curl_easy_setopt(handle, CURLOPT_POSTFIELDS, params.c_str());
+    return paramsStr;
 }
 
-std::string ApiClient::BuildTargetUrl(
+static std::string BuildTargetUrl(CURL *handle,
         const std::string &base, const std::string &path,
         const std::map<std::string, std::string> &queryParams) {
     std::string url = base + path;
 
     if (queryParams.size() > 0) {
-        url += "?";
-    }
-
-    for (const auto &[key, value] : queryParams) {
-        std::string pair = key + "=" + value + "&";
-
-        std::replace(pair.begin(), pair.end(), ' ', '+');
-        url += pair;
-    }
-
-    if (queryParams.size() > 0) {
-        url.pop_back();
+        url += "?" + CreateUrlEncodedParameterString(handle, queryParams);
     }
 
     return url;
@@ -155,16 +143,21 @@ static size_t writeDataCallback(char *data, size_t size, size_t nmemb, std::stri
     return length;
 }
 
-static void setMethod(CURL *curlHandle, const std::string &method) {
+static void setMethod(CURL *handle, const std::string &method) {
     if (method == "GET") {
-        curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
+        curl_easy_setopt(handle, CURLOPT_HTTPGET, 1L);
     } else if (method == "POST") {
-        curl_easy_setopt(curlHandle, CURLOPT_POST, 1L);
+        curl_easy_setopt(handle, CURLOPT_POST, 1L);
     } else if (method == "PUT") {
-        curl_easy_setopt(curlHandle, CURLOPT_PUT, 1L);
+        curl_easy_setopt(handle, CURLOPT_PUT, 1L);
     } else {
-        curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, method.c_str());
+        curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, method.c_str());
     }
+}
+
+static void setPostData(CURL *handle, const std::string &data) {
+    curl_easy_setopt(handle, CURLOPT_POSTFIELDS, data.c_str());
+    curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE, data.length());
 }
 
 ApiResponse ApiClient::callApi(
@@ -204,9 +197,13 @@ ApiResponse ApiClient::callApi(
         setMethod(curlHandle, method);
     }
 
+    /* CURLOPT_POSTFIELDS doesn't copy the string, so retain it until request complete */
+    std::string formattedFormParams;
+
     if (formParams.size() > 0) {
         if (contentType == "application/x-www-form-urlencoded") {
-            AddUrlEncodedFormParameters(curlHandle, formParams);
+            formattedFormParams = CreateUrlEncodedParameterString(curlHandle, formParams);
+            setPostData(curlHandle, formattedFormParams);
         } else {
           throw std::invalid_argument("Unsupported content type for form parameters");
         }
@@ -249,7 +246,7 @@ ApiResponse ApiClient::callApi(
     }
 
     std::string url =
-        BuildTargetUrl(m_Configuration->getBaseUrl(), path, queryParams);
+        BuildTargetUrl(curlHandle, m_Configuration->getBaseUrl(), path, queryParams);
     std::string responseData;
 
     curl_easy_setopt(curlHandle, CURLOPT_URL, url.c_str());
@@ -267,9 +264,7 @@ ApiResponse ApiClient::callApi(
     }
 
     if (!postData.empty()) {
-        curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDS, postData.c_str());
-        curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDSIZE_LARGE,
-                        postData.length());
+        setPostData(curlHandle, postData);
     }
 
     std::array<char, CURL_ERROR_SIZE> errorBuffer{};
