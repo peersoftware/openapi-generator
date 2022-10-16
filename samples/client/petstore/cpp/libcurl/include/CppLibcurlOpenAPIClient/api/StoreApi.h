@@ -42,7 +42,7 @@ public:
     /// Delete purchase order by ID
     /// </summary>
     /// <remarks>
-    /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     /// </remarks>
     /// <param name="orderId">ID of the order that needs to be deleted</param>
     ApiResponse deleteOrder(
@@ -60,7 +60,7 @@ public:
     /// Find purchase order by ID
     /// </summary>
     /// <remarks>
-    /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
     /// </remarks>
     /// <param name="orderId">ID of pet that needs to be fetched</param>
     std::pair<ApiResponse, std::shared_ptr<Order>> getOrderById(

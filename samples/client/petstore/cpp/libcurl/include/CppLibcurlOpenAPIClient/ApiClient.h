@@ -67,7 +67,7 @@ public:
     static void setupGlobalEnv();
     /*
      * Call once completely done with making requests and setupGlobalEnv() had been
-     * preoviously called.
+     * previously called.
      */
     static void cleanupGlobalEnv();
 

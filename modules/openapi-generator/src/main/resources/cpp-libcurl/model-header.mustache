@@ -40,7 +40,7 @@ public:
         {{#enumVars}}
         {{#enumDescription}}
         /// <summary>
-        /// {{.}}
+        /// {{{.}}}
         /// </summary>
         {{/enumDescription}}
         {{classname}}_{{{name}}}{{^last}},{{/last}}
@@ -58,7 +58,7 @@ private:
 {{^isEnum}}
 
 /// <summary>
-/// {{description}}
+/// {{{description}}}
 /// </summary>
 class {{declspec}} {{classname}}
     : public {{{parent}}}{{^parent}}ModelBase{{/parent}} {
@@ -74,7 +74,7 @@ public:
     {{#vars}}
     {{^isInherited}}
     /// <summary>
-    /// {{description}}
+    /// {{{description}}}
     /// </summary>
     {{#isPrimitiveType}}
     {{#isArray}}

@@ -55,7 +55,7 @@ public:
     /// 
     /// </remarks>
     /// <param name="petId">Pet id to delete</param>
-    /// <param name="apiKey"> (optional, default to &quot;&quot;)</param>
+    /// <param name="apiKey"> (optional, default to "")</param>
     ApiResponse deletePet(
         int64_t petId,
         std::optional<std::string> apiKey
@@ -107,8 +107,8 @@ public:
     /// 
     /// </remarks>
     /// <param name="petId">ID of pet that needs to be updated</param>
-    /// <param name="name">Updated name of the pet (optional, default to &quot;&quot;)</param>
-    /// <param name="status">Updated status of the pet (optional, default to &quot;&quot;)</param>
+    /// <param name="name">Updated name of the pet (optional, default to "")</param>
+    /// <param name="status">Updated status of the pet (optional, default to "")</param>
     ApiResponse updatePetWithForm(
         int64_t petId,
         std::optional<std::string> name,
@@ -121,8 +121,8 @@ public:
     /// 
     /// </remarks>
     /// <param name="petId">ID of pet to update</param>
-    /// <param name="additionalMetadata">Additional data to pass to server (optional, default to &quot;&quot;)</param>
-    /// <param name="file">file to upload (optional, default to &quot;&quot;)</param>
+    /// <param name="additionalMetadata">Additional data to pass to server (optional, default to "")</param>
+    /// <param name="file">file to upload (optional, default to "")</param>
     std::pair<ApiResponse, std::shared_ptr<r_ApiResponse>> uploadFile(
         int64_t petId,
         std::optional<std::string> additionalMetadata,
