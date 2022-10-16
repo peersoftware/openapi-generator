@@ -27,17 +27,12 @@ using org::openapitools::client::api::replaceAll;
 {{classname}}::{{operationId}}(
 {{#allParams}}
     {{#required}}
-        {{#isPrimitiveType}}
-        {{^isString}}
+        {{#vendorExtensions.x-cpp-is-class}}
+    const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
+        {{/vendorExtensions.x-cpp-is-class}}
+        {{^vendorExtensions.x-cpp-is-class}}
     {{{dataType}}} {{paramName}}{{^-last}},{{/-last}}
-        {{/isString}}
-        {{#isString}}
-    const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
-        {{/isString}}
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-    const {{{dataType}}}& {{paramName}}{{^-last}},{{/-last}}
-        {{/isPrimitiveType}}
+        {{/vendorExtensions.x-cpp-is-class}}
     {{/required}}
     {{^required}}
     std::optional<{{{dataType}}}> {{paramName}}{{^-last}},{{/-last}}

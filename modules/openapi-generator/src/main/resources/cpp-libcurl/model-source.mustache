@@ -109,38 +109,26 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
 
 {{#vars}}
 {{^isInherited}}
-{{#isPrimitiveType}}
-{{#isArray}}
+{{#vendorExtensions.x-cpp-is-class}}
 const {{{dataType}}}& {{classname}}::{{getter}}() const {
-{{/isArray}}
-{{^isArray}}
+{{/vendorExtensions.x-cpp-is-class}}
+{{^vendorExtensions.x-cpp-is-class}}
 {{{dataType}}} {{classname}}::{{getter}}() const {
-{{/isArray}}
+{{/vendorExtensions.x-cpp-is-class}}
     return m_{{name}};
 }
-{{/isPrimitiveType}}
-{{^isPrimitiveType}}
-const {{{dataType}}}& {{classname}}::{{getter}}() const {
-    return m_{{name}};
-}
-{{/isPrimitiveType}}
 
-{{#isPrimitiveType}}
-{{#isArray}}
-void {{classname}}::{{setter}}(const {{{dataType}}} &value) {
-{{/isArray}}
-{{^isArray}}
-void {{classname}}::{{setter}}({{{dataType}}} value) {
-{{/isArray}}
-{{/isPrimitiveType}}
-{{^isPrimitiveType}}
-{{#isString}}
+{{#vendorExtensions.x-cpp-is-class}}
+{{#vendorExtensions.x-cpp-is-std-string}}
 void {{classname}}::{{setter}}(std::string_view value) {
-{{/isString}}
-{{^isString}}
+{{/vendorExtensions.x-cpp-is-std-string}}
+{{^vendorExtensions.x-cpp-is-std-string}}
 void {{classname}}::{{setter}}(const {{{dataType}}}& value) {
-{{/isString}}
-{{/isPrimitiveType}}
+{{/vendorExtensions.x-cpp-is-std-string}}
+{{/vendorExtensions.x-cpp-is-class}}
+{{^vendorExtensions.x-cpp-is-class}}
+void {{classname}}::{{setter}}({{{dataType}}} value) {
+{{/vendorExtensions.x-cpp-is-class}}
     m_{{name}} = value;
     m_{{name}}IsSet = true;
 }

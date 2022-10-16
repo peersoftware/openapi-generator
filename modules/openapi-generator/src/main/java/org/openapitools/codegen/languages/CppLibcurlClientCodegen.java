@@ -296,6 +296,11 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         return toApiName(name);
     }
 
+    private Boolean isStdStringSchema(Schema schema) {
+        return ModelUtils.isStringSchema(schema)
+                || ModelUtils.isFileSchema(schema);
+    }
+
     /**
      * Optional - type declaration. This is a String which is used by the
      * templates to instantiate your types. There is typically special handling
@@ -323,8 +328,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
             Schema inner = getAdditionalProperties(schema);
             return openAPIType + "<std::string, " + getTypeDeclaration(inner) + ", std::less<>>";
         }
-        if (ModelUtils.isStringSchema(schema)
-                || ModelUtils.isFileSchema(schema)
+        if (isStdStringSchema(schema)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         }
@@ -334,8 +338,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)
-                || ModelUtils.isFileSchema(p)) {
+        if (isStdStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";
             } else {
@@ -385,8 +388,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
             /* Check the type of any reference schema before making a shared pointer */
             inner = unaliasSchema(inner);
 
-            if (!ModelUtils.isStringSchema(inner) &&
-                    !ModelUtils.isFileSchema(inner) &&
+            if (!isStdStringSchema(inner) &&
                     !languageSpecificPrimitives.contains(innerType)) {
                 innerType = "std::shared_ptr<" + innerType + ">";
             }
@@ -398,9 +400,22 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         return "nullptr";
     }
 
+    private boolean typeIsCppClass(final String type) {
+        return type.startsWith("std::");
+    }
+
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
+
+        if (typeIsCppClass(parameter.dataType)) {
+            parameter.vendorExtensions.put("x-cpp-is-class", true);
+        }
+
+        if (parameter.dataType.equals("std::string")) {
+            parameter.vendorExtensions.put("x-cpp-is-std-string", true);
+            return;
+        }
 
         boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
         boolean isArray = parameter.isArray == Boolean.TRUE;
@@ -472,4 +487,23 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         }
     }
 
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        objs = super.postProcessModels(objs);
+
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty var : cm.vars) {
+                if (typeIsCppClass(var.dataType)) {
+                    var.vendorExtensions.put("x-cpp-is-class", true);
+                }
+
+                if (var.dataType.equals("std::string")) {
+                    var.vendorExtensions.put("x-cpp-is-std-string", true);
+                }
+            }
+        }
+
+        return objs;
+    }
 }

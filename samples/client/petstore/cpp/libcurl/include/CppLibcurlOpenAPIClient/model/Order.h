@@ -76,7 +76,7 @@ public:
     bool shipDateIsSet() const;
     void unsetShipDate();
 
-    void setShipDate(const std::string& value);
+    void setShipDate(std::string_view value);
 
     /// <summary>
     /// Order Status
@@ -104,7 +104,7 @@ private:
     bool m_PetIdIsSet{false};
     int32_t m_Quantity{ 0 };
     bool m_QuantityIsSet{false};
-    std::string m_ShipDate;
+    std::string m_ShipDate{ "" };
     bool m_ShipDateIsSet{false};
     std::string m_Status{ "" };
     bool m_StatusIsSet{false};

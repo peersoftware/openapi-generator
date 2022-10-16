@@ -148,7 +148,7 @@ const std::string& Order::getShipDate() const {
     return m_ShipDate;
 }
 
-void Order::setShipDate(const std::string& value) {
+void Order::setShipDate(std::string_view value) {
     m_ShipDate = value;
     m_ShipDateIsSet = true;
 }

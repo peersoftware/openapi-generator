@@ -76,36 +76,26 @@ public:
     /// <summary>
     /// {{{description}}}
     /// </summary>
-    {{#isPrimitiveType}}
-    {{#isArray}}
+    {{#vendorExtensions.x-cpp-is-class}}
     const {{{dataType}}}& {{getter}}() const;
-    {{/isArray}}
-    {{^isArray}}
+    {{/vendorExtensions.x-cpp-is-class}}
+    {{^vendorExtensions.x-cpp-is-class}}
     {{{dataType}}} {{getter}}() const;
-    {{/isArray}}
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
-    const {{{dataType}}}& {{getter}}() const;
-    {{/isPrimitiveType}}
+    {{/vendorExtensions.x-cpp-is-class}}
     bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
 
-    {{#isPrimitiveType}}
-    {{#isArray}}
-    void {{setter}}(const {{{dataType}}} &value);
-    {{/isArray}}
-    {{^isArray}}
-    void {{setter}}({{{dataType}}} value);
-    {{/isArray}}
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
-    {{#isString}}
+    {{#vendorExtensions.x-cpp-is-class}}
+    {{#vendorExtensions.x-cpp-is-std-string}}
     void {{setter}}(std::string_view value);
-    {{/isString}}
-    {{^isString}}
+    {{/vendorExtensions.x-cpp-is-std-string}}
+    {{^vendorExtensions.x-cpp-is-std-string}}
     void {{setter}}(const {{{dataType}}}& value);
-    {{/isString}}
-    {{/isPrimitiveType}}
+    {{/vendorExtensions.x-cpp-is-std-string}}
+    {{/vendorExtensions.x-cpp-is-class}}
+    {{^vendorExtensions.x-cpp-is-class}}
+    void {{setter}}({{{dataType}}} value);
+    {{/vendorExtensions.x-cpp-is-class}}
 
     {{/isInherited}}
     {{/vars}}
@@ -113,22 +103,17 @@ public:
 private:
     {{#vars}}
     {{^isInherited}}
-    {{#isPrimitiveType}}
-    {{#isArray}}
-    {{{dataType}}} m_{{name}};
-    {{/isArray}}
-    {{^isArray}}
+    {{#vendorExtensions.x-cpp-is-class}}
+    {{#vendorExtensions.x-cpp-is-std-string}}
     {{{dataType}}} m_{{name}}{ {{{defaultValue}}} };
-    {{/isArray}}
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
-    {{#isString}}
-    {{{dataType}}} m_{{name}}{ {{{defaultValue}}} };
-    {{/isString}}
-    {{^isString}}
+    {{/vendorExtensions.x-cpp-is-std-string}}
+    {{^vendorExtensions.x-cpp-is-std-string}}
     {{{dataType}}} m_{{name}};
-    {{/isString}}
-    {{/isPrimitiveType}}
+    {{/vendorExtensions.x-cpp-is-std-string}}
+    {{/vendorExtensions.x-cpp-is-class}}
+    {{^vendorExtensions.x-cpp-is-class}}
+    {{{dataType}}} m_{{name}}{ {{{defaultValue}}} };
+    {{/vendorExtensions.x-cpp-is-class}}
     bool m_{{name}}IsSet{false};
     {{/isInherited}}
     {{/vars}}
