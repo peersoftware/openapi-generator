@@ -20,7 +20,7 @@ def get_branch():
 
 def get_sha():
     """Get the git SHA."""
-    return run_cmmd_capture_stdout(['git', 'rev-parse', '--short', '@'])
+    return run_cmmd_capture_stdout(['git', 'rev-parse', '--short=10', '@'])
 
 
 def update_version(file_path, branch, sha):
