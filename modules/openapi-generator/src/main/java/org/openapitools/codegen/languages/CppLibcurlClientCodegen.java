@@ -232,26 +232,20 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse,
+                                        Map<String, String> schemaMappings) {
+        super.handleMethodResponse(operation, schemas, op, methodResponse, schemaMappings);
 
-        if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
+        Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
 
-            if (methodResponse != null) {
-                Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
-                response = unaliasSchema(response);
-                if (response != null) {
-                    CodegenProperty cm = fromProperty("response", response, false);
-                    op.vendorExtensions.put("x-codegen-response", cm);
-                    if ("HttpContent".equals(cm.dataType)) {
-                        op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
-                    }
-                }
-            }
+        response = unaliasSchema(response);
+        if (response != null) {
+            CodegenProperty cm = fromProperty("response", response, false);
+            op.vendorExtensions.put("x-codegen-response", cm);
         }
-
-        return op;
     }
 
     @Override

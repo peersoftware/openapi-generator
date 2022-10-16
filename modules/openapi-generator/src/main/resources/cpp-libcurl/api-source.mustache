@@ -83,17 +83,9 @@ using org::openapitools::client::api::replaceAll;
         localVarResponseHttpContentType = "text/plain";
     }
     {{/vendorExtensions.x-codegen-response.isString}}
-    {{#vendorExtensions.x-codegen-response-ishttpcontent}}
-    else {
-        //It's going to be binary, so just use the first one.
-        localVarResponseHttpContentType = *localVarResponseHttpContentTypes.begin();
-    }
-    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
-    {{^vendorExtensions.x-codegen-response-ishttpcontent}}
     else {
         throw std::invalid_argument("{{classname}}->{{operationId}} does not produce any supported media type");
     }
-    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
