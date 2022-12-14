@@ -78,7 +78,7 @@ UserApi::createUser(
 
         localVarJson = ModelBase::toJson(user);
         
-        localVarHttpBody = localVarJson.get<std::string>();
+        localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
     } else {
@@ -142,7 +142,7 @@ UserApi::createUsersWithArrayInput(
                 
             }
         }
-                localVarHttpBody = localVarJson.get<std::string>();
+                localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
     } else {
@@ -206,7 +206,7 @@ UserApi::createUsersWithListInput(
                 
             }
         }
-                localVarHttpBody = localVarJson.get<std::string>();
+                localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
     } else {
@@ -519,7 +519,7 @@ UserApi::updateUser(
 
         localVarJson = ModelBase::toJson(user);
         
-        localVarHttpBody = localVarJson.get<std::string>();
+        localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
     } else {

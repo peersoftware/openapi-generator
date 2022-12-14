@@ -160,7 +160,7 @@ using org::openapitools::client::api::replaceAll;
         localVarJson = ModelBase::toJson(*{{paramName}});{{/required}}
         {{/isArray}}
         {{/isPrimitiveType}}
-        localVarHttpBody = localVarJson.get<std::string>();
+        localVarHttpBody = localVarJson.dump();
         {{/bodyParam}}
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
