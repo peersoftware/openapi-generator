@@ -61,11 +61,19 @@ std::string ApiClient::parameterToString(std::string value) {
     return value;
 }
 
+std::string ApiClient::parameterToString(int32_t value) {
+    return std::to_string(value);
+}
+
+std::string ApiClient::parameterToString(uint32_t value) {
+    return std::to_string(value);
+}
+
 std::string ApiClient::parameterToString(int64_t value) {
     return std::to_string(value);
 }
 
-std::string ApiClient::parameterToString(int32_t value) {
+std::string ApiClient::parameterToString(uint64_t value) {
     return std::to_string(value);
 }
 

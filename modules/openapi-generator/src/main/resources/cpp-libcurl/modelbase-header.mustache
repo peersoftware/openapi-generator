@@ -12,6 +12,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include <cstdint>
 #include <functional>
 #include <map>
 #include <memory>
@@ -36,7 +37,9 @@ public:
     static nlohmann::json toJson(float val);
     static nlohmann::json toJson(double val);
     static nlohmann::json toJson(int32_t val);
+    static nlohmann::json toJson(uint32_t val);
     static nlohmann::json toJson(int64_t val);
+    static nlohmann::json toJson(uint64_t val);
     static nlohmann::json toJson(const std::string& val);
     static nlohmann::json toJson(const nlohmann::json& val);
     template<typename T>
@@ -50,7 +53,9 @@ public:
     static bool fromJson(const nlohmann::json& val, float &);
     static bool fromJson(const nlohmann::json& val, double &);
     static bool fromJson(const nlohmann::json& val, int32_t &);
+    static bool fromJson(const nlohmann::json& val, uint32_t &);
     static bool fromJson(const nlohmann::json& val, int64_t &);
+    static bool fromJson(const nlohmann::json& val, uint64_t &);
     static bool fromJson(const nlohmann::json& val, std::string &);
     static bool fromJson(const nlohmann::json& val, nlohmann::json &);
     template<typename T>

@@ -15,6 +15,7 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.math.BigDecimal;
 import java.io.File;
 import java.util.*;
 
@@ -137,7 +138,9 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("int32_t", "#include <cstdint>");
+        importMapping.put("uint32_t", "#include <cstdint>");
         importMapping.put("int64_t", "#include <cstdint>");
+        importMapping.put("uint64_t", "#include <cstdint>");
     }
 
     @Override
@@ -302,6 +305,20 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
     }
 
     /**
+     * If a type is defined as an integer with a positive minimum value, then
+     * treat it as an unsigned integer.
+     */
+    private Boolean isUnsignedInteger(Schema schema) {
+        if (!ModelUtils.isIntegerSchema(schema)) {
+            return false;
+        }
+
+        BigDecimal minimum = schema.getMinimum();
+
+        return minimum != null && minimum.abs().equals(minimum);
+    }
+
+    /**
      * Optional - type declaration. This is a String which is used by the
      * templates to instantiate your types. There is typically special handling
      * for different property types
@@ -328,6 +345,15 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
             Schema inner = getAdditionalProperties(schema);
             return openAPIType + "<std::string, " + getTypeDeclaration(inner) + ", std::less<>>";
         }
+
+        if (isUnsignedInteger(schema)) {
+            if (ModelUtils.isLongSchema(schema)) {
+                return "uint64_t";
+            }
+
+            return "uint32_t";
+        }
+
         if (isStdStringSchema(schema)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
@@ -362,6 +388,20 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
                     return p.getDefault().toString();
                 } else {
                     return "0.0";
+                }
+            }
+        } else if (isUnsignedInteger(p)) {
+            if (ModelUtils.isLongSchema(p)) { // long
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString() + "UL";
+                } else {
+                    return "0UL";
+                }
+            } else { // integer
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString() + "U";
+                } else {
+                    return "0U";
                 }
             }
         } else if (ModelUtils.isIntegerSchema(p)) {

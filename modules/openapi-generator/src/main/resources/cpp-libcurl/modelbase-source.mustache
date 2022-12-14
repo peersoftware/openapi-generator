@@ -20,7 +20,13 @@ nlohmann::json ModelBase::toJson(double value) {
 nlohmann::json ModelBase::toJson(int32_t value) {
     return value;
 }
+nlohmann::json ModelBase::toJson(uint32_t value) {
+    return value;
+}
 nlohmann::json ModelBase::toJson(int64_t value) {
+    return value;
+}
+nlohmann::json ModelBase::toJson(uint64_t value) {
     return value;
 }
 nlohmann::json ModelBase::toJson(const std::string& value) {
@@ -46,8 +52,16 @@ bool ModelBase::fromJson(const nlohmann::json& val, int32_t & outVal) {
     outVal = !val.is_number_integer() ? std::numeric_limits<int32_t>::quiet_NaN() : val.get<int32_t>();
     return val.is_number_integer();
 }
+bool ModelBase::fromJson(const nlohmann::json& val, uint32_t & outVal) {
+    outVal = !val.is_number_integer() ? std::numeric_limits<uint32_t>::quiet_NaN() : val.get<uint32_t>();
+    return val.is_number_integer();
+}
 bool ModelBase::fromJson(const nlohmann::json& val, int64_t & outVal) {
     outVal = !val.is_number() ? std::numeric_limits<int64_t>::quiet_NaN() : val.get<int64_t>();
+    return val.is_number();
+}
+bool ModelBase::fromJson(const nlohmann::json& val, uint64_t & outVal) {
+    outVal = !val.is_number() ? std::numeric_limits<uint64_t>::quiet_NaN() : val.get<uint64_t>();
     return val.is_number();
 }
 bool ModelBase::fromJson(const nlohmann::json& val, std::string & outVal) {
