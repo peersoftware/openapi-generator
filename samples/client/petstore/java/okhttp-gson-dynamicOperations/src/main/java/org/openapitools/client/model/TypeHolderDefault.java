@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,6 +39,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -86,7 +85,6 @@ public class TypeHolderDefault {
    * @return stringItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getStringItem() {
     return stringItem;
@@ -109,7 +107,6 @@ public class TypeHolderDefault {
    * @return numberItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -132,7 +129,6 @@ public class TypeHolderDefault {
    * @return integerItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Integer getIntegerItem() {
     return integerItem;
@@ -155,7 +151,6 @@ public class TypeHolderDefault {
    * @return boolItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Boolean getBoolItem() {
     return boolItem;
@@ -183,7 +178,6 @@ public class TypeHolderDefault {
    * @return arrayItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -293,8 +287,10 @@ public class TypeHolderDefault {
       if (!jsonObj.get("string_item").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string_item` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_item").toString()));
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("array_item") != null && !jsonObj.get("array_item").isJsonNull()) && !jsonObj.get("array_item").isJsonArray()) {
+      // ensure the required json array is present
+      if (jsonObj.get("array_item") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("array_item").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_item` to be an array in the JSON string but got `%s`", jsonObj.get("array_item").toString()));
       }
   }

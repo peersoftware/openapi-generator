@@ -148,6 +148,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _group_parameters_oapg(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         stream: bool = False,
@@ -232,7 +233,11 @@ class BaseApi(api_client.Api):
                 api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 
@@ -255,6 +260,7 @@ class GroupParameters(BaseApi):
     @typing.overload
     def group_parameters(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         stream: bool = False,
@@ -309,6 +315,7 @@ class ApiFordelete(BaseApi):
     @typing.overload
     def delete(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         stream: bool = False,

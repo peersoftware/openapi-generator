@@ -103,6 +103,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _delete_pet_oapg(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
@@ -182,7 +183,11 @@ class BaseApi(api_client.Api):
                 api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 
@@ -202,6 +207,7 @@ class DeletePet(BaseApi):
     @typing.overload
     def delete_pet(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
@@ -252,6 +258,7 @@ class ApiFordelete(BaseApi):
     @typing.overload
     def delete(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,

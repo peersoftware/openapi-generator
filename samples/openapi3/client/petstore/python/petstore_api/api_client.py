@@ -297,7 +297,7 @@ class StyleFormSerializer(ParameterSerializerBase):
         prefix_separator_iterator: typing.Optional[PrefixSeparatorIterator] = None
     ) -> str:
         if prefix_separator_iterator is None:
-            prefix_separator_iterator = PrefixSeparatorIterator('?', '&')
+            prefix_separator_iterator = PrefixSeparatorIterator('', '&')
         return self._ref6570_expansion(
             variable_name=name,
             in_data=in_data,
@@ -1250,9 +1250,9 @@ class ApiClient:
                     # The HTTP signature scheme requires multiple HTTP headers
                     # that are calculated dynamically.
                     signing_info = self.configuration.signing_info
-                    querys = tuple()
+                    queries = tuple()
                     auth_headers = signing_info.get_http_signature_headers(
-                                        resource_path, method, headers, body, querys)
+                                        resource_path, method, headers, body, queries)
                     for key, value in auth_headers.items():
                         headers.add(key, value)
             elif auth_setting['in'] == 'query':
@@ -1398,24 +1398,24 @@ class RequestBody(StyleFormSerializer, JSONDetector):
 
     def __multipart_json_item(self, key: str, value: Schema) -> RequestField:
         json_value = self.__json_encoder.default(value)
-        return RequestField(name=key, data=json.dumps(json_value), headers={'Content-Type': 'application/json'})
+        request_field = RequestField(name=key, data=json.dumps(json_value))
+        request_field.make_multipart(content_type='application/json')
+        return request_field
 
     def __multipart_form_item(self, key: str, value: Schema) -> RequestField:
         if isinstance(value, str):
-            return RequestField(name=key, data=str(value), headers={'Content-Type': 'text/plain'})
+            request_field = RequestField(name=key, data=str(value))
+            request_field.make_multipart(content_type='text/plain')
         elif isinstance(value, bytes):
-            return RequestField(name=key, data=value, headers={'Content-Type': 'application/octet-stream'})
+            request_field = RequestField(name=key, data=value)
+            request_field.make_multipart(content_type='application/octet-stream')
         elif isinstance(value, FileIO):
-            request_field = RequestField(
-                name=key,
-                data=value.read(),
-                filename=os.path.basename(value.name),
-                headers={'Content-Type': 'application/octet-stream'}
-            )
+            # TODO use content.encoding to limit allowed content types if they are present
+            request_field = RequestField.from_tuples(key, (os.path.basename(value.name), value.read()))
             value.close()
-            return request_field
         else:
-            return self.__multipart_json_item(key=key, value=value)
+            request_field = self.__multipart_json_item(key=key, value=value)
+        return request_field
 
     def __serialize_multipart_form_data(
         self, in_data: Schema
@@ -1471,7 +1471,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
             raise ValueError(
                 f'Unable to serialize {in_data} to application/x-www-form-urlencoded because it is not a dict of data')
         cast_in_data = self.__json_encoder.default(in_data)
-        value = self._serialize_form(cast_in_data, name='', explode=True, percent_encode=False)
+        value = self._serialize_form(cast_in_data, name='', explode=True, percent_encode=True)
         return dict(body=value)
 
     def serialize(
