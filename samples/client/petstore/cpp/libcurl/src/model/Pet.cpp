@@ -10,7 +10,6 @@
  */
 
 
-
 #include "CppLibcurlOpenAPIClient/model/Pet.h"
 
 namespace org::openapitools::client::model {

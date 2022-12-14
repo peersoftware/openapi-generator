@@ -1,6 +1,10 @@
 {{>licenseInfo}}
 {{#models}}{{#model}}
-
+{{#isEnum}}
+{{^isNumeric}}
+#include <string>
+{{/isNumeric}}
+{{/isEnum}}
 #include "{{packageName}}/model/{{classFilename}}.h"
 
 {{#modelNamespaceDeclarations}}
@@ -66,6 +70,12 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
 {{classname}}::e{{classname}} {{classname}}::getValue() const {
    return m_value;
 }
+
+{{^isNumeric}}
+std::string {{classname}}::getValueString() const {
+    return fromEnum(m_value);
+}
+{{/isNumeric}}
 
 void {{classname}}::setValue({{classname}}::e{{classname}} const value) {
    m_value = value;

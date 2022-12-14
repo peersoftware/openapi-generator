@@ -10,7 +10,6 @@
  */
 
 
-
 #include "CppLibcurlOpenAPIClient/model/Tag.h"
 
 namespace org::openapitools::client::model {

@@ -10,7 +10,6 @@
  */
 
 
-
 #include "CppLibcurlOpenAPIClient/model/Order.h"
 
 namespace org::openapitools::client::model {

@@ -10,7 +10,6 @@
  */
 
 
-
 #include "CppLibcurlOpenAPIClient/model/User.h"
 
 namespace org::openapitools::client::model {

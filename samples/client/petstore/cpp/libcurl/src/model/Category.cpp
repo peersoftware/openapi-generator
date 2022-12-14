@@ -10,7 +10,6 @@
  */
 
 
-
 #include "CppLibcurlOpenAPIClient/model/Category.h"
 
 namespace org::openapitools::client::model {

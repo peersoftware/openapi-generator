@@ -10,6 +10,11 @@
 
 {{^parent}}
 {{{defaultInclude}}}
+{{#isEnum}}
+{{^isNumeric}}
+#include <string>
+{{/isNumeric}}
+{{/isEnum}}
 #include <nlohmann/json.hpp>
 
 #include "{{packageName}}/ModelBase.h"
@@ -49,6 +54,7 @@ public:
     };
 
     e{{classname}} getValue() const;
+    {{^isNumeric}}std::string getValueString() const;{{/isNumeric}}
     void setValue(e{{classname}} const value);
 
 private:

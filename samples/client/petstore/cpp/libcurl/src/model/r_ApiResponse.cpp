@@ -10,7 +10,6 @@
  */
 
 
-
 #include "CppLibcurlOpenAPIClient/model/r_ApiResponse.h"
 
 namespace org::openapitools::client::model {
