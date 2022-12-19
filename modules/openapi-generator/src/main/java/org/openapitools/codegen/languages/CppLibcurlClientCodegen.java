@@ -440,22 +440,21 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         return "nullptr";
     }
 
-    private boolean typeIsCppClass(final String type) {
-        return type.startsWith("std::");
+    private void addVendorExtensions(String dataType, Map<String, Object> vendorExtensions) {
+        if (dataType.startsWith("std::")) {
+           vendorExtensions.put("x-cpp-is-class", true);
+        }
+
+        if (dataType.equals("std::string")) {
+           vendorExtensions.put("x-cpp-is-std-string", true);
+        }
     }
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
 
-        if (typeIsCppClass(parameter.dataType)) {
-            parameter.vendorExtensions.put("x-cpp-is-class", true);
-        }
-
-        if (parameter.dataType.equals("std::string")) {
-            parameter.vendorExtensions.put("x-cpp-is-std-string", true);
-            return;
-        }
+        addVendorExtensions(parameter.dataType, parameter.vendorExtensions);
 
         boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
         boolean isArray = parameter.isArray == Boolean.TRUE;
@@ -534,13 +533,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             for (CodegenProperty var : cm.vars) {
-                if (typeIsCppClass(var.dataType)) {
-                    var.vendorExtensions.put("x-cpp-is-class", true);
-                }
-
-                if (var.dataType.equals("std::string")) {
-                    var.vendorExtensions.put("x-cpp-is-std-string", true);
-                }
+                addVendorExtensions(var.dataType, var.vendorExtensions);
             }
         }
 
