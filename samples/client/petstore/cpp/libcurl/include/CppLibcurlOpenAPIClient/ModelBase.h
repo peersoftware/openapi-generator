@@ -86,7 +86,7 @@ nlohmann::json ModelBase::toJson(const std::shared_ptr<T>& val) {
 }
 template<typename T>
 nlohmann::json ModelBase::toJson(const std::vector<T>& value) {
-    nlohmann::json ret;
+    auto ret = nlohmann::json::array();
 
     for (const auto &x : value) {
         ret.push_back(toJson(x));
