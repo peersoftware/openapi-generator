@@ -202,7 +202,7 @@ StoreApi::getOrderById(
         return std::make_pair(response, std::shared_ptr<Order>());
     }
 
-    std::shared_ptr<Order> localVarResult(std::make_shared<Order>());
+    auto localVarResult(std::make_shared<Order>());
 
     if (localVarResponseHttpContentType == "application/json") {
         auto localVarJson = nlohmann::json::parse(response.getData());
@@ -279,7 +279,7 @@ StoreApi::placeOrder(
         return std::make_pair(response, std::shared_ptr<Order>());
     }
 
-    std::shared_ptr<Order> localVarResult(std::make_shared<Order>());
+    auto localVarResult(std::make_shared<Order>());
 
     if (localVarResponseHttpContentType == "application/json") {
         auto localVarJson = nlohmann::json::parse(response.getData());

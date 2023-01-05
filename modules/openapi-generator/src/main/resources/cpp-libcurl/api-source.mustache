@@ -185,7 +185,12 @@ using org::openapitools::client::api::replaceAll;
     {{{returnType}}} localVarResult;
     {{/returnContainer}}
     {{^returnContainer}}
+    {{#vendorExtensions.x-codegen-response.isString}}
     {{{returnType}}} localVarResult({{{defaultResponse}}});
+    {{/vendorExtensions.x-codegen-response.isString}}
+    {{^vendorExtensions.x-codegen-response.isString}}
+    auto localVarResult({{{defaultResponse}}});
+    {{/vendorExtensions.x-codegen-response.isString}}
     {{/returnContainer}}
 
     if (localVarResponseHttpContentType == "application/json") {

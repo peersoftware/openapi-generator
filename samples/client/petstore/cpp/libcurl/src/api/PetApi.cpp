@@ -97,7 +97,7 @@ PetApi::addPet(
         return std::make_pair(response, std::shared_ptr<Pet>());
     }
 
-    std::shared_ptr<Pet> localVarResult(std::make_shared<Pet>());
+    auto localVarResult(std::make_shared<Pet>());
 
     if (localVarResponseHttpContentType == "application/json") {
         auto localVarJson = nlohmann::json::parse(response.getData());
@@ -359,7 +359,7 @@ PetApi::getPetById(
         return std::make_pair(response, std::shared_ptr<Pet>());
     }
 
-    std::shared_ptr<Pet> localVarResult(std::make_shared<Pet>());
+    auto localVarResult(std::make_shared<Pet>());
 
     if (localVarResponseHttpContentType == "application/json") {
         auto localVarJson = nlohmann::json::parse(response.getData());
@@ -437,7 +437,7 @@ PetApi::updatePet(
         return std::make_pair(response, std::shared_ptr<Pet>());
     }
 
-    std::shared_ptr<Pet> localVarResult(std::make_shared<Pet>());
+    auto localVarResult(std::make_shared<Pet>());
 
     if (localVarResponseHttpContentType == "application/json") {
         auto localVarJson = nlohmann::json::parse(response.getData());
@@ -577,7 +577,7 @@ PetApi::uploadFile(
         return std::make_pair(response, std::shared_ptr<r_ApiResponse>());
     }
 
-    std::shared_ptr<r_ApiResponse> localVarResult(std::make_shared<r_ApiResponse>());
+    auto localVarResult(std::make_shared<r_ApiResponse>());
 
     if (localVarResponseHttpContentType == "application/json") {
         auto localVarJson = nlohmann::json::parse(response.getData());

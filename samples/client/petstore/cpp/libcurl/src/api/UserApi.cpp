@@ -328,7 +328,7 @@ UserApi::getUserByName(
         return std::make_pair(response, std::shared_ptr<User>());
     }
 
-    std::shared_ptr<User> localVarResult(std::make_shared<User>());
+    auto localVarResult(std::make_shared<User>());
 
     if (localVarResponseHttpContentType == "application/json") {
         auto localVarJson = nlohmann::json::parse(response.getData());
