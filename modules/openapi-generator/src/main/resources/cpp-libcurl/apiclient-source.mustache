@@ -271,11 +271,10 @@ ApiResponse ApiClient::callApi(
     {{#authMethods}}
     {{#isBasic}}
     // this would only be generated for basic authentication:
-    const auto &username = m_Configuration->getUsername();
-    const auto &password = m_Configuration->getPassword();
-
-    if (!username.empty() && !password.empty()) {
-        std::string authToken = username + ":" + password;
+    if (!m_Configuration->getUsername().empty() &&
+            !m_Configuration->getPassword().empty()) {
+        std::string authToken = m_Configuration->getUsername() + ":" +
+                                m_Configuration->getPassword();
 
         curl_easy_setopt(curlHandle, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_easy_setopt(curlHandle, CURLOPT_USERPWD, authToken.c_str());
