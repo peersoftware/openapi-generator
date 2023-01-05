@@ -18,10 +18,11 @@ namespace org::openapitools::client::api {
 
 void replaceAll(std::string &str, std::string_view what,
                 std::string_view with) {
-    for (std::string::size_type pos{};
-        (pos = str.find(what.data(), pos, what.length())) != std::string::npos;
-        pos += with.length()) {
-        str.replace(pos, what.length(), with.data(), with.length());
+    auto pos = str.find(what);
+
+    while (pos != std::string::npos) {
+        str.replace(pos, what.length(), with);
+        pos = str.find(what, pos + with.length());
     }
 }
 
