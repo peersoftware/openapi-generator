@@ -3,6 +3,7 @@
 {{#isEnum}}
 {{^isNumeric}}
 #include <string>
+#include <string_view>
 {{/isNumeric}}
 {{/isEnum}}
 #include "{{packageName}}/model/{{classFilename}}.h"
@@ -16,7 +17,7 @@ namespace {{this}} {
 namespace {
 using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}std::string{{/isNumeric}};
 
-{{classname}}::e{{classname}} toEnum(const EnumUnderlyingType& val) {
+{{classname}}::e{{classname}} toEnum({{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}std::string_view{{/isNumeric}} val) {
 {{#allowableValues}}
 {{#isNumeric}}
     switch (val) {
@@ -63,7 +64,7 @@ nlohmann::json {{classname}}::toJson() const {
 }
 
 bool {{classname}}::fromJson(const nlohmann::json& val) {
-    m_value = toEnum({{#isNumeric}}val.get<int64_t>(){{/isNumeric}}{{^isNumeric}}val.get<std::string>(){{/isNumeric}});
+    m_value = toEnum(val.get<EnumUnderlyingType>());
     return true;
 }
 
