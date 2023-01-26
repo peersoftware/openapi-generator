@@ -376,12 +376,8 @@ UserApi::loginUser(
 
     std::unordered_set<std::string> localVarConsumeHttpContentTypes;
 
-    {
         localVarQueryParams["username"] = ApiClient::parameterToString(username);
-    }
-    {
         localVarQueryParams["password"] = ApiClient::parameterToString(password);
-    }
 
     std::string localVarRequestHttpContentType;
     std::string localVarHttpBody;

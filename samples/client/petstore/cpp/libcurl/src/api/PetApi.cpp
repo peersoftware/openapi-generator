@@ -197,9 +197,7 @@ PetApi::findPetsByStatus(
 
     std::unordered_set<std::string> localVarConsumeHttpContentTypes;
 
-    {
         localVarQueryParams["status"] = ApiClient::parameterToString(status);
-    }
 
     std::string localVarRequestHttpContentType;
     std::string localVarHttpBody;
@@ -266,9 +264,7 @@ PetApi::findPetsByTags(
 
     std::unordered_set<std::string> localVarConsumeHttpContentTypes;
 
-    {
         localVarQueryParams["tags"] = ApiClient::parameterToString(tags);
-    }
 
     std::string localVarRequestHttpContentType;
     std::string localVarHttpBody;

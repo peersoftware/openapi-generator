@@ -96,6 +96,7 @@ using org::openapitools::client::api::replaceAll;
         {{^isPrimitiveType}}
         {{^isContainer}}
     if ({{paramName}} != nullptr)
+    {
         {{/isContainer}}
         {{/isPrimitiveType}}
     {{/required}}
@@ -111,8 +112,8 @@ using org::openapitools::client::api::replaceAll;
         {{#isContainer}}
     if ({{paramName}})
         {{/isContainer}}
-    {{/required}}
     {
+    {{/required}}
         {{#isQueryParam}}
         localVarQueryParams["{{baseName}}"] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
         {{/isQueryParam}}
@@ -122,7 +123,16 @@ using org::openapitools::client::api::replaceAll;
         {{#isFormParam}}
         localVarFormParams["{{baseName}}"] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
         {{/isFormParam}}
+    {{#required}}
+        {{^isPrimitiveType}}
+        {{^isContainer}}
     }
+    {{/isContainer}}
+        {{/isPrimitiveType}}
+    {{/required}}
+    {{^required}}
+    }
+    {{/required}}
     {{/isPathParam}}
     {{/isBodyParam}}
     {{/allParams}}
