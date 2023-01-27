@@ -7,36 +7,58 @@
 #include <array>
 #include <functional>
 #include <limits>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
 
 #include "{{packageName}}/ModelBase.h"
 
-class CurlHandle {
+class CurlSList {
 public:
-    CurlHandle() { m_handle = curl_easy_init(); }
-    ~CurlHandle() {
-        curl_easy_cleanup(m_handle);
-        curl_slist_free_all(m_headers);
+    void Append(const char *data) {
+        if (auto newList = curl_slist_append(m_list.get(), data); newList != nullptr) {
+            m_list.release();
+            m_list = std::unique_ptr<struct curl_slist, CurlSListCleanup>(newList);
+        }
     }
 
-    CurlHandle(CurlHandle const &) = delete;
-    CurlHandle(CurlHandle &&) = delete;
-    CurlHandle& operator=(CurlHandle const &) = delete;
-    CurlHandle& operator=(CurlHandle &&) = delete;
-
-    void AppendHeader(const char *header) {
-        m_headers = curl_slist_append(m_headers, header);
-    }
-
-    CURL *getCurlHandle() { return m_handle; }
-    struct curl_slist *getHeaders() {
-        return m_headers;
+    struct curl_slist *get() {
+        return m_list.get();
     }
 
 private:
-    CURL *m_handle{nullptr};
-    struct curl_slist *m_headers{nullptr};
+    struct CurlSListCleanup {
+        void operator()(struct curl_slist *handle) const {
+            curl_slist_free_all(handle);
+        }
+    };
+
+    std::unique_ptr<struct curl_slist, CurlSListCleanup> m_list{nullptr};
+};
+
+class CurlHandle {
+public:
+    void AppendHeader(const char *header) {
+        m_headers.Append(header);
+    }
+
+    CURL *getCurlHandle() {
+        return m_handle.get();
+    }
+
+    struct curl_slist *getHeaders() {
+        return m_headers.get();
+    }
+
+private:
+    struct CurlCleanup {
+        void operator()(CURL *handle) const {
+            curl_easy_cleanup(handle);
+        }
+    };
+
+    std::unique_ptr<CURL, CurlCleanup> m_handle{ curl_easy_init() };
+    CurlSList m_headers;
 };
 
 {{#apiNamespaceDeclarations}}
