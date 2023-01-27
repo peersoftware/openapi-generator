@@ -27,6 +27,13 @@
 
 namespace org::openapitools::client::api {
 
+enum class SslVersion {
+    TLSv1_0,
+    TLSv1_1,
+    TLSv1_2,
+    TLSv1_3
+};
+
 class  ApiConfiguration {
 public:
     const std::string &getBaseUrl() const;
@@ -44,6 +51,9 @@ public:
     bool getSkipTlsVerify() const;
     void setSkipTlsVerify(bool value);
 
+    SslVersion getMinimumTls() const;
+    void setMinimumTls(SslVersion value);
+
     const std::map<std::string, std::string, std::less<>> &getApiKeys() const;
     void setApiKeys(const std::map<std::string, std::string, std::less<>> &value);
     const std::string &getAccessToken() const;
@@ -56,6 +66,7 @@ private:
     std::string m_CACertFile;     /* CA certificate */
     bool m_SkipTlsVerify{false};  /* false -- verify server certificate */
                                   /* true -- skip ssl verify for server certificate */
+    SslVersion m_minTls{SslVersion::TLSv1_2};
 
     std::map<std::string, std::string, std::less<>> m_ApiKeys;
     std::string m_AccessToken;

@@ -195,6 +195,22 @@ static void setPostData(CURL *handle, const std::string &data) {
     curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE, data.length());
 }
 
+static long MinimumSslVersionToCurl(SslVersion version) {
+    switch (version) {
+        case SslVersion::TLSv1_0:
+            return CURL_SSLVERSION_TLSv1_0;
+        case SslVersion::TLSv1_1:
+            return CURL_SSLVERSION_TLSv1_1;
+        case SslVersion::TLSv1_2:
+            return CURL_SSLVERSION_TLSv1_2;
+        case SslVersion::TLSv1_3:
+            return CURL_SSLVERSION_TLSv1_3;
+
+        default:
+            return CURL_SSLVERSION_TLSv1_2;
+    }
+}
+
 ApiResponse ApiClient::callApi(
         const std::string &path,
         const std::string &method,
@@ -248,6 +264,9 @@ ApiResponse ApiClient::callApi(
         const auto &clientCert = m_Configuration->getClientCert();
         const auto &clientKey = m_Configuration->getClientKey();
         const auto &caCert = m_Configuration->getCACert();
+
+        curl_easy_setopt(curlHandle, CURLOPT_SSLVERSION,
+            MinimumSslVersionToCurl(m_Configuration->getMinimumTls()));
 
         if (!clientCert.empty()) {
             curl_easy_setopt(curlHandle, CURLOPT_SSLCERT, clientCert.c_str());

@@ -36,6 +36,10 @@ void ApiConfiguration::setCACert(std::string_view value) {
 bool ApiConfiguration::getSkipTlsVerify() const { return m_SkipTlsVerify; }
 
 void ApiConfiguration::setSkipTlsVerify(bool value) { m_SkipTlsVerify = value; }
+
+SslVersion ApiConfiguration::getMinimumTls() const { return m_minTls; }
+
+void ApiConfiguration::setMinimumTls(SslVersion value) { m_minTls = value; }
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}

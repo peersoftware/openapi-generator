@@ -45,6 +45,10 @@ bool ApiConfiguration::getSkipTlsVerify() const { return m_SkipTlsVerify; }
 
 void ApiConfiguration::setSkipTlsVerify(bool value) { m_SkipTlsVerify = value; }
 
+SslVersion ApiConfiguration::getMinimumTls() const { return m_minTls; }
+
+void ApiConfiguration::setMinimumTls(SslVersion value) { m_minTls = value; }
+
 const std::map<std::string, std::string, std::less<>> &ApiConfiguration::getApiKeys() const {
     return m_ApiKeys;
 }
