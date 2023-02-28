@@ -176,7 +176,7 @@ static void setMethod(CURL *handle, const std::string &method) {
     } else if (method == "POST") {
         curl_easy_setopt(handle, CURLOPT_POST, 1L);
     } else if (method == "PUT") {
-        curl_easy_setopt(handle, CURLOPT_PUT, 1L);
+        curl_easy_setopt(handle, CURLOPT_UPLOAD, 1L);
     } else {
         curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, method.c_str());
     }
