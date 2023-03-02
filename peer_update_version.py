@@ -33,7 +33,9 @@ def update_version(file_path, branch, sha):
     filedata = re.sub(
         # Find the version between RELEASE_VERSION tags and append the branch and SHA to it
         r'(?P<start><!-- RELEASE_VERSION -->\s*\n' +
-        r'\s*<version>)(?P<version>[\d.]*)(?P<version_suffix>-SNAPSHOT).*(?P<end></version>\s*\n' +
+        r'\s*<version>)' +
+        r'(?P<version>[\d.]*)(?P<version_suffix>(-SNAPSHOT)?).*(?P<end>'
+        r'</version>\s*\n' +
         r'\s*<!-- /RELEASE_VERSION -->)',
         r'\g<start>\g<version>\g<version_suffix>-' + branch + r'-' + sha + r'\g<end>', filedata)
 
