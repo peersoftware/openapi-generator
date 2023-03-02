@@ -77,6 +77,9 @@ Username in HTTP basic authentication
 .PARAMETER Passowrd
 Password in HTTP basic authentication
 
+.PARAMETER SecurePassword
+Password in HTTP basic authentication, in secure string format
+
 .PARAMETER ApiKey
 API Keys for authentication/authorization
 
@@ -111,6 +114,7 @@ function Set-PSConfiguration {
         [string]$Username,
         [AllowEmptyString()]
         [string]$Password,
+        [securestring]$SecurePassword,
         [hashtable]$ApiKey,
         [hashtable]$ApiKeyPrefix,
         [AllowEmptyString()]
@@ -139,7 +143,11 @@ function Set-PSConfiguration {
         }
 
         If ($Password) {
-            $Script:Configuration['Password'] = $Password
+            $Script:Configuration['Password'] = ConvertTo-SecureString -String $Password -AsPlainText -Force
+        }
+
+        If ($SecurePassword) {
+            $Script:Configuration['Password'] = $SecurePassword
         }
 
         If ($ApiKey) {
