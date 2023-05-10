@@ -318,6 +318,16 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         return minimum != null && minimum.abs().equals(minimum);
     }
 
+    private Boolean doesUnsignedIntegerNeed64bits(Schema schema) {
+        if (ModelUtils.isLongSchema(schema)) {
+            return true;
+        }
+
+        BigDecimal maximum = schema.getMaximum();
+
+        return maximum != null && maximum.compareTo(BigDecimal.valueOf(0xffffffffL)) > 0;
+    }
+
     /**
      * Optional - type declaration. This is a String which is used by the
      * templates to instantiate your types. There is typically special handling
@@ -347,7 +357,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         }
 
         if (isUnsignedInteger(schema)) {
-            if (ModelUtils.isLongSchema(schema)) {
+            if (doesUnsignedIntegerNeed64bits(schema)) {
                 return "uint64_t";
             }
 
