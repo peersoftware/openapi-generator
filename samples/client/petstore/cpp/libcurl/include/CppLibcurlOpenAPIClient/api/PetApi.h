@@ -29,6 +29,7 @@
 #include "CppLibcurlOpenAPIClient/model/Pet.h"
 #include "CppLibcurlOpenAPIClient/model/R_ApiResponse.h"
 #include <string>
+#include <vector>
 
 namespace org::openapitools::client::api {
 

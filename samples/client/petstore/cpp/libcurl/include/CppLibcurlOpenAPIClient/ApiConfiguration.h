@@ -54,10 +54,10 @@ public:
     SslVersion getMinimumTls() const;
     void setMinimumTls(SslVersion value);
 
-    const std::map<std::string, std::string, std::less<>> &getApiKeys() const;
-    void setApiKeys(const std::map<std::string, std::string, std::less<>> &value);
     const std::string &getAccessToken() const;
     void setAccessToken(std::string_view value);
+    const std::map<std::string, std::string, std::less<>> &getApiKeys() const;
+    void setApiKeys(const std::map<std::string, std::string, std::less<>> &value);
 
 private:
     std::string m_BaseUrl;
@@ -68,8 +68,8 @@ private:
                                   /* true -- skip ssl verify for server certificate */
     SslVersion m_minTls{SslVersion::TLSv1_2};
 
-    std::map<std::string, std::string, std::less<>> m_ApiKeys;
     std::string m_AccessToken;
+    std::map<std::string, std::string, std::less<>> m_ApiKeys;
 };
 
 }

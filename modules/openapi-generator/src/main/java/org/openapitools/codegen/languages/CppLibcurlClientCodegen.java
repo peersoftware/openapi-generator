@@ -242,7 +242,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
                                         Map<String, String> schemaMappings) {
         super.handleMethodResponse(operation, schemas, op, methodResponse, schemaMappings);
 
-        Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
+        Schema response = ModelUtils.getSchemaFromResponse(openAPI, methodResponse);
 
         response = unaliasSchema(response);
         if (response != null) {
@@ -352,7 +352,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
             return openAPIType + "<" + getTypeDeclaration(inner) + ">";
         }
         if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             return openAPIType + "<std::string, " + getTypeDeclaration(inner) + ", std::less<>>";
         }
 
@@ -429,7 +429,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
                 }
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ", std::less<>>()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

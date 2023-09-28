@@ -49,18 +49,18 @@ SslVersion ApiConfiguration::getMinimumTls() const { return m_minTls; }
 
 void ApiConfiguration::setMinimumTls(SslVersion value) { m_minTls = value; }
 
+const std::string &ApiConfiguration::getAccessToken() const { return m_AccessToken; }
+
+void ApiConfiguration::setAccessToken(std::string_view value) {
+    m_AccessToken = value;
+}
+
 const std::map<std::string, std::string, std::less<>> &ApiConfiguration::getApiKeys() const {
     return m_ApiKeys;
 }
 
 void ApiConfiguration::setApiKeys(const std::map<std::string, std::string, std::less<>> &value) {
     m_ApiKeys = value;
-}
-
-const std::string &ApiConfiguration::getAccessToken() const { return m_AccessToken; }
-
-void ApiConfiguration::setAccessToken(std::string_view value) {
-    m_AccessToken = value;
 }
 
 
