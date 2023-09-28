@@ -42,7 +42,7 @@ SslVersion ApiConfiguration::getMinimumTls() const { return m_minTls; }
 void ApiConfiguration::setMinimumTls(SslVersion value) { m_minTls = value; }
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
 
 const std::string &ApiConfiguration::getUsername() const { return m_Username; }
 
@@ -55,7 +55,7 @@ const std::string &ApiConfiguration::getPassword() const { return m_Password; }
 void ApiConfiguration::setPassword(std::string_view value) {
     m_Password = value;
 }
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isOAuth}}
 
 const std::string &ApiConfiguration::getAccessToken() const { return m_AccessToken; }

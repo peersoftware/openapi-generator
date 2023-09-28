@@ -48,13 +48,13 @@ public:
 
     {{#hasAuthMethods}}
     {{#authMethods}}
-    {{#isBasic}}
+    {{#isBasicBasic}}
     const std::string &getUsername() const;
     void setUsername(std::string_view value);
 
     const std::string &getPassword() const;
     void setPassword(std::string_view value);
-    {{/isBasic}}
+    {{/isBasicBasic}}
     {{#isOAuth}}
     const std::string &getAccessToken() const;
     void setAccessToken(std::string_view value);
@@ -77,10 +77,10 @@ private:
 
     {{#hasAuthMethods}}
     {{#authMethods}}
-    {{#isBasic}}
+    {{#isBasicBasic}}
     std::string m_Username;
     std::string m_Password;
-    {{/isBasic}}
+    {{/isBasicBasic}}
     {{#isOAuth}}
     std::string m_AccessToken;
     {{/isOAuth}}

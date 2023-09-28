@@ -308,7 +308,7 @@ ApiResponse ApiClient::callApi(
 
     {{#hasAuthMethods}}
     {{#authMethods}}
-    {{#isBasic}}
+    {{#isBasicBasic}}
     // this would only be generated for basic authentication:
     if (!m_Configuration->getUsername().empty() &&
             !m_Configuration->getPassword().empty()) {
@@ -318,7 +318,7 @@ ApiResponse ApiClient::callApi(
         curl_easy_setopt(curlHandle, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_easy_setopt(curlHandle, CURLOPT_USERPWD, authToken.c_str());
     }
-    {{/isBasic}}
+    {{/isBasicBasic}}
     {{#isOAuth}}
     // this would only be generated for OAuth2 authentication
     const auto &accessToken = m_Configuration->getAccessToken();
