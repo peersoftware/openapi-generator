@@ -100,7 +100,12 @@ PetApi::addPet(
     auto localVarResult(std::make_shared<Pet>());
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }
@@ -224,7 +229,12 @@ PetApi::findPetsByStatus(
     std::vector<std::shared_ptr<Pet>> localVarResult;
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }
@@ -291,7 +301,12 @@ PetApi::findPetsByTags(
     std::vector<std::shared_ptr<Pet>> localVarResult;
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }
@@ -358,7 +373,12 @@ PetApi::getPetById(
     auto localVarResult(std::make_shared<Pet>());
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }
@@ -436,7 +456,12 @@ PetApi::updatePet(
     auto localVarResult(std::make_shared<Pet>());
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }
@@ -576,7 +601,12 @@ PetApi::uploadFile(
     auto localVarResult(std::make_shared<r_ApiResponse>());
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }

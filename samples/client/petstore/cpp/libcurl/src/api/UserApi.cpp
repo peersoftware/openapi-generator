@@ -331,7 +331,12 @@ UserApi::getUserByName(
     auto localVarResult(std::make_shared<User>());
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }
@@ -404,7 +409,12 @@ UserApi::loginUser(
     std::string localVarResult("");
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }

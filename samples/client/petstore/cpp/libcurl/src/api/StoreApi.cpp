@@ -138,7 +138,12 @@ StoreApi::getInventory(
     std::map<std::string, int32_t, std::less<>> localVarResult;
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }
@@ -205,7 +210,12 @@ StoreApi::getOrderById(
     auto localVarResult(std::make_shared<Order>());
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }
@@ -282,7 +292,12 @@ StoreApi::placeOrder(
     auto localVarResult(std::make_shared<Order>());
 
     if (localVarResponseHttpContentType == "application/json") {
-        auto localVarJson = nlohmann::json::parse(response.getData());
+        /*
+         * Exceptions are disabled for parsing to allow failure to be handled
+         * the same way as if parts of the response were missing.
+         */
+        auto localVarJson =
+            nlohmann::json::parse(response.getData(), nullptr, false);
 
         ModelBase::fromJson(localVarJson, localVarResult);
     }
