@@ -63,6 +63,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     protected String shardAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected List<String> primitiveTypes = new ArrayList<String>();
 
     public static final String SHARD_NAME = "shardName";
     public static final String MODULE_NAME = "moduleName";
@@ -184,6 +185,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         instantiationTypes.put("map", "Hash");
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("set", "Set");
+        primitiveTypes = new ArrayList<String>(typeMapping.values());
 
         // remove modelPackage and apiPackage added by default
         cliOptions.removeIf(opt -> CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
@@ -356,7 +358,21 @@ public class CrystalClientCodegen extends DefaultCodegen {
     }
 
     @Override
+    public String toModelImport(String name) {
+        if (primitiveTypes.contains(name)) {
+            return null;
+        } else {
+            return toModelFilename(name);
+        }
+    }
+
+    @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         String modelName;
         modelName = sanitizeModelName(name);
 
@@ -398,6 +414,11 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public String toModelFilename(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return underscore(modelNameMapping.get(name));
+        }
+
         return underscore(toModelName(name));
     }
 
@@ -564,7 +585,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = getAdditionalProperties(schema);
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
@@ -801,7 +822,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
             Schema inner = ((ArraySchema) schema).getItems();
             return getSchemaType(schema) + "(" + getTypeDeclaration(inner) + ")";
         } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             return getSchemaType(schema) + "(String, " + getTypeDeclaration(inner) + ")";
         }
 
@@ -856,6 +877,11 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(final String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         String varName;
         // sanitize name
         varName = sanitizeName(name);
@@ -883,6 +909,11 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }

@@ -97,7 +97,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -226,6 +226,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
             path = "/test".replace("{"+"pi0"+"}", encodeURIComponent(pi0.toString())).replace("{"+"pi1"+"}", encodeURIComponent(pi1.toString())).replace("{"+"pn0"+"}", encodeURIComponent(pn0.toString())).replace("{"+"pn1"+"}", encodeURIComponent(pn1.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }

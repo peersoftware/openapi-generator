@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"os"
 	"time"
+	"fmt"
 )
 
 // checks if the FormatTest type satisfies the MappedNullable interface at compile time
@@ -29,7 +30,7 @@ type FormatTest struct {
 	Double *float64 `json:"double,omitempty"`
 	String *string `json:"string,omitempty"`
 	Byte string `json:"byte"`
-	Binary *os.File `json:"binary,omitempty"`
+	Binary **os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
 	DateTime *time.Time `json:"dateTime,omitempty"`
 	Uuid *string `json:"uuid,omitempty"`
@@ -66,7 +67,7 @@ func NewFormatTestWithDefaults() *FormatTest {
 
 // GetInteger returns the Integer field value if set, zero value otherwise.
 func (o *FormatTest) GetInteger() int32 {
-	if o == nil || isNil(o.Integer) {
+	if o == nil || IsNil(o.Integer) {
 		var ret int32
 		return ret
 	}
@@ -76,7 +77,7 @@ func (o *FormatTest) GetInteger() int32 {
 // GetIntegerOk returns a tuple with the Integer field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetIntegerOk() (*int32, bool) {
-	if o == nil || isNil(o.Integer) {
+	if o == nil || IsNil(o.Integer) {
 		return nil, false
 	}
 	return o.Integer, true
@@ -84,7 +85,7 @@ func (o *FormatTest) GetIntegerOk() (*int32, bool) {
 
 // HasInteger returns a boolean if a field has been set.
 func (o *FormatTest) HasInteger() bool {
-	if o != nil && !isNil(o.Integer) {
+	if o != nil && !IsNil(o.Integer) {
 		return true
 	}
 
@@ -98,7 +99,7 @@ func (o *FormatTest) SetInteger(v int32) {
 
 // GetInt32 returns the Int32 field value if set, zero value otherwise.
 func (o *FormatTest) GetInt32() int32 {
-	if o == nil || isNil(o.Int32) {
+	if o == nil || IsNil(o.Int32) {
 		var ret int32
 		return ret
 	}
@@ -108,7 +109,7 @@ func (o *FormatTest) GetInt32() int32 {
 // GetInt32Ok returns a tuple with the Int32 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetInt32Ok() (*int32, bool) {
-	if o == nil || isNil(o.Int32) {
+	if o == nil || IsNil(o.Int32) {
 		return nil, false
 	}
 	return o.Int32, true
@@ -116,7 +117,7 @@ func (o *FormatTest) GetInt32Ok() (*int32, bool) {
 
 // HasInt32 returns a boolean if a field has been set.
 func (o *FormatTest) HasInt32() bool {
-	if o != nil && !isNil(o.Int32) {
+	if o != nil && !IsNil(o.Int32) {
 		return true
 	}
 
@@ -130,7 +131,7 @@ func (o *FormatTest) SetInt32(v int32) {
 
 // GetInt64 returns the Int64 field value if set, zero value otherwise.
 func (o *FormatTest) GetInt64() int64 {
-	if o == nil || isNil(o.Int64) {
+	if o == nil || IsNil(o.Int64) {
 		var ret int64
 		return ret
 	}
@@ -140,7 +141,7 @@ func (o *FormatTest) GetInt64() int64 {
 // GetInt64Ok returns a tuple with the Int64 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetInt64Ok() (*int64, bool) {
-	if o == nil || isNil(o.Int64) {
+	if o == nil || IsNil(o.Int64) {
 		return nil, false
 	}
 	return o.Int64, true
@@ -148,7 +149,7 @@ func (o *FormatTest) GetInt64Ok() (*int64, bool) {
 
 // HasInt64 returns a boolean if a field has been set.
 func (o *FormatTest) HasInt64() bool {
-	if o != nil && !isNil(o.Int64) {
+	if o != nil && !IsNil(o.Int64) {
 		return true
 	}
 
@@ -186,7 +187,7 @@ func (o *FormatTest) SetNumber(v float32) {
 
 // GetFloat returns the Float field value if set, zero value otherwise.
 func (o *FormatTest) GetFloat() float32 {
-	if o == nil || isNil(o.Float) {
+	if o == nil || IsNil(o.Float) {
 		var ret float32
 		return ret
 	}
@@ -196,7 +197,7 @@ func (o *FormatTest) GetFloat() float32 {
 // GetFloatOk returns a tuple with the Float field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetFloatOk() (*float32, bool) {
-	if o == nil || isNil(o.Float) {
+	if o == nil || IsNil(o.Float) {
 		return nil, false
 	}
 	return o.Float, true
@@ -204,7 +205,7 @@ func (o *FormatTest) GetFloatOk() (*float32, bool) {
 
 // HasFloat returns a boolean if a field has been set.
 func (o *FormatTest) HasFloat() bool {
-	if o != nil && !isNil(o.Float) {
+	if o != nil && !IsNil(o.Float) {
 		return true
 	}
 
@@ -218,7 +219,7 @@ func (o *FormatTest) SetFloat(v float32) {
 
 // GetDouble returns the Double field value if set, zero value otherwise.
 func (o *FormatTest) GetDouble() float64 {
-	if o == nil || isNil(o.Double) {
+	if o == nil || IsNil(o.Double) {
 		var ret float64
 		return ret
 	}
@@ -228,7 +229,7 @@ func (o *FormatTest) GetDouble() float64 {
 // GetDoubleOk returns a tuple with the Double field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetDoubleOk() (*float64, bool) {
-	if o == nil || isNil(o.Double) {
+	if o == nil || IsNil(o.Double) {
 		return nil, false
 	}
 	return o.Double, true
@@ -236,7 +237,7 @@ func (o *FormatTest) GetDoubleOk() (*float64, bool) {
 
 // HasDouble returns a boolean if a field has been set.
 func (o *FormatTest) HasDouble() bool {
-	if o != nil && !isNil(o.Double) {
+	if o != nil && !IsNil(o.Double) {
 		return true
 	}
 
@@ -250,7 +251,7 @@ func (o *FormatTest) SetDouble(v float64) {
 
 // GetString returns the String field value if set, zero value otherwise.
 func (o *FormatTest) GetString() string {
-	if o == nil || isNil(o.String) {
+	if o == nil || IsNil(o.String) {
 		var ret string
 		return ret
 	}
@@ -260,7 +261,7 @@ func (o *FormatTest) GetString() string {
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetStringOk() (*string, bool) {
-	if o == nil || isNil(o.String) {
+	if o == nil || IsNil(o.String) {
 		return nil, false
 	}
 	return o.String, true
@@ -268,7 +269,7 @@ func (o *FormatTest) GetStringOk() (*string, bool) {
 
 // HasString returns a boolean if a field has been set.
 func (o *FormatTest) HasString() bool {
-	if o != nil && !isNil(o.String) {
+	if o != nil && !IsNil(o.String) {
 		return true
 	}
 
@@ -305,9 +306,9 @@ func (o *FormatTest) SetByte(v string) {
 }
 
 // GetBinary returns the Binary field value if set, zero value otherwise.
-func (o *FormatTest) GetBinary() os.File {
-	if o == nil || isNil(o.Binary) {
-		var ret os.File
+func (o *FormatTest) GetBinary() *os.File {
+	if o == nil || IsNil(o.Binary) {
+		var ret *os.File
 		return ret
 	}
 	return *o.Binary
@@ -315,8 +316,8 @@ func (o *FormatTest) GetBinary() os.File {
 
 // GetBinaryOk returns a tuple with the Binary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetBinaryOk() (*os.File, bool) {
-	if o == nil || isNil(o.Binary) {
+func (o *FormatTest) GetBinaryOk() (**os.File, bool) {
+	if o == nil || IsNil(o.Binary) {
 		return nil, false
 	}
 	return o.Binary, true
@@ -324,15 +325,15 @@ func (o *FormatTest) GetBinaryOk() (*os.File, bool) {
 
 // HasBinary returns a boolean if a field has been set.
 func (o *FormatTest) HasBinary() bool {
-	if o != nil && !isNil(o.Binary) {
+	if o != nil && !IsNil(o.Binary) {
 		return true
 	}
 
 	return false
 }
 
-// SetBinary gets a reference to the given os.File and assigns it to the Binary field.
-func (o *FormatTest) SetBinary(v os.File) {
+// SetBinary gets a reference to the given *os.File and assigns it to the Binary field.
+func (o *FormatTest) SetBinary(v *os.File) {
 	o.Binary = &v
 }
 
@@ -362,7 +363,7 @@ func (o *FormatTest) SetDate(v string) {
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
 func (o *FormatTest) GetDateTime() time.Time {
-	if o == nil || isNil(o.DateTime) {
+	if o == nil || IsNil(o.DateTime) {
 		var ret time.Time
 		return ret
 	}
@@ -372,7 +373,7 @@ func (o *FormatTest) GetDateTime() time.Time {
 // GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetDateTimeOk() (*time.Time, bool) {
-	if o == nil || isNil(o.DateTime) {
+	if o == nil || IsNil(o.DateTime) {
 		return nil, false
 	}
 	return o.DateTime, true
@@ -380,7 +381,7 @@ func (o *FormatTest) GetDateTimeOk() (*time.Time, bool) {
 
 // HasDateTime returns a boolean if a field has been set.
 func (o *FormatTest) HasDateTime() bool {
-	if o != nil && !isNil(o.DateTime) {
+	if o != nil && !IsNil(o.DateTime) {
 		return true
 	}
 
@@ -394,7 +395,7 @@ func (o *FormatTest) SetDateTime(v time.Time) {
 
 // GetUuid returns the Uuid field value if set, zero value otherwise.
 func (o *FormatTest) GetUuid() string {
-	if o == nil || isNil(o.Uuid) {
+	if o == nil || IsNil(o.Uuid) {
 		var ret string
 		return ret
 	}
@@ -404,7 +405,7 @@ func (o *FormatTest) GetUuid() string {
 // GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetUuidOk() (*string, bool) {
-	if o == nil || isNil(o.Uuid) {
+	if o == nil || IsNil(o.Uuid) {
 		return nil, false
 	}
 	return o.Uuid, true
@@ -412,7 +413,7 @@ func (o *FormatTest) GetUuidOk() (*string, bool) {
 
 // HasUuid returns a boolean if a field has been set.
 func (o *FormatTest) HasUuid() bool {
-	if o != nil && !isNil(o.Uuid) {
+	if o != nil && !IsNil(o.Uuid) {
 		return true
 	}
 
@@ -450,7 +451,7 @@ func (o *FormatTest) SetPassword(v string) {
 
 // GetPatternWithDigits returns the PatternWithDigits field value if set, zero value otherwise.
 func (o *FormatTest) GetPatternWithDigits() string {
-	if o == nil || isNil(o.PatternWithDigits) {
+	if o == nil || IsNil(o.PatternWithDigits) {
 		var ret string
 		return ret
 	}
@@ -460,7 +461,7 @@ func (o *FormatTest) GetPatternWithDigits() string {
 // GetPatternWithDigitsOk returns a tuple with the PatternWithDigits field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetPatternWithDigitsOk() (*string, bool) {
-	if o == nil || isNil(o.PatternWithDigits) {
+	if o == nil || IsNil(o.PatternWithDigits) {
 		return nil, false
 	}
 	return o.PatternWithDigits, true
@@ -468,7 +469,7 @@ func (o *FormatTest) GetPatternWithDigitsOk() (*string, bool) {
 
 // HasPatternWithDigits returns a boolean if a field has been set.
 func (o *FormatTest) HasPatternWithDigits() bool {
-	if o != nil && !isNil(o.PatternWithDigits) {
+	if o != nil && !IsNil(o.PatternWithDigits) {
 		return true
 	}
 
@@ -482,7 +483,7 @@ func (o *FormatTest) SetPatternWithDigits(v string) {
 
 // GetPatternWithDigitsAndDelimiter returns the PatternWithDigitsAndDelimiter field value if set, zero value otherwise.
 func (o *FormatTest) GetPatternWithDigitsAndDelimiter() string {
-	if o == nil || isNil(o.PatternWithDigitsAndDelimiter) {
+	if o == nil || IsNil(o.PatternWithDigitsAndDelimiter) {
 		var ret string
 		return ret
 	}
@@ -492,7 +493,7 @@ func (o *FormatTest) GetPatternWithDigitsAndDelimiter() string {
 // GetPatternWithDigitsAndDelimiterOk returns a tuple with the PatternWithDigitsAndDelimiter field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetPatternWithDigitsAndDelimiterOk() (*string, bool) {
-	if o == nil || isNil(o.PatternWithDigitsAndDelimiter) {
+	if o == nil || IsNil(o.PatternWithDigitsAndDelimiter) {
 		return nil, false
 	}
 	return o.PatternWithDigitsAndDelimiter, true
@@ -500,7 +501,7 @@ func (o *FormatTest) GetPatternWithDigitsAndDelimiterOk() (*string, bool) {
 
 // HasPatternWithDigitsAndDelimiter returns a boolean if a field has been set.
 func (o *FormatTest) HasPatternWithDigitsAndDelimiter() bool {
-	if o != nil && !isNil(o.PatternWithDigitsAndDelimiter) {
+	if o != nil && !IsNil(o.PatternWithDigitsAndDelimiter) {
 		return true
 	}
 
@@ -522,41 +523,41 @@ func (o FormatTest) MarshalJSON() ([]byte, error) {
 
 func (o FormatTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Integer) {
+	if !IsNil(o.Integer) {
 		toSerialize["integer"] = o.Integer
 	}
-	if !isNil(o.Int32) {
+	if !IsNil(o.Int32) {
 		toSerialize["int32"] = o.Int32
 	}
-	if !isNil(o.Int64) {
+	if !IsNil(o.Int64) {
 		toSerialize["int64"] = o.Int64
 	}
 	toSerialize["number"] = o.Number
-	if !isNil(o.Float) {
+	if !IsNil(o.Float) {
 		toSerialize["float"] = o.Float
 	}
-	if !isNil(o.Double) {
+	if !IsNil(o.Double) {
 		toSerialize["double"] = o.Double
 	}
-	if !isNil(o.String) {
+	if !IsNil(o.String) {
 		toSerialize["string"] = o.String
 	}
 	toSerialize["byte"] = o.Byte
-	if !isNil(o.Binary) {
+	if !IsNil(o.Binary) {
 		toSerialize["binary"] = o.Binary
 	}
 	toSerialize["date"] = o.Date
-	if !isNil(o.DateTime) {
+	if !IsNil(o.DateTime) {
 		toSerialize["dateTime"] = o.DateTime
 	}
-	if !isNil(o.Uuid) {
+	if !IsNil(o.Uuid) {
 		toSerialize["uuid"] = o.Uuid
 	}
 	toSerialize["password"] = o.Password
-	if !isNil(o.PatternWithDigits) {
+	if !IsNil(o.PatternWithDigits) {
 		toSerialize["pattern_with_digits"] = o.PatternWithDigits
 	}
-	if !isNil(o.PatternWithDigitsAndDelimiter) {
+	if !IsNil(o.PatternWithDigitsAndDelimiter) {
 		toSerialize["pattern_with_digits_and_delimiter"] = o.PatternWithDigitsAndDelimiter
 	}
 
@@ -567,16 +568,44 @@ func (o FormatTest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
+func (o *FormatTest) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"number",
+		"byte",
+		"date",
+		"password",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
 	varFormatTest := _FormatTest{}
 
-	if err = json.Unmarshal(bytes, &varFormatTest); err == nil {
-		*o = FormatTest(varFormatTest)
+	err = json.Unmarshal(data, &varFormatTest)
+
+	if err != nil {
+		return err
 	}
+
+	*o = FormatTest(varFormatTest)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "integer")
 		delete(additionalProperties, "int32")
 		delete(additionalProperties, "int64")

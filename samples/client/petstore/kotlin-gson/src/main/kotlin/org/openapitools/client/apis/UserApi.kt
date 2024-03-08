@@ -70,7 +70,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -108,6 +108,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             path = "/user",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -137,7 +138,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -175,6 +176,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             path = "/user/createWithArray",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -204,7 +206,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -242,6 +244,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             path = "/user/createWithList",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -271,7 +274,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -309,6 +312,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -339,7 +343,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -379,6 +383,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -410,7 +415,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -456,6 +461,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             path = "/user/login",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -484,7 +490,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -520,6 +526,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             path = "/user/logout",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -550,7 +557,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -590,6 +597,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }

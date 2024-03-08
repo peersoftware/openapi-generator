@@ -128,7 +128,7 @@ impl Request {
         let mut uri_str = format!("{}{}", conf.base_path, path);
 
         let query_string_str = query_string.finish();
-        if query_string_str != "" {
+        if !query_string_str.is_empty() {
             uri_str += "?";
             uri_str += &query_string_str;
         }
@@ -198,7 +198,7 @@ impl Request {
 
         let req_headers = req_builder.headers_mut().unwrap();
         let request_result = if self.form_params.len() > 0 {
-            req_headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/ x-www-form-urlencoded"));
+            req_headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/x-www-form-urlencoded"));
             let mut enc = ::url::form_urlencoded::Serializer::new("".to_owned());
             for (k, v) in self.form_params {
                 enc.append_pair(&k, &v);

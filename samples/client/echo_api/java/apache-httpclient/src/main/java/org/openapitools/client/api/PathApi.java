@@ -17,18 +17,22 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
+import org.openapitools.client.model.StringEnumRef;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PathApi {
+
+
   private ApiClient apiClient;
 
   public PathApi() {
@@ -52,28 +56,59 @@ public class PathApi {
    * Test path parameter(s)
    * @param pathString  (required)
    * @param pathInteger  (required)
+   * @param enumNonrefStringPath  (required)
+   * @param enumRefStringPath  (required)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testsPathStringPathStringIntegerPathInteger(String pathString, Integer pathInteger) throws ApiException {
+  public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
+    return this.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test path parameter(s)
+   * Test path parameter(s)
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param enumNonrefStringPath  (required)
+   * @param enumRefStringPath  (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'pathString' is set
     if (pathString == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathInteger");
+      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     
     // verify the required parameter 'pathInteger' is set
     if (pathInteger == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathInteger");
+      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+    }
+    
+    // verify the required parameter 'enumNonrefStringPath' is set
+    if (enumNonrefStringPath == null) {
+      throw new ApiException(400, "Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+    }
+    
+    // verify the required parameter 'enumRefStringPath' is set
+    if (enumRefStringPath == null) {
+      throw new ApiException(400, "Missing the required parameter 'enumRefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     
     // create path and map variables
-    String localVarPath = "/path/string/{path_string}/integer/{path_integer}"
+    String localVarPath = "/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}"
       .replaceAll("\\{" + "path_string" + "\\}", apiClient.escapeString(pathString.toString()))
-      .replaceAll("\\{" + "path_integer" + "\\}", apiClient.escapeString(pathInteger.toString()));
+      .replaceAll("\\{" + "path_integer" + "\\}", apiClient.escapeString(pathInteger.toString()))
+      .replaceAll("\\{" + "enum_nonref_string_path" + "\\}", apiClient.escapeString(enumNonrefStringPath.toString()))
+      .replaceAll("\\{" + "enum_ref_string_path" + "\\}", apiClient.escapeString(enumRefStringPath.toString()));
 
-    // query params
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -81,6 +116,8 @@ public class PathApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -101,6 +138,7 @@ public class PathApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -111,4 +149,5 @@ public class PathApi {
         localVarReturnType
     );
   }
+
 }

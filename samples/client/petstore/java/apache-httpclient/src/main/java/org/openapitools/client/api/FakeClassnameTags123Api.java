@@ -17,19 +17,22 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Client;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeClassnameTags123Api {
+
+
   private ApiClient apiClient;
 
   public FakeClassnameTags123Api() {
@@ -56,6 +59,19 @@ public class FakeClassnameTags123Api {
    * @throws ApiException if fails to make API call
    */
   public Client testClassname(Client client) throws ApiException {
+    return this.testClassname(client, Collections.emptyMap());
+  }
+
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * @param client client model (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Client
+   * @throws ApiException if fails to make API call
+   */
+  public Client testClassname(Client client, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set
@@ -66,7 +82,8 @@ public class FakeClassnameTags123Api {
     // create path and map variables
     String localVarPath = "/fake_classname_test";
 
-    // query params
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -74,6 +91,8 @@ public class FakeClassnameTags123Api {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -94,6 +113,7 @@ public class FakeClassnameTags123Api {
         "PATCH",
         localVarQueryParams,
         localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -104,4 +124,5 @@ public class FakeClassnameTags123Api {
         localVarReturnType
     );
   }
+
 }

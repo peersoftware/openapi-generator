@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -41,15 +42,12 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package OpenAPI\Server\Model
  * @author  OpenAPI Generator team
  */
-class EnumStringModel 
+enum EnumStringModel: string
 {
-        /**
-     * Constructor
-     * @param array|null $data Associated array of property values initializing the model
-     */
-    public function __construct(array $data = null)
-    {
-    }
+        case AVAILABLE = "available";
+        case PENDING = "pending";
+        case SOLD = "sold";
 }
+
 
 

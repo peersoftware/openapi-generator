@@ -5,6 +5,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 #if canImport(AnyCodable)
 import AnyCodable
 #endif
@@ -31,6 +34,10 @@ extension Int64: JSONEncodable {
 }
 
 extension Double: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Decimal: JSONEncodable {
     func encodeToJSON() -> Any { self }
 }
 

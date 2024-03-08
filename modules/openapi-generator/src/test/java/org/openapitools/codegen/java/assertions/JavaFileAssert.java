@@ -72,6 +72,19 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
+    public JavaFileAssert assertNoMethod(final String methodName, final String... paramTypes) {
+        List<MethodDeclaration> methods = paramTypes.length == 0
+            ? actual.getType(0).getMethodsByName(methodName)
+            : actual.getType(0).getMethodsBySignature(methodName, paramTypes);
+        String message = paramTypes.length == 0
+            ? "Expected not to find a single method %s, but found " + methods.size()
+            : "Expected not to find a method %s with parameter(s) %s, but found " + methods.size();
+        Assertions.assertThat(methods)
+            .withFailMessage(message, methodName, Arrays.toString(paramTypes))
+            .isEmpty();
+        return this;
+    }
+
     public MethodAssert assertMethod(final String methodName, final String... paramTypes) {
         List<MethodDeclaration> methods = paramTypes.length == 0
             ? actual.getType(0).getMethodsByName(methodName)
@@ -95,6 +108,15 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return new ConstructorAssert(this, constructorDeclaration.get());
     }
 
+    public JavaFileAssert assertNoConstructor(final String... paramTypes) {
+        Optional<ConstructorDeclaration> constructorDeclaration = actual.getType(0).getConstructorByParameterTypes(paramTypes);
+        Assertions.assertThat(constructorDeclaration)
+                .withFailMessage("Found constructor with parameter(s) %s", Arrays.toString(paramTypes))
+                .isEmpty();
+
+        return this;
+    }
+
     public PropertyAssert hasProperty(final String propertyName) {
         Optional<FieldDeclaration> fieldOptional = actual.getType(0).getMembers().stream()
             .filter(FieldDeclaration.class::isInstance)
@@ -111,6 +133,12 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     public JavaFileAssert hasImports(final String... imports) {
         Assertions.assertThat(actual.getImports().stream().map(NodeWithName::getNameAsString))
             .containsAll(Arrays.asList(imports));
+        return this;
+    }
+
+    public JavaFileAssert hasNoImports(final String... imports) {
+        Assertions.assertThat(actual.getImports().stream().map(NodeWithName::getNameAsString))
+            .doesNotContainAnyElementsOf(Arrays.asList(imports));
         return this;
     }
 
