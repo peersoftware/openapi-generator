@@ -1,0 +1,34 @@
+{{> partial_header}}
+<#
+.SYNOPSIS
+A wrapper function that extracts the password from a SecureString as plain text.
+
+.DESCRIPTION
+A wrapper function that extracts the password from a SecureString as plain text.
+For PowerShell Core the function calls the ConvertFrom-SecureString cmdlet directly.
+For PowerShell 5.1 the System.Runtime.InteropServices.Marshal type is used to extract
+the password from the SecureString as plain text.
+
+.PARAMETER Password
+Specifies the SecureString Password from which the plain text password should be extracted.
+#>
+function Get-PlainTextPassword {
+    [CmdletBinding()]
+    [OutputType([string])]
+    param (
+        [Parameter(Mandatory = $true)]
+        [SecureString]
+        $Password
+    )
+
+    $plainTextPassword = $null
+
+    if ($Global:PSVersionTable.PSEdition -eq 'Core') {
+        $plainTextPassword = ConvertFrom-SecureString -SecureString $Password -AsPlainText
+    } else {
+        $passwordAsBinaryString = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($Password)
+        $plainTextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($passwordAsBinaryString)
+    }
+
+    $plainTextPassword
+}
