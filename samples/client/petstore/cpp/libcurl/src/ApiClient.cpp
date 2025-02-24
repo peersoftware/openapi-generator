@@ -23,6 +23,12 @@
 
 #include "CppLibcurlOpenAPIClient/ModelBase.h"
 
+/*
+ * Since curl 8.11.0 CURL is defined as void rather than a structure as before with CURL_NO_OLDIES
+ * defined. Use a forward declaration to preserve some type safety.
+ */
+struct Curl_easy;
+
 class CurlSList {
 public:
     void Append(const char *data) {
@@ -52,7 +58,7 @@ public:
         m_headers.Append(header);
     }
 
-    CURL *getCurlHandle() {
+    struct Curl_easy *getCurlHandle() {
         return m_handle.get();
     }
 
@@ -62,12 +68,14 @@ public:
 
 private:
     struct CurlCleanup {
-        void operator()(CURL *handle) const {
+        void operator()(struct Curl_easy *handle) const {
             curl_easy_cleanup(handle);
         }
     };
 
-    std::unique_ptr<CURL, CurlCleanup> m_handle{ curl_easy_init() };
+    std::unique_ptr<struct Curl_easy, CurlCleanup> m_handle{
+        static_cast<struct Curl_easy *>(curl_easy_init())
+    };
     CurlSList m_headers;
 };
 
@@ -119,7 +127,7 @@ std::string ApiClient::parameterToString(bool value) {
     return value ? "true" : "false";
 }
 
-static std::string urlEscape(CURL *handle, const std::string &str) {
+static std::string urlEscape(struct Curl_easy *handle, const std::string &str) {
     auto escaped = curl_easy_escape(handle, str.c_str(), static_cast<int>(str.length()));
 
     if (escaped == nullptr) {
@@ -139,7 +147,7 @@ static std::string urlEscape(CURL *handle, const std::string &str) {
     return result;
 }
 
-static std::string CreateUrlEncodedParameterString(CURL *handle,
+static std::string CreateUrlEncodedParameterString(struct Curl_easy *handle,
         const std::map<std::string, std::string, std::less<>> &params) {
     std::string paramsStr;
 
@@ -158,7 +166,7 @@ static std::string CreateUrlEncodedParameterString(CURL *handle,
     return paramsStr;
 }
 
-static std::string BuildTargetUrl(CURL *handle,
+static std::string BuildTargetUrl(struct Curl_easy *handle,
         const std::string &base, const std::string &path,
         const std::map<std::string, std::string, std::less<>> &queryParams) {
     std::string url = base + path;
@@ -178,7 +186,7 @@ static size_t writeDataCallback(const char *data, size_t size, size_t nmemb,
     return length;
 }
 
-static void setMethod(CURL *handle, const std::string &method) {
+static void setMethod(struct Curl_easy *handle, const std::string &method) {
     if (method == "GET") {
         curl_easy_setopt(handle, CURLOPT_HTTPGET, 1L);
     } else if (method == "POST") {
@@ -188,7 +196,7 @@ static void setMethod(CURL *handle, const std::string &method) {
     }
 }
 
-static void setPostData(CURL *handle, const std::string &data) {
+static void setPostData(struct Curl_easy *handle, const std::string &data) {
     curl_easy_setopt(handle, CURLOPT_POSTFIELDS, data.c_str());
     curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE, data.length());
 }
@@ -222,7 +230,7 @@ ApiResponse ApiClient::callApi(
     }
 
     CurlHandle handle;
-    CURL *curlHandle = handle.getCurlHandle();
+    auto *curlHandle = handle.getCurlHandle();
 
     if (curlHandle == nullptr) {
         throw std::bad_alloc();
