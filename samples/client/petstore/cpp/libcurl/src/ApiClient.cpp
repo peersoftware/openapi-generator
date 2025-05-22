@@ -17,9 +17,12 @@
 #include <array>
 #include <functional>
 #include <limits>
+#include <map>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
+#include <string>
+#include <utility>
 
 #include "CppLibcurlOpenAPIClient/ModelBase.h"
 
