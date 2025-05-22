@@ -295,6 +295,14 @@ ApiResponse ApiClient::callApi(
         }
     }
 
+    if (m_Configuration->getEnableCookies()) {
+        curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, "");
+    }
+
+    if (m_Configuration->getFollowRedirects()) {
+        curl_easy_setopt(curlHandle, CURLOPT_FOLLOWLOCATION, 1L);
+    }
+
     // this would only be generated for apiKey authentication
     const auto &apiKeys = m_Configuration->getApiKeys();
     if (apiKeys.size() > 0) {

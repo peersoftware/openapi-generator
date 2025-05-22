@@ -54,6 +54,12 @@ public:
     SslVersion getMinimumTls() const;
     void setMinimumTls(SslVersion value);
 
+    bool getEnableCookies() const;
+    void setEnableCookies(bool value);
+
+    bool getFollowRedirects() const;
+    void setFollowRedirects(bool value);
+
     const std::string &getAccessToken() const;
     void setAccessToken(std::string_view value);
     const std::map<std::string, std::string, std::less<>> &getApiKeys() const;
@@ -67,6 +73,8 @@ private:
     bool m_SkipTlsVerify{false};  /* false -- verify server certificate */
                                   /* true -- skip ssl verify for server certificate */
     SslVersion m_minTls{SslVersion::TLSv1_2};
+    bool m_EnableCookies{false};   /* Enable cookie support */
+    bool m_FollowRedirects{false}; /* Follow HTTP 3xx redirects */
 
     std::string m_AccessToken;
     std::map<std::string, std::string, std::less<>> m_ApiKeys;

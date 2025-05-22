@@ -49,6 +49,14 @@ SslVersion ApiConfiguration::getMinimumTls() const { return m_minTls; }
 
 void ApiConfiguration::setMinimumTls(SslVersion value) { m_minTls = value; }
 
+bool ApiConfiguration::getEnableCookies() const { return m_EnableCookies; }
+
+void ApiConfiguration::setEnableCookies(bool value) { m_EnableCookies = value; }
+
+bool ApiConfiguration::getFollowRedirects() const { return m_FollowRedirects; }
+
+void ApiConfiguration::setFollowRedirects(bool value) { m_FollowRedirects = value; }
+
 const std::string &ApiConfiguration::getAccessToken() const { return m_AccessToken; }
 
 void ApiConfiguration::setAccessToken(std::string_view value) {
