@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { ParentWithNullable } from './ParentWithNullable';
 import {
     ParentWithNullableFromJSON,
     ParentWithNullableFromJSONTyped,
     ParentWithNullableToJSON,
+    ParentWithNullableToJSONTyped,
 } from './ParentWithNullable';
 
 /**
@@ -39,7 +40,7 @@ export interface ChildWithNullable extends ParentWithNullable {
 /**
  * Check if a given object implements the ChildWithNullable interface.
  */
-export function instanceOfChildWithNullable(value: object): boolean {
+export function instanceOfChildWithNullable(value: object): value is ChildWithNullable {
     return true;
 }
 
@@ -48,24 +49,26 @@ export function ChildWithNullableFromJSON(json: any): ChildWithNullable {
 }
 
 export function ChildWithNullableFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChildWithNullable {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
-        ...ParentWithNullableFromJSONTyped(json, ignoreDiscriminator),
-        'otherProperty': !exists(json, 'otherProperty') ? undefined : json['otherProperty'],
+        ...ParentWithNullableFromJSONTyped(json, true),
+        'otherProperty': json['otherProperty'] == null ? undefined : json['otherProperty'],
     };
 }
 
-export function ChildWithNullableToJSON(value?: ChildWithNullable | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ChildWithNullableToJSON(json: any): ChildWithNullable {
+    return ChildWithNullableToJSONTyped(json, false);
+}
+
+export function ChildWithNullableToJSONTyped(value?: ChildWithNullable | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
-        ...ParentWithNullableToJSON(value),
+        ...ParentWithNullableToJSONTyped(value, true),
         'otherProperty': value['otherProperty'],
     };
 }

@@ -12,11 +12,8 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
-import {
-     ChildWithNullableFromJSONTyped
-} from './index';
-
+import { mapValues } from '../runtime';
+import { ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './ChildWithNullable';
 /**
  * 
  * @export
@@ -34,7 +31,7 @@ export interface ParentWithNullable {
      * @type {string}
      * @memberof ParentWithNullable
      */
-    nullableProperty?: string;
+    nullableProperty?: string | null;
 }
 
 
@@ -50,7 +47,7 @@ export type ParentWithNullableTypeEnum = typeof ParentWithNullableTypeEnum[keyof
 /**
  * Check if a given object implements the ParentWithNullable interface.
  */
-export function instanceOfParentWithNullable(value: object): boolean {
+export function instanceOfParentWithNullable(value: object): value is ParentWithNullable {
     return true;
 }
 
@@ -59,28 +56,39 @@ export function ParentWithNullableFromJSON(json: any): ParentWithNullable {
 }
 
 export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: boolean): ParentWithNullable {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     if (!ignoreDiscriminator) {
         if (json['type'] === 'ChildWithNullable') {
-            return ChildWithNullableFromJSONTyped(json, true);
+            return ChildWithNullableFromJSONTyped(json, ignoreDiscriminator);
         }
     }
     return {
         
-        'type': !exists(json, 'type') ? undefined : json['type'],
-        'nullableProperty': !exists(json, 'nullableProperty') ? undefined : json['nullableProperty'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'nullableProperty': json['nullableProperty'] == null ? undefined : json['nullableProperty'],
     };
 }
 
-export function ParentWithNullableToJSON(value?: ParentWithNullable | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ParentWithNullableToJSON(json: any): ParentWithNullable {
+    return ParentWithNullableToJSONTyped(json, false);
+}
+
+export function ParentWithNullableToJSONTyped(value?: ParentWithNullable | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
+
+    if (!ignoreDiscriminator) {
+        switch (value['type']) {
+            case 'ChildWithNullable':
+                return ChildWithNullableToJSONTyped(value as ChildWithNullable, ignoreDiscriminator);
+            default:
+                return value;
+        }
     }
+
     return {
         
         'type': value['type'],

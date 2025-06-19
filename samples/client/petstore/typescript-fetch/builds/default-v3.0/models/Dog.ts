@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Animal } from './Animal';
 import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -37,7 +38,7 @@ export interface Dog extends Animal {
 /**
  * Check if a given object implements the Dog interface.
  */
-export function instanceOfDog(value: object): boolean {
+export function instanceOfDog(value: object): value is Dog {
     return true;
 }
 
@@ -46,24 +47,26 @@ export function DogFromJSON(json: any): Dog {
 }
 
 export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
-        ...AnimalFromJSONTyped(json, ignoreDiscriminator),
-        'breed': !exists(json, 'breed') ? undefined : json['breed'],
+        ...AnimalFromJSONTyped(json, true),
+        'breed': json['breed'] == null ? undefined : json['breed'],
     };
 }
 
-export function DogToJSON(value?: Dog | null): any {
-    if (value === undefined) {
-        return undefined;
+export function DogToJSON(json: any): Dog {
+    return DogToJSONTyped(json, false);
+}
+
+export function DogToJSONTyped(value?: Dog | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
-        ...AnimalToJSON(value),
+        ...AnimalToJSONTyped(value, true),
         'breed': value['breed'],
     };
 }

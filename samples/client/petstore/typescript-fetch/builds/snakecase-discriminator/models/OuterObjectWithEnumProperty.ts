@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { OuterEnumInteger } from './OuterEnumInteger';
 import {
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
+    OuterEnumIntegerToJSONTyped,
 } from './OuterEnumInteger';
 
 /**
@@ -34,11 +35,13 @@ export interface OuterObjectWithEnumProperty {
     value: OuterEnumInteger;
 }
 
+
+
 /**
  * Check if a given object implements the OuterObjectWithEnumProperty interface.
  */
-export function instanceOfOuterObjectWithEnumProperty(value: object): boolean {
-    if (!('value' in value)) return false;
+export function instanceOfOuterObjectWithEnumProperty(value: object): value is OuterObjectWithEnumProperty {
+    if (!('value' in value) || value['value'] === undefined) return false;
     return true;
 }
 
@@ -47,7 +50,7 @@ export function OuterObjectWithEnumPropertyFromJSON(json: any): OuterObjectWithE
 }
 
 export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterObjectWithEnumProperty {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
@@ -56,13 +59,15 @@ export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumProperty | null): any {
-    if (value === undefined) {
-        return undefined;
+export function OuterObjectWithEnumPropertyToJSON(json: any): OuterObjectWithEnumProperty {
+    return OuterObjectWithEnumPropertyToJSONTyped(json, false);
+}
+
+export function OuterObjectWithEnumPropertyToJSONTyped(value?: OuterObjectWithEnumProperty | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
         'value': OuterEnumIntegerToJSON(value['value']),

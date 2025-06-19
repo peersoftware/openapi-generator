@@ -12,18 +12,20 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Category } from './Category';
 import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+    CategoryToJSONTyped,
 } from './Category';
 import type { Tag } from './Tag';
 import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    TagToJSONTyped,
 } from './Tag';
 
 /**
@@ -85,9 +87,9 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 /**
  * Check if a given object implements the Pet interface.
  */
-export function instanceOfPet(value: object): boolean {
-    if (!('name' in value)) return false;
-    if (!('photoUrls' in value)) return false;
+export function instanceOfPet(value: object): value is Pet {
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('photoUrls' in value) || value['photoUrls'] === undefined) return false;
     return true;
 }
 
@@ -96,34 +98,36 @@ export function PetFromJSON(json: any): Pet {
 }
 
 export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'category': !exists(json, 'category') ? undefined : CategoryFromJSON(json['category']),
+        'id': json['id'] == null ? undefined : json['id'],
+        'category': json['category'] == null ? undefined : CategoryFromJSON(json['category']),
         'name': json['name'],
         'photoUrls': json['photoUrls'],
-        'tags': !exists(json, 'tags') ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
-        'status': !exists(json, 'status') ? undefined : json['status'],
+        'tags': json['tags'] == null ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
+        'status': json['status'] == null ? undefined : json['status'],
     };
 }
 
-export function PetToJSON(value?: Pet | null): any {
-    if (value === undefined) {
-        return undefined;
+export function PetToJSON(json: any): Pet {
+    return PetToJSONTyped(json, false);
+}
+
+export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
         'id': value['id'],
         'category': CategoryToJSON(value['category']),
         'name': value['name'],
         'photoUrls': value['photoUrls'],
-        'tags': !exists(value, 'tags') ? undefined : ((value['tags'] as Array<any>).map(TagToJSON)),
+        'tags': value['tags'] == null ? undefined : ((value['tags'] as Array<any>).map(TagToJSON)),
         'status': value['status'],
     };
 }

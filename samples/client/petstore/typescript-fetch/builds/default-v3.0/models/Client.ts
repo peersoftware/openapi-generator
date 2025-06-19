@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,7 +30,7 @@ export interface Client {
 /**
  * Check if a given object implements the Client interface.
  */
-export function instanceOfClient(value: object): boolean {
+export function instanceOfClient(value: object): value is Client {
     return true;
 }
 
@@ -39,22 +39,24 @@ export function ClientFromJSON(json: any): Client {
 }
 
 export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Client {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'client': !exists(json, 'client') ? undefined : json['client'],
+        'client': json['client'] == null ? undefined : json['client'],
     };
 }
 
-export function ClientToJSON(value?: Client | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ClientToJSON(json: any): Client {
+    return ClientToJSONTyped(json, false);
+}
+
+export function ClientToJSONTyped(value?: Client | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
         'client': value['client'],

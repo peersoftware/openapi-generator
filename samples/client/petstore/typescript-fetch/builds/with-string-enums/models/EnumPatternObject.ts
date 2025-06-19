@@ -12,18 +12,20 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { NumberEnum } from './NumberEnum';
 import {
     NumberEnumFromJSON,
     NumberEnumFromJSONTyped,
     NumberEnumToJSON,
+    NumberEnumToJSONTyped,
 } from './NumberEnum';
 import type { StringEnum } from './StringEnum';
 import {
     StringEnumFromJSON,
     StringEnumFromJSONTyped,
     StringEnumToJSON,
+    StringEnumToJSONTyped,
 } from './StringEnum';
 
 /**
@@ -43,7 +45,7 @@ export interface EnumPatternObject {
      * @type {StringEnum}
      * @memberof EnumPatternObject
      */
-    nullableStringEnum?: StringEnum;
+    nullableStringEnum?: StringEnum | null;
     /**
      * 
      * @type {NumberEnum}
@@ -55,13 +57,15 @@ export interface EnumPatternObject {
      * @type {NumberEnum}
      * @memberof EnumPatternObject
      */
-    nullableNumberEnum?: NumberEnum;
+    nullableNumberEnum?: NumberEnum | null;
 }
+
+
 
 /**
  * Check if a given object implements the EnumPatternObject interface.
  */
-export function instanceOfEnumPatternObject(value: object): boolean {
+export function instanceOfEnumPatternObject(value: object): value is EnumPatternObject {
     return true;
 }
 
@@ -70,25 +74,27 @@ export function EnumPatternObjectFromJSON(json: any): EnumPatternObject {
 }
 
 export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumPatternObject {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'stringEnum': !exists(json, 'string-enum') ? undefined : StringEnumFromJSON(json['string-enum']),
-        'nullableStringEnum': !exists(json, 'nullable-string-enum') ? undefined : StringEnumFromJSON(json['nullable-string-enum']),
-        'numberEnum': !exists(json, 'number-enum') ? undefined : NumberEnumFromJSON(json['number-enum']),
-        'nullableNumberEnum': !exists(json, 'nullable-number-enum') ? undefined : NumberEnumFromJSON(json['nullable-number-enum']),
+        'stringEnum': json['string-enum'] == null ? undefined : StringEnumFromJSON(json['string-enum']),
+        'nullableStringEnum': json['nullable-string-enum'] == null ? undefined : StringEnumFromJSON(json['nullable-string-enum']),
+        'numberEnum': json['number-enum'] == null ? undefined : NumberEnumFromJSON(json['number-enum']),
+        'nullableNumberEnum': json['nullable-number-enum'] == null ? undefined : NumberEnumFromJSON(json['nullable-number-enum']),
     };
 }
 
-export function EnumPatternObjectToJSON(value?: EnumPatternObject | null): any {
-    if (value === undefined) {
-        return undefined;
+export function EnumPatternObjectToJSON(json: any): EnumPatternObject {
+    return EnumPatternObjectToJSONTyped(json, false);
+}
+
+export function EnumPatternObjectToJSONTyped(value?: EnumPatternObject | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
         'string-enum': StringEnumToJSON(value['stringEnum']),

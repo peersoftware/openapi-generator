@@ -299,13 +299,6 @@ export interface RequestOpts {
     body?: HTTPBody;
 }
 
-{{^withoutRuntimeChecks}}
-export function exists(json: any, key: string): boolean {
-    const value = json[key];
-    return value !== undefined && value !== null;
-}
-{{/withoutRuntimeChecks}}
-
 export function querystring(params: HTTPQuery, prefix: string = ''): string {
     return Object.keys(params)
         .map(key => querystringSingleKey(key, params[key], prefix))
@@ -333,12 +326,18 @@ function querystringSingleKey(key: string, value: string | number | null | undef
     return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
 }
 
+export function exists(json: any, key: string) {
+    const value = json[key];
+    return value !== null && value !== undefined;
+}
+
 {{^withoutRuntimeChecks}}
 export function mapValues(data: any, fn: (item: any) => any) {
-  return Object.keys(data).reduce(
-    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
-    {}
-  );
+    const result: { [key: string]: any } = {};
+    for (const key of Object.keys(data)) {
+        result[key] = fn(data[key]);
+    }
+    return result;
 }
 {{/withoutRuntimeChecks}}
 

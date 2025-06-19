@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Animal } from './Animal';
 import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -37,7 +38,7 @@ export interface Cat extends Animal {
 /**
  * Check if a given object implements the Cat interface.
  */
-export function instanceOfCat(value: object): boolean {
+export function instanceOfCat(value: object): value is Cat {
     return true;
 }
 
@@ -46,24 +47,26 @@ export function CatFromJSON(json: any): Cat {
 }
 
 export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
-        ...AnimalFromJSONTyped(json, ignoreDiscriminator),
-        'declawed': !exists(json, 'declawed') ? undefined : json['declawed'],
+        ...AnimalFromJSONTyped(json, true),
+        'declawed': json['declawed'] == null ? undefined : json['declawed'],
     };
 }
 
-export function CatToJSON(value?: Cat | null): any {
-    if (value === undefined) {
-        return undefined;
+export function CatToJSON(json: any): Cat {
+    return CatToJSONTyped(json, false);
+}
+
+export function CatToJSONTyped(value?: Cat | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
-        ...AnimalToJSON(value),
+        ...AnimalToJSONTyped(value, true),
         'declawed': value['declawed'],
     };
 }

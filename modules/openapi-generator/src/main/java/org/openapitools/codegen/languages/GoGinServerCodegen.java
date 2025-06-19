@@ -16,11 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import lombok.Setter;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -32,7 +29,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 
 public class GoGinServerCodegen extends AbstractGoCodegen {
 
@@ -40,7 +36,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
 
-    protected boolean interfaceOnly = false;
+    @Setter protected boolean interfaceOnly = false;
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -207,10 +203,6 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", apiPath, "README.md")
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("go.mod.mustache", "go.mod"));
-    }
-
-    public void setInterfaceOnly(boolean interfaceOnly) {
-        this.interfaceOnly = interfaceOnly;
     }
 
     @Override

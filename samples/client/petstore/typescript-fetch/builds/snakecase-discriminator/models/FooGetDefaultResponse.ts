@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Foo } from './Foo';
 import {
     FooFromJSON,
     FooFromJSONTyped,
     FooToJSON,
+    FooToJSONTyped,
 } from './Foo';
 
 /**
@@ -37,7 +38,7 @@ export interface FooGetDefaultResponse {
 /**
  * Check if a given object implements the FooGetDefaultResponse interface.
  */
-export function instanceOfFooGetDefaultResponse(value: object): boolean {
+export function instanceOfFooGetDefaultResponse(value: object): value is FooGetDefaultResponse {
     return true;
 }
 
@@ -46,22 +47,24 @@ export function FooGetDefaultResponseFromJSON(json: any): FooGetDefaultResponse 
 }
 
 export function FooGetDefaultResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FooGetDefaultResponse {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'string': !exists(json, 'string') ? undefined : FooFromJSON(json['string']),
+        'string': json['string'] == null ? undefined : FooFromJSON(json['string']),
     };
 }
 
-export function FooGetDefaultResponseToJSON(value?: FooGetDefaultResponse | null): any {
-    if (value === undefined) {
-        return undefined;
+export function FooGetDefaultResponseToJSON(json: any): FooGetDefaultResponse {
+    return FooGetDefaultResponseToJSONTyped(json, false);
+}
+
+export function FooGetDefaultResponseToJSONTyped(value?: FooGetDefaultResponse | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
         'string': FooToJSON(value['string']),

@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.BaseApi;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
@@ -43,26 +44,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class FakeApi {
-
-
-  private ApiClient apiClient;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+public class FakeApi extends BaseApi {
 
   public FakeApi() {
-    this(Configuration.getDefaultApiClient());
+    super(Configuration.getDefaultApiClient());
   }
 
   public FakeApi(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
-
-  public ApiClient getApiClient() {
-    return apiClient;
-  }
-
-  public void setApiClient(ApiClient apiClient) {
-    this.apiClient = apiClient;
+    super(apiClient);
   }
 
   /**
@@ -207,7 +197,7 @@ public class FakeApi {
    * @param header1 header parameter (optional)
    * @throws ApiException if fails to make API call
    */
-  public void fakeHttpSignatureTest(Pet pet, String query1, String header1) throws ApiException {
+  public void fakeHttpSignatureTest(@javax.annotation.Nonnull Pet pet, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1) throws ApiException {
     this.fakeHttpSignatureTest(pet, query1, header1, Collections.emptyMap());
   }
 
@@ -221,7 +211,7 @@ public class FakeApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void fakeHttpSignatureTest(Pet pet, String query1, String header1, Map<String, String> additionalHeaders) throws ApiException {
+  public void fakeHttpSignatureTest(@javax.annotation.Nonnull Pet pet, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = pet;
     
     // verify the required parameter 'pet' is set
@@ -284,7 +274,7 @@ public class FakeApi {
    * @return Boolean
    * @throws ApiException if fails to make API call
    */
-  public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
+  public Boolean fakeOuterBooleanSerialize(@javax.annotation.Nullable Boolean body) throws ApiException {
     return this.fakeOuterBooleanSerialize(body, Collections.emptyMap());
   }
 
@@ -297,7 +287,7 @@ public class FakeApi {
    * @return Boolean
    * @throws ApiException if fails to make API call
    */
-  public Boolean fakeOuterBooleanSerialize(Boolean body, Map<String, String> additionalHeaders) throws ApiException {
+  public Boolean fakeOuterBooleanSerialize(@javax.annotation.Nullable Boolean body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -353,7 +343,7 @@ public class FakeApi {
    * @return OuterComposite
    * @throws ApiException if fails to make API call
    */
-  public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
+  public OuterComposite fakeOuterCompositeSerialize(@javax.annotation.Nullable OuterComposite outerComposite) throws ApiException {
     return this.fakeOuterCompositeSerialize(outerComposite, Collections.emptyMap());
   }
 
@@ -366,7 +356,7 @@ public class FakeApi {
    * @return OuterComposite
    * @throws ApiException if fails to make API call
    */
-  public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite, Map<String, String> additionalHeaders) throws ApiException {
+  public OuterComposite fakeOuterCompositeSerialize(@javax.annotation.Nullable OuterComposite outerComposite, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = outerComposite;
     
     // create path and map variables
@@ -422,7 +412,7 @@ public class FakeApi {
    * @return BigDecimal
    * @throws ApiException if fails to make API call
    */
-  public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
+  public BigDecimal fakeOuterNumberSerialize(@javax.annotation.Nullable BigDecimal body) throws ApiException {
     return this.fakeOuterNumberSerialize(body, Collections.emptyMap());
   }
 
@@ -435,7 +425,7 @@ public class FakeApi {
    * @return BigDecimal
    * @throws ApiException if fails to make API call
    */
-  public BigDecimal fakeOuterNumberSerialize(BigDecimal body, Map<String, String> additionalHeaders) throws ApiException {
+  public BigDecimal fakeOuterNumberSerialize(@javax.annotation.Nullable BigDecimal body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -491,7 +481,7 @@ public class FakeApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String fakeOuterStringSerialize(String body) throws ApiException {
+  public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws ApiException {
     return this.fakeOuterStringSerialize(body, Collections.emptyMap());
   }
 
@@ -504,7 +494,7 @@ public class FakeApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String fakeOuterStringSerialize(String body, Map<String, String> additionalHeaders) throws ApiException {
+  public String fakeOuterStringSerialize(@javax.annotation.Nullable String body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -560,7 +550,7 @@ public class FakeApi {
    * @return OuterObjectWithEnumProperty
    * @throws ApiException if fails to make API call
    */
-  public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException {
+  public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@javax.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException {
     return this.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, Collections.emptyMap());
   }
 
@@ -573,7 +563,7 @@ public class FakeApi {
    * @return OuterObjectWithEnumProperty
    * @throws ApiException if fails to make API call
    */
-  public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, Map<String, String> additionalHeaders) throws ApiException {
+  public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@javax.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = outerObjectWithEnumProperty;
     
     // verify the required parameter 'outerObjectWithEnumProperty' is set
@@ -633,7 +623,7 @@ public class FakeApi {
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws ApiException {
+  public void testAdditionalPropertiesReference(@javax.annotation.Nonnull Map<String, Object> requestBody) throws ApiException {
     this.testAdditionalPropertiesReference(requestBody, Collections.emptyMap());
   }
 
@@ -645,7 +635,7 @@ public class FakeApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testAdditionalPropertiesReference(Map<String, Object> requestBody, Map<String, String> additionalHeaders) throws ApiException {
+  public void testAdditionalPropertiesReference(@javax.annotation.Nonnull Map<String, Object> requestBody, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = requestBody;
     
     // verify the required parameter 'requestBody' is set
@@ -704,7 +694,7 @@ public class FakeApi {
    * @param body image to upload (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithBinary(File body) throws ApiException {
+  public void testBodyWithBinary(@javax.annotation.Nullable File body) throws ApiException {
     this.testBodyWithBinary(body, Collections.emptyMap());
   }
 
@@ -716,7 +706,7 @@ public class FakeApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithBinary(File body, Map<String, String> additionalHeaders) throws ApiException {
+  public void testBodyWithBinary(@javax.annotation.Nullable File body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // verify the required parameter 'body' is set
@@ -775,7 +765,7 @@ public class FakeApi {
    * @param fileSchemaTestClass  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+  public void testBodyWithFileSchema(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws ApiException {
     this.testBodyWithFileSchema(fileSchemaTestClass, Collections.emptyMap());
   }
 
@@ -787,7 +777,7 @@ public class FakeApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Map<String, String> additionalHeaders) throws ApiException {
+  public void testBodyWithFileSchema(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = fileSchemaTestClass;
     
     // verify the required parameter 'fileSchemaTestClass' is set
@@ -847,7 +837,7 @@ public class FakeApi {
    * @param user  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithQueryParams(String query, User user) throws ApiException {
+  public void testBodyWithQueryParams(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user) throws ApiException {
     this.testBodyWithQueryParams(query, user, Collections.emptyMap());
   }
 
@@ -860,7 +850,7 @@ public class FakeApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithQueryParams(String query, User user, Map<String, String> additionalHeaders) throws ApiException {
+  public void testBodyWithQueryParams(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'query' is set
@@ -926,7 +916,7 @@ public class FakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClientModel(Client client) throws ApiException {
+  public Client testClientModel(@javax.annotation.Nonnull Client client) throws ApiException {
     return this.testClientModel(client, Collections.emptyMap());
   }
 
@@ -939,7 +929,7 @@ public class FakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClientModel(Client client, Map<String, String> additionalHeaders) throws ApiException {
+  public Client testClientModel(@javax.annotation.Nonnull Client client, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set
@@ -1012,7 +1002,7 @@ public class FakeApi {
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public void testEndpointParameters(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws ApiException {
     this.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, Collections.emptyMap());
   }
 
@@ -1037,7 +1027,7 @@ public class FakeApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Map<String, String> additionalHeaders) throws ApiException {
+  public void testEndpointParameters(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set
@@ -1147,7 +1137,7 @@ if (paramCallback != null)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @throws ApiException if fails to make API call
    */
-  public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws ApiException {
+  public void testEnumParameters(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<EnumClass> enumQueryModelArray, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws ApiException {
     this.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, Collections.emptyMap());
   }
 
@@ -1167,7 +1157,7 @@ if (paramCallback != null)
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Map<String, String> additionalHeaders) throws ApiException {
+  public void testEnumParameters(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<EnumClass> enumQueryModelArray, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -1239,7 +1229,7 @@ if (enumFormString != null)
    * @param int64Group Integer in group parameters (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+  public void testGroupParameters(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws ApiException {
     this.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, Collections.emptyMap());
   }
 
@@ -1256,7 +1246,7 @@ if (enumFormString != null)
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, Map<String, String> additionalHeaders) throws ApiException {
+  public void testGroupParameters(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'requiredStringGroup' is set
@@ -1333,7 +1323,7 @@ if (booleanGroup != null)
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
+  public void testInlineAdditionalProperties(@javax.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     this.testInlineAdditionalProperties(requestBody, Collections.emptyMap());
   }
 
@@ -1345,7 +1335,7 @@ if (booleanGroup != null)
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testInlineAdditionalProperties(Map<String, String> requestBody, Map<String, String> additionalHeaders) throws ApiException {
+  public void testInlineAdditionalProperties(@javax.annotation.Nonnull Map<String, String> requestBody, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = requestBody;
     
     // verify the required parameter 'requestBody' is set
@@ -1404,7 +1394,7 @@ if (booleanGroup != null)
    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
+  public void testInlineFreeformAdditionalProperties(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
     this.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, Collections.emptyMap());
   }
 
@@ -1416,7 +1406,7 @@ if (booleanGroup != null)
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, Map<String, String> additionalHeaders) throws ApiException {
+  public void testInlineFreeformAdditionalProperties(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = testInlineFreeformAdditionalPropertiesRequest;
     
     // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
@@ -1476,7 +1466,7 @@ if (booleanGroup != null)
    * @param param2 field2 (required)
    * @throws ApiException if fails to make API call
    */
-  public void testJsonFormData(String param, String param2) throws ApiException {
+  public void testJsonFormData(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws ApiException {
     this.testJsonFormData(param, param2, Collections.emptyMap());
   }
 
@@ -1489,7 +1479,7 @@ if (booleanGroup != null)
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testJsonFormData(String param, String param2, Map<String, String> additionalHeaders) throws ApiException {
+  public void testJsonFormData(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'param' is set
@@ -1557,7 +1547,7 @@ if (param2 != null)
    * @param childWithNullable request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testNullable(ChildWithNullable childWithNullable) throws ApiException {
+  public void testNullable(@javax.annotation.Nonnull ChildWithNullable childWithNullable) throws ApiException {
     this.testNullable(childWithNullable, Collections.emptyMap());
   }
 
@@ -1569,7 +1559,7 @@ if (param2 != null)
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testNullable(ChildWithNullable childWithNullable, Map<String, String> additionalHeaders) throws ApiException {
+  public void testNullable(@javax.annotation.Nonnull ChildWithNullable childWithNullable, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = childWithNullable;
     
     // verify the required parameter 'childWithNullable' is set
@@ -1634,7 +1624,7 @@ if (param2 != null)
    * @param language  (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws ApiException {
+  public void testQueryParameterCollectionFormat(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable Map<String, String> language) throws ApiException {
     this.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, Collections.emptyMap());
   }
 
@@ -1652,7 +1642,7 @@ if (param2 != null)
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, Map<String, String> additionalHeaders) throws ApiException {
+  public void testQueryParameterCollectionFormat(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable Map<String, String> language, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'pipe' is set
@@ -1743,7 +1733,7 @@ if (param2 != null)
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testStringMapReference(Map<String, String> requestBody) throws ApiException {
+  public void testStringMapReference(@javax.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     this.testStringMapReference(requestBody, Collections.emptyMap());
   }
 
@@ -1755,7 +1745,7 @@ if (param2 != null)
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testStringMapReference(Map<String, String> requestBody, Map<String, String> additionalHeaders) throws ApiException {
+  public void testStringMapReference(@javax.annotation.Nonnull Map<String, String> requestBody, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = requestBody;
     
     // verify the required parameter 'requestBody' is set
@@ -1808,4 +1798,44 @@ if (param2 != null)
     );
   }
 
+  @Override
+  public <T> T invokeAPI(String url, String method, Object request, TypeReference<T> returnType, Map<String, String> additionalHeaders) throws ApiException {
+    String localVarPath = url.replace(apiClient.getBaseURL(), "");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    return apiClient.invokeAPI(
+      localVarPath,
+        method,
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        request,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        returnType
+    );
+  }
 }

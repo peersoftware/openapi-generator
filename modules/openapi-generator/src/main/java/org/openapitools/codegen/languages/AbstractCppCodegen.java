@@ -19,15 +19,14 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.servers.ServerVariables;
 import io.swagger.v3.oas.models.servers.ServerVariable;
-import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.servers.ServerVariables;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
@@ -37,14 +36,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.*;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -280,7 +273,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty property = super.fromProperty(name, p, required);
-        String nameInCamelCase = property.nameInCamelCase;
+        String nameInCamelCase = property.nameInPascalCase;
         if (nameInCamelCase.length() > 1) {
             nameInCamelCase = sanitizeName(Character.toLowerCase(nameInCamelCase.charAt(0)) + nameInCamelCase.substring(1));
         } else {
@@ -316,6 +309,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (StringUtils.isEmpty(System.getenv("CPP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'CPP_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
@@ -338,6 +333,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -347,21 +343,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with cpp extension
         if ("cpp".equals(FilenameUtils.getExtension(file.toString())) || "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cppPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{cppPostProcessFile, file.toString()});
         }
     }
 

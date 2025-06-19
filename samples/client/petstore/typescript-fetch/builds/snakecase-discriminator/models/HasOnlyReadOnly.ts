@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -36,7 +36,7 @@ export interface HasOnlyReadOnly {
 /**
  * Check if a given object implements the HasOnlyReadOnly interface.
  */
-export function instanceOfHasOnlyReadOnly(value: object): boolean {
+export function instanceOfHasOnlyReadOnly(value: object): value is HasOnlyReadOnly {
     return true;
 }
 
@@ -45,23 +45,25 @@ export function HasOnlyReadOnlyFromJSON(json: any): HasOnlyReadOnly {
 }
 
 export function HasOnlyReadOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): HasOnlyReadOnly {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'bar': !exists(json, 'bar') ? undefined : json['bar'],
-        'foo': !exists(json, 'foo') ? undefined : json['foo'],
+        'bar': json['bar'] == null ? undefined : json['bar'],
+        'foo': json['foo'] == null ? undefined : json['foo'],
     };
 }
 
-export function HasOnlyReadOnlyToJSON(value?: HasOnlyReadOnly | null): any {
-    if (value === undefined) {
-        return undefined;
+export function HasOnlyReadOnlyToJSON(json: any): HasOnlyReadOnly {
+    return HasOnlyReadOnlyToJSONTyped(json, false);
+}
+
+export function HasOnlyReadOnlyToJSONTyped(value?: Omit<HasOnlyReadOnly, 'bar'|'foo'> | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
     };

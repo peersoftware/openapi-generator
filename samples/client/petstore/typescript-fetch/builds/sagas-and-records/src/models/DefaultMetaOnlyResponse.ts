@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -37,8 +38,8 @@ export interface DefaultMetaOnlyResponse {
 /**
  * Check if a given object implements the DefaultMetaOnlyResponse interface.
  */
-export function instanceOfDefaultMetaOnlyResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfDefaultMetaOnlyResponse(value: object): value is DefaultMetaOnlyResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 
@@ -47,7 +48,7 @@ export function DefaultMetaOnlyResponseFromJSON(json: any): DefaultMetaOnlyRespo
 }
 
 export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): DefaultMetaOnlyResponse {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
@@ -56,13 +57,15 @@ export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function DefaultMetaOnlyResponseToJSON(value?: DefaultMetaOnlyResponse | null): any {
-    if (value === undefined) {
-        return undefined;
+export function DefaultMetaOnlyResponseToJSON(json: any): DefaultMetaOnlyResponse {
+    return DefaultMetaOnlyResponseToJSONTyped(json, false);
+}
+
+export function DefaultMetaOnlyResponseToJSONTyped(value?: DefaultMetaOnlyResponse | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),
