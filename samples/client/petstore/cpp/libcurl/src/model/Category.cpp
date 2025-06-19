@@ -15,10 +15,8 @@
 namespace org::openapitools::client::model {
 
 
-
 nlohmann::json Category::toJson() const {
     nlohmann::json val = nlohmann::json::object();
-    
     if (m_IdIsSet) {
         val["id"] = ModelBase::toJson(m_Id);
     }
@@ -31,7 +29,6 @@ nlohmann::json Category::toJson() const {
 
 bool Category::fromJson(const nlohmann::json& val) {
     bool ok = true;
-    
     if (val.contains("id")) {
         const nlohmann::json& fieldValue = val.at("id");
         if (!fieldValue.is_null()) {

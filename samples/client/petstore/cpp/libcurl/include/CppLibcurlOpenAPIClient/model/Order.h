@@ -42,36 +42,24 @@ public:
     /////////////////////////////////////////////
     /// Order members
 
-    /// <summary>
-    /// 
-    /// </summary>
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
 
     void setId(int64_t value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     int64_t getPetId() const;
     bool petIdIsSet() const;
     void unsetPetId();
 
     void setPetId(int64_t value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     int32_t getQuantity() const;
     bool quantityIsSet() const;
     void unsetQuantity();
 
     void setQuantity(int32_t value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getShipDate() const;
     bool shipDateIsSet() const;
     void unsetShipDate();
@@ -87,9 +75,6 @@ public:
 
     void setStatus(std::string_view value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     bool isComplete() const;
     bool completeIsSet() const;
     void unsetComplete();

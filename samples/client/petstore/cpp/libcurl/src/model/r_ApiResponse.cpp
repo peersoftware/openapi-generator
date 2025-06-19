@@ -15,10 +15,8 @@
 namespace org::openapitools::client::model {
 
 
-
 nlohmann::json r_ApiResponse::toJson() const {
     nlohmann::json val = nlohmann::json::object();
-    
     if (m_CodeIsSet) {
         val["code"] = ModelBase::toJson(m_Code);
     }
@@ -34,7 +32,6 @@ nlohmann::json r_ApiResponse::toJson() const {
 
 bool r_ApiResponse::fromJson(const nlohmann::json& val) {
     bool ok = true;
-    
     if (val.contains("code")) {
         const nlohmann::json& fieldValue = val.at("code");
         if (!fieldValue.is_null()) {

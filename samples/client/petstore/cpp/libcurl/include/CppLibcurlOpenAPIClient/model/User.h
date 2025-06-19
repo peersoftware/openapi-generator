@@ -42,63 +42,42 @@ public:
     /////////////////////////////////////////////
     /// User members
 
-    /// <summary>
-    /// 
-    /// </summary>
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
 
     void setId(int64_t value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getUsername() const;
     bool usernameIsSet() const;
     void unsetUsername();
 
     void setUsername(std::string_view value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getFirstName() const;
     bool firstNameIsSet() const;
     void unsetFirstName();
 
     void setFirstName(std::string_view value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getLastName() const;
     bool lastNameIsSet() const;
     void unsetLastName();
 
     void setLastName(std::string_view value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getEmail() const;
     bool emailIsSet() const;
     void unsetEmail();
 
     void setEmail(std::string_view value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getPassword() const;
     bool passwordIsSet() const;
     void unsetPassword();
 
     void setPassword(std::string_view value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getPhone() const;
     bool phoneIsSet() const;
     void unsetPhone();

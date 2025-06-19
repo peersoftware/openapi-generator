@@ -16,6 +16,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -47,6 +48,8 @@ public:
     template<typename T>
     static nlohmann::json toJson(const std::vector<T>& val);
     template<typename T>
+    static nlohmann::json toJson(const std::set<T>& val);
+    template<typename T>
     static nlohmann::json toJson(const std::map<std::string, T, std::less<>>& val);
 
     static bool fromJson(const nlohmann::json& val, bool &);
@@ -63,6 +66,8 @@ public:
     template<typename T>
     static bool fromJson(const nlohmann::json& val, std::vector<T> &);
     template<typename T>
+    static bool fromJson(const nlohmann::json& val, std::set<T> &);
+    template<typename T>
     static bool fromJson(const nlohmann::json& val, std::map<std::string, T, std::less<>> &);
 
 private:
@@ -78,6 +83,15 @@ nlohmann::json ModelBase::toJson(const std::shared_ptr<T>& val) {
 }
 template<typename T>
 nlohmann::json ModelBase::toJson(const std::vector<T>& value) {
+    auto ret = nlohmann::json::array();
+
+    for (const auto &x : value) {
+        ret.push_back(toJson(x));
+    }
+    return ret;
+}
+template<typename T>
+nlohmann::json ModelBase::toJson(const std::set<T>& value) {
     auto ret = nlohmann::json::array();
 
     for (const auto &x : value) {
@@ -119,6 +133,23 @@ bool ModelBase::fromJson(const nlohmann::json& val, std::vector<T> &outVal) {
         }
     } else {
         ok = false;
+    }
+    return ok;
+}
+template<typename T>
+bool ModelBase::fromJson(const nlohmann::json& val, std::set<T> &outVal) {
+    bool ok = true;
+
+    if (val.is_array()) {
+        for (const auto &jitem : val) {
+            T item;
+            ok &= fromJson(jitem, item);
+            outVal.emplace(std::move(item));
+        }
+    } else {
+        T item;
+        ok = fromJson(val, item);
+        outVal.emplace(std::move(item));
     }
     return ok;
 }

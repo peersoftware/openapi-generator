@@ -63,9 +63,11 @@ private:
 {{/isEnum}}
 {{^isEnum}}
 
+{{#description}}
 /// <summary>
 /// {{{description}}}
 /// </summary>
+{{/description}}
 class {{declspec}} {{classname}}
     : public {{{parent}}}{{^parent}}ModelBase{{/parent}} {
 public:
@@ -79,9 +81,11 @@ public:
 
     {{#vars}}
     {{^isInherited}}
+    {{#description}}
     /// <summary>
     /// {{{description}}}
     /// </summary>
+    {{/description}}
     {{#vendorExtensions.x-cpp-is-class}}
     const {{{dataType}}}& {{getter}}() const;
     {{/vendorExtensions.x-cpp-is-class}}

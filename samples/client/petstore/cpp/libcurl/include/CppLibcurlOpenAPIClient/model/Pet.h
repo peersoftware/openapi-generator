@@ -47,45 +47,30 @@ public:
     /////////////////////////////////////////////
     /// Pet members
 
-    /// <summary>
-    /// 
-    /// </summary>
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
 
     void setId(int64_t value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::shared_ptr<Category>& getCategory() const;
     bool categoryIsSet() const;
     void unsetCategory();
 
     void setCategory(const std::shared_ptr<Category>& value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getName() const;
     bool nameIsSet() const;
     void unsetName();
 
     void setName(std::string_view value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::vector<std::string>& getPhotoUrls() const;
     bool photoUrlsIsSet() const;
     void unsetPhotoUrls();
 
     void setPhotoUrls(const std::vector<std::string>& value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::vector<std::shared_ptr<Tag>>& getTags() const;
     bool tagsIsSet() const;
     void unsetTags();

@@ -42,27 +42,18 @@ public:
     /////////////////////////////////////////////
     /// r_ApiResponse members
 
-    /// <summary>
-    /// 
-    /// </summary>
     int32_t getCode() const;
     bool codeIsSet() const;
     void unsetCode();
 
     void setCode(int32_t value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getType() const;
     bool typeIsSet() const;
     void unsetType();
 
     void setType(std::string_view value);
 
-    /// <summary>
-    /// 
-    /// </summary>
     const std::string& getMessage() const;
     bool messageIsSet() const;
     void unsetMessage();

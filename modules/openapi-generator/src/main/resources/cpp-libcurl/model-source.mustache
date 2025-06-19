@@ -83,7 +83,6 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value) {
 }
 
 {{/isEnum}}
-
 {{^isEnum}}
 
 nlohmann::json {{classname}}::toJson() const {
@@ -93,10 +92,13 @@ nlohmann::json {{classname}}::toJson() const {
     {{^parent}}
     nlohmann::json val = nlohmann::json::object();
     {{/parent}}
-    {{#vars}}{{^isInherited}}
+    {{#vars}}
+    {{^isInherited}}
     if (m_{{name}}IsSet) {
         val["{{baseName}}"] = ModelBase::toJson(m_{{name}});
-    }{{/isInherited}}{{/vars}}
+    }
+    {{/isInherited}}
+    {{/vars}}
 
     return val;
 }
@@ -106,7 +108,8 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
     {{#parent}}
     ok &= this->{{{.}}}::fromJson(val);
     {{/parent}}
-    {{#vars}}{{^isInherited}}
+    {{#vars}}
+    {{^isInherited}}
     if (val.contains("{{baseName}}")) {
         const nlohmann::json& fieldValue = val.at("{{baseName}}");
         if (!fieldValue.is_null()) {
@@ -114,7 +117,9 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_{{setter}});
             {{setter}}(refVal_{{setter}});
         }
-    }{{/isInherited}}{{/vars}}
+    }
+    {{/isInherited}}
+    {{/vars}}
     return ok;
 }
 

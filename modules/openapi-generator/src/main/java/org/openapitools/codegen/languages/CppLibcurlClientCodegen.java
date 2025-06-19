@@ -3,10 +3,10 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -19,14 +19,9 @@ import java.math.BigDecimal;
 import java.io.File;
 import java.util.*;
 
-import org.apache.commons.lang3.StringUtils;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class CppLibcurlClientCodegen extends AbstractCppCodegen {
-    static final Logger LOGGER = LoggerFactory.getLogger(CppLibcurlClientCodegen.class);
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
     public static final String DEFAULT_PACKAGE_NAME = "CppLibcurlOpenAPIClient";
@@ -38,7 +33,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
     protected String defaultInclude = "";
     protected String apiDirName = "api";
     protected String modelDirName = "model";
-    protected String cmakeMin = "3.1";
+    protected String cmakeMin = "3.5";
 
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
@@ -115,7 +110,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "std::vector");
-        typeMapping.put("set", "std::vector");
+        typeMapping.put("set", "std::set");
         typeMapping.put("map", "std::map");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "std::string");
@@ -136,6 +131,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
+        importMapping.put("std::set", "#include <set>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("int32_t", "#include <cstdint>");
         importMapping.put("uint32_t", "#include <cstdint>");
@@ -347,8 +343,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         schema = unaliasSchema(schema);
 
         if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema ap = (ArraySchema) schema;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(schema);
             return openAPIType + "<" + getTypeDeclaration(inner) + ">";
         }
         if (ModelUtils.isMapSchema(schema)) {
@@ -432,8 +427,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ", std::less<>>()";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             String innerType = getSchemaType(inner);
             /* Check the type of any reference schema before making a shared pointer */
             inner = unaliasSchema(inner);
