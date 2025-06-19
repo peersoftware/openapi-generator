@@ -19,6 +19,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -369,6 +370,17 @@ ApiResponse ApiClient::callApi(
     }
 
     return response;
+}
+
+std::optional<std::string> ApiClient::getResponseHeader(const char *name) const {
+    auto *curlHandle = m_curl->getCurlHandle();
+
+    if (curl_header *header = nullptr;
+            curl_easy_header(curlHandle, name, 0, CURLH_HEADER, -1, &header) == CURLHE_OK) {
+        return header->value;
+    }
+
+    return std::nullopt;
 }
 
 void ApiClient::setupGlobalEnv() {

@@ -23,6 +23,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -63,6 +64,8 @@ public:
         const std::string &contentType,
         const std::string &postData
     ) const;
+
+    std::optional<std::string> getResponseHeader(const char *name) const;
 
     /*
      * Recommended to be called once prior to making requests,
