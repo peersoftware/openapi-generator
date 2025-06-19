@@ -45,6 +45,10 @@ public:
         return m_list.get();
     }
 
+    void reset() {
+        m_list.reset();
+    }
+
 private:
     struct CurlSListCleanup {
         void operator()(struct curl_slist *handle) const {
@@ -69,6 +73,11 @@ public:
         return m_headers.get();
     }
 
+    void resetHandle() {
+        curl_easy_reset(m_handle.get());
+        m_headers.reset();
+    }
+
 private:
     struct CurlCleanup {
         void operator()(struct Curl_easy *handle) const {
@@ -87,8 +96,14 @@ namespace org::openapitools::client::api {
 using namespace org::openapitools::client::model;
 
 ApiClient::ApiClient(std::shared_ptr<const ApiConfiguration> configuration )
-    : m_Configuration(configuration) {
+    : m_Configuration(configuration), m_curl(std::make_unique<CurlHandle>()) {
+    if (m_curl->getCurlHandle() == nullptr) {
+        throw std::bad_alloc();
+    }
 }
+
+/* Need to hide the destructor definition to hide curl implementation */
+ApiClient::~ApiClient() = default;
 
 std::shared_ptr<const ApiConfiguration> ApiClient::getConfiguration() const {
     return m_Configuration;
@@ -232,25 +247,22 @@ ApiResponse ApiClient::callApi(
         throw std::invalid_argument("Cannot have body and form params");
     }
 
-    CurlHandle handle;
-    auto *curlHandle = handle.getCurlHandle();
+    m_curl->resetHandle();
 
-    if (curlHandle == nullptr) {
-        throw std::bad_alloc();
-    }
+    auto *curlHandle = m_curl->getCurlHandle();
 
     for (const auto &[key, value] : headerParams) {
         std::string header = key + ": " + value;
 
-        handle.AppendHeader(header.c_str());
+        m_curl->AppendHeader(header.c_str());
     }
 
     if (contentType.empty()) {
-        handle.AppendHeader("Content-Type: application/json");
+        m_curl->AppendHeader("Content-Type: application/json");
     } else {
-        std::string header = "Content-Type:" + contentType;
+        std::string header = "Content-Type: " + contentType;
 
-        handle.AppendHeader(header.c_str());
+        m_curl->AppendHeader(header.c_str());
     }
 
     if (!method.empty()) {
@@ -312,7 +324,7 @@ ApiResponse ApiClient::callApi(
         for (const auto &[key, value] : apiKeys) {
             std::string apiKey = key + ": " + value;
 
-            handle.AppendHeader(apiKey.c_str());
+            m_curl->AppendHeader(apiKey.c_str());
         }
     }
 
@@ -323,7 +335,7 @@ ApiResponse ApiClient::callApi(
     curl_easy_setopt(curlHandle, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, writeDataCallback);
     curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &responseData);
-    curl_easy_setopt(curlHandle, CURLOPT_HTTPHEADER, handle.getHeaders());
+    curl_easy_setopt(curlHandle, CURLOPT_HTTPHEADER, m_curl->getHeaders());
     curl_easy_setopt(curlHandle, CURLOPT_VERBOSE,
                     0L);  // Set to 1 to enable debug
 

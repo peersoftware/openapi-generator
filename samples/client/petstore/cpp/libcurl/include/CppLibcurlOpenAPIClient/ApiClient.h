@@ -29,12 +29,14 @@
 #include "CppLibcurlOpenAPIClient/ApiConfiguration.h"
 #include "CppLibcurlOpenAPIClient/ApiResponse.h"
 
+class CurlHandle;
+
 namespace org::openapitools::client::api {
 
 class  ApiClient {
 public:
     explicit ApiClient(std::shared_ptr<const ApiConfiguration> configuration = nullptr);
-    virtual ~ApiClient() = default;
+    virtual ~ApiClient();
 
     std::shared_ptr<const ApiConfiguration> getConfiguration() const;
     void setConfiguration(std::shared_ptr<const ApiConfiguration> configuration);
@@ -75,6 +77,7 @@ public:
 
 private:
     std::shared_ptr<const ApiConfiguration> m_Configuration;
+    std::unique_ptr<CurlHandle> m_curl;
 };
 
 template<class T>
