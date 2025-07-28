@@ -85,9 +85,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-source.mustache", ".cpp");
 
-        setReservedWordsLowerCase(
-            Arrays.asList("ApiResponse")
-        );
+        reservedWords.add("apiresponse");
 
         cliOptions.clear();
 
@@ -105,8 +103,18 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
                 this.defaultInclude);
         addOption(CMAKE_MIN, "CMake minimum version", this.cmakeMin);
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
+        languageSpecificPrimitives = new HashSet<>();
+        languageSpecificPrimitives.add("bool");
+        languageSpecificPrimitives.add("char");
+        languageSpecificPrimitives.add("double");
+        languageSpecificPrimitives.add("float");
+        languageSpecificPrimitives.add("int");
+        languageSpecificPrimitives.add("int32_t");
+        languageSpecificPrimitives.add("int64_t");
+        languageSpecificPrimitives.add("long");
+        languageSpecificPrimitives.add("short");
+        languageSpecificPrimitives.add("uint32_t");
+        languageSpecificPrimitives.add("uint64_t");
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "std::vector");
@@ -361,7 +369,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
 
         if (isStdStringSchema(schema)
                 || languageSpecificPrimitives.contains(openAPIType)) {
-            return toModelName(openAPIType);
+            return openAPIType;
         }
 
         return "std::shared_ptr<" + openAPIType + ">";
@@ -482,14 +490,12 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+
         if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-        } else {
-            type = openAPIType;
+            return typeMapping.get(openAPIType);
         }
 
-        return toModelName(type);
+        return toModelName(openAPIType);
     }
 
     @Override
