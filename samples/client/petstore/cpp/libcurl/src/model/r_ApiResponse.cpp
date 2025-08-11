@@ -14,7 +14,6 @@
 
 namespace org::openapitools::client::model {
 
-
 nlohmann::json r_ApiResponse::toJson() const {
     nlohmann::json val = nlohmann::json::object();
     if (m_CodeIsSet) {
@@ -32,6 +31,7 @@ nlohmann::json r_ApiResponse::toJson() const {
 
 bool r_ApiResponse::fromJson(const nlohmann::json& val) {
     bool ok = true;
+    bool converted = false;
     if (val.contains("code")) {
         const nlohmann::json& fieldValue = val.at("code");
         if (!fieldValue.is_null()) {
@@ -39,6 +39,7 @@ bool r_ApiResponse::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setCode);
             setCode(refVal_setCode);
         }
+        converted = true;
     }
     if (val.contains("type")) {
         const nlohmann::json& fieldValue = val.at("type");
@@ -47,6 +48,7 @@ bool r_ApiResponse::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setType);
             setType(refVal_setType);
         }
+        converted = true;
     }
     if (val.contains("message")) {
         const nlohmann::json& fieldValue = val.at("message");
@@ -55,8 +57,9 @@ bool r_ApiResponse::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setMessage);
             setMessage(refVal_setMessage);
         }
+        converted = true;
     }
-    return ok;
+    return ok && converted;
 }
 
 int32_t r_ApiResponse::getCode() const {

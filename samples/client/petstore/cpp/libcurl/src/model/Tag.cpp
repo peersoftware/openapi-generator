@@ -14,7 +14,6 @@
 
 namespace org::openapitools::client::model {
 
-
 nlohmann::json Tag::toJson() const {
     nlohmann::json val = nlohmann::json::object();
     if (m_IdIsSet) {
@@ -29,6 +28,7 @@ nlohmann::json Tag::toJson() const {
 
 bool Tag::fromJson(const nlohmann::json& val) {
     bool ok = true;
+    bool converted = false;
     if (val.contains("id")) {
         const nlohmann::json& fieldValue = val.at("id");
         if (!fieldValue.is_null()) {
@@ -36,6 +36,7 @@ bool Tag::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
         }
+        converted = true;
     }
     if (val.contains("name")) {
         const nlohmann::json& fieldValue = val.at("name");
@@ -44,8 +45,9 @@ bool Tag::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setName);
             setName(refVal_setName);
         }
+        converted = true;
     }
-    return ok;
+    return ok && converted;
 }
 
 int64_t Tag::getId() const {

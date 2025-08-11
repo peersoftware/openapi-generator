@@ -14,7 +14,6 @@
 
 namespace org::openapitools::client::model {
 
-
 nlohmann::json Pet::toJson() const {
     nlohmann::json val = nlohmann::json::object();
     if (m_IdIsSet) {
@@ -41,6 +40,7 @@ nlohmann::json Pet::toJson() const {
 
 bool Pet::fromJson(const nlohmann::json& val) {
     bool ok = true;
+    bool converted = false;
     if (val.contains("id")) {
         const nlohmann::json& fieldValue = val.at("id");
         if (!fieldValue.is_null()) {
@@ -48,6 +48,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
         }
+        converted = true;
     }
     if (val.contains("category")) {
         const nlohmann::json& fieldValue = val.at("category");
@@ -56,6 +57,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setCategory);
             setCategory(refVal_setCategory);
         }
+        converted = true;
     }
     if (val.contains("name")) {
         const nlohmann::json& fieldValue = val.at("name");
@@ -64,6 +66,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setName);
             setName(refVal_setName);
         }
+        converted = true;
     }
     if (val.contains("photoUrls")) {
         const nlohmann::json& fieldValue = val.at("photoUrls");
@@ -72,6 +75,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setPhotoUrls);
             setPhotoUrls(refVal_setPhotoUrls);
         }
+        converted = true;
     }
     if (val.contains("tags")) {
         const nlohmann::json& fieldValue = val.at("tags");
@@ -80,6 +84,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setTags);
             setTags(refVal_setTags);
         }
+        converted = true;
     }
     if (val.contains("status")) {
         const nlohmann::json& fieldValue = val.at("status");
@@ -88,8 +93,9 @@ bool Pet::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
             setStatus(refVal_setStatus);
         }
+        converted = true;
     }
-    return ok;
+    return ok && converted;
 }
 
 int64_t Pet::getId() const {

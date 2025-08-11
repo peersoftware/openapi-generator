@@ -80,5 +80,8 @@ bool ModelBase::fromJson(const nlohmann::json& val, nlohmann::json & outVal) {
     outVal = val;
     return !val.is_null();
 }
+bool ModelBase::fromJson(const nlohmann::json& val, const std::monostate&) {
+    return val.is_null();
+}
 
 }

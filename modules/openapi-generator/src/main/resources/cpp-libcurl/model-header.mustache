@@ -8,6 +8,11 @@
 #ifndef {{modelHeaderGuardPrefix}}_{{classname}}_H_
 #define {{modelHeaderGuardPrefix}}_{{classname}}_H_
 
+{{#oneOf}}
+{{#-first}}
+#include <variant>
+{{/-first}}
+{{/oneOf}}
 {{^parent}}
 {{{defaultInclude}}}
 {{#isEnum}}
@@ -31,6 +36,24 @@ namespace {{this}} {
 {{#vendorExtensions.x-forward-declarations}}{{.}}
 {{/vendorExtensions.x-forward-declarations}}
 {{/vendorExtensions.x-has-forward-declarations}}
+{{#oneOf}}{{#-first}}
+class {{declspec}} {{classname}} {
+public:
+    nlohmann::json toJson() const;
+    bool fromJson(const nlohmann::json& json);
+
+    using VariantType = std::variant<{{#oneOf}}{{^-first}}, {{/-first}}{{{.}}}{{/oneOf}}>;
+
+    const VariantType& getVariant() const;
+    void setVariant(const VariantType& value);
+    void setVariant(VariantType&& value);
+
+private:
+    VariantType m_variantValue;
+};
+
+{{/-first}}{{/oneOf}}
+{{^oneOf}}
 {{#isEnum}}
 class {{declspec}} {{classname}}
     : public {{{parent}}}{{^parent}}ModelBase{{/parent}} {
@@ -62,7 +85,6 @@ private:
 };
 {{/isEnum}}
 {{^isEnum}}
-
 {{#description}}
 /// <summary>
 /// {{{description}}}
@@ -130,6 +152,7 @@ private:
 };
 
 {{/isEnum}}
+{{/oneOf}}
 
 {{#modelNamespaceDeclarations}}
 }

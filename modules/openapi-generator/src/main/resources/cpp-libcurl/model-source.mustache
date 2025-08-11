@@ -6,12 +6,50 @@
 #include <string_view>
 {{/isNumeric}}
 {{/isEnum}}
+{{#oneOf}}
+#include <utility>
+{{/oneOf}}
 #include "{{packageName}}/model/{{classFilename}}.h"
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
+{{#oneOf}}
+{{#-first}}
 
+const {{classname}}::VariantType& {{classname}}::getVariant() const {
+    return m_variantValue;
+}
+
+void {{classname}}::setVariant(const {{classname}}::VariantType& value) {
+    m_variantValue = value;
+}
+
+void {{classname}}::setVariant({{classname}}::VariantType&& value) {
+    m_variantValue = std::move(value);
+}
+
+bool {{classname}}::fromJson(const nlohmann::json& json) {
+    return ModelBase::fromJson(json, m_variantValue);
+}
+
+nlohmann::json {{classname}}::toJson() const {
+    nlohmann::json val = nlohmann::json::object();
+
+    std::visit([&val](const auto& arg) {
+        using T = std::decay_t<decltype(arg)>;
+        if constexpr (std::is_same_v<T, std::monostate>) {
+            val = nullptr;
+        } else {
+            val = ModelBase::toJson(arg);
+        }
+    }, m_variantValue);
+
+    return val;
+}
+{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 {{#isEnum}}
 
 namespace {
@@ -105,8 +143,10 @@ nlohmann::json {{classname}}::toJson() const {
 
 bool {{classname}}::fromJson(const nlohmann::json& val) {
     bool ok = true;
+    bool converted = false;
     {{#parent}}
     ok &= this->{{{.}}}::fromJson(val);
+    converted = true;
     {{/parent}}
     {{#vars}}
     {{^isInherited}}
@@ -117,10 +157,11 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_{{setter}});
             {{setter}}(refVal_{{setter}});
         }
+        converted = true;
     }
     {{/isInherited}}
     {{/vars}}
-    return ok;
+    return ok && converted;
 }
 
 {{#vars}}
@@ -159,6 +200,7 @@ void {{classname}}::unset{{name}}() {
 {{/isInherited}}
 {{/vars}}
 {{/isEnum}}
+{{/oneOf}}
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}

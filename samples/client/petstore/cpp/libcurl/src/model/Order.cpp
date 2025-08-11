@@ -14,7 +14,6 @@
 
 namespace org::openapitools::client::model {
 
-
 nlohmann::json Order::toJson() const {
     nlohmann::json val = nlohmann::json::object();
     if (m_IdIsSet) {
@@ -41,6 +40,7 @@ nlohmann::json Order::toJson() const {
 
 bool Order::fromJson(const nlohmann::json& val) {
     bool ok = true;
+    bool converted = false;
     if (val.contains("id")) {
         const nlohmann::json& fieldValue = val.at("id");
         if (!fieldValue.is_null()) {
@@ -48,6 +48,7 @@ bool Order::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
         }
+        converted = true;
     }
     if (val.contains("petId")) {
         const nlohmann::json& fieldValue = val.at("petId");
@@ -56,6 +57,7 @@ bool Order::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setPetId);
             setPetId(refVal_setPetId);
         }
+        converted = true;
     }
     if (val.contains("quantity")) {
         const nlohmann::json& fieldValue = val.at("quantity");
@@ -64,6 +66,7 @@ bool Order::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setQuantity);
             setQuantity(refVal_setQuantity);
         }
+        converted = true;
     }
     if (val.contains("shipDate")) {
         const nlohmann::json& fieldValue = val.at("shipDate");
@@ -72,6 +75,7 @@ bool Order::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setShipDate);
             setShipDate(refVal_setShipDate);
         }
+        converted = true;
     }
     if (val.contains("status")) {
         const nlohmann::json& fieldValue = val.at("status");
@@ -80,6 +84,7 @@ bool Order::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
             setStatus(refVal_setStatus);
         }
+        converted = true;
     }
     if (val.contains("complete")) {
         const nlohmann::json& fieldValue = val.at("complete");
@@ -88,8 +93,9 @@ bool Order::fromJson(const nlohmann::json& val) {
             ok &= ModelBase::fromJson(fieldValue, refVal_setComplete);
             setComplete(refVal_setComplete);
         }
+        converted = true;
     }
-    return ok;
+    return ok && converted;
 }
 
 int64_t Order::getId() const {

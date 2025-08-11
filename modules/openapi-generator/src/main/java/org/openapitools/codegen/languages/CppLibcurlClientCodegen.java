@@ -68,7 +68,8 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
                         GlobalFeature.MultiServer
                 )
                 .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.oneOf
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie

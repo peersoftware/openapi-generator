@@ -28,7 +28,9 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <utility>
+#include <variant>
 #include <vector>
 
 namespace org::openapitools::client::model {
@@ -59,6 +61,11 @@ public:
     static nlohmann::json toJson(const std::set<T>& val);
     template<typename T>
     static nlohmann::json toJson(const std::map<std::string, T, std::less<>>& val);
+    template<class T,
+        std::enable_if_t<std::is_member_function_pointer_v<decltype(&T::toJson)>, bool> = false>
+    static nlohmann::json toJson(const T& val) {
+        return val.toJson();
+    }
 
     static bool fromJson(const nlohmann::json& val, bool &);
     static bool fromJson(const nlohmann::json& val, float &);
@@ -69,6 +76,7 @@ public:
     static bool fromJson(const nlohmann::json& val, uint64_t &);
     static bool fromJson(const nlohmann::json& val, std::string &);
     static bool fromJson(const nlohmann::json& val, nlohmann::json &);
+    static bool fromJson(const nlohmann::json& val, const std::monostate&);
     template<typename T>
     static bool fromJson(const nlohmann::json& val, std::shared_ptr<T>&);
     template<typename T>
@@ -77,6 +85,15 @@ public:
     static bool fromJson(const nlohmann::json& val, std::set<T> &);
     template<typename T>
     static bool fromJson(const nlohmann::json& val, std::map<std::string, T, std::less<>> &);
+    template<class T,
+        std::enable_if_t<std::is_member_function_pointer_v<decltype(&T::fromJson)>, bool> = false>
+    static bool fromJson(const nlohmann::json& val, T& outVal) {
+        return outVal.fromJson(val);
+    }
+    template<size_t N, typename... Args>
+    static bool fromJson(const nlohmann::json &val, std::variant<Args...> &);
+    template<typename... Args>
+    static bool fromJson(const nlohmann::json &val, std::variant<Args...> &);
 
 private:
     bool m_IsSet{false};
@@ -175,6 +192,27 @@ bool ModelBase::fromJson(const nlohmann::json& val, std::map<std::string, T, std
         ok = false;
     }
     return ok;
+}
+template<size_t N, typename... Args>
+bool ModelBase::fromJson([[maybe_unused]] const nlohmann::json &val,
+        [[maybe_unused]] std::variant<Args...> &outVal) {
+    if constexpr (N >= sizeof...(Args)) {
+        return false;
+    } else {
+        std::variant_alternative_t<N, std::variant<Args...>> target;
+
+        if (!ModelBase::fromJson(val, target)) {
+            return fromJson<N + 1>(val, outVal);
+        }
+
+        outVal = std::move(target);
+        return true;
+    }
+}
+template<typename... Args>
+bool ModelBase::fromJson(const nlohmann::json &val, std::variant<Args...> &outVal) {
+    /* Try each variant type in order until a successful conversion */
+    return fromJson<0>(val, outVal);
 }
 }
 
