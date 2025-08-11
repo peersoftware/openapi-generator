@@ -320,8 +320,7 @@ ApiResponse ApiClient::callApi(
     }
 
     // this would only be generated for apiKey authentication
-    const auto &apiKeys = m_Configuration->getApiKeys();
-    if (apiKeys.size() > 0) {
+    if (const auto &apiKeys = m_Configuration->getApiKeys(); !apiKeys.empty()) {
         for (const auto &[key, value] : apiKeys) {
             std::string apiKey = key + ": " + value;
 
