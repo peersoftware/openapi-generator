@@ -30,8 +30,7 @@ bool Category::fromJson(const nlohmann::json& val) {
     bool ok = true;
     bool converted = false;
     if (val.contains("id")) {
-        const nlohmann::json& fieldValue = val.at("id");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("id"); !fieldValue.is_null()) {
             int64_t refVal_setId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
@@ -39,8 +38,7 @@ bool Category::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("name")) {
-        const nlohmann::json& fieldValue = val.at("name");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("name"); !fieldValue.is_null()) {
             std::string refVal_setName;
             ok &= ModelBase::fromJson(fieldValue, refVal_setName);
             setName(refVal_setName);

@@ -42,8 +42,7 @@ bool Order::fromJson(const nlohmann::json& val) {
     bool ok = true;
     bool converted = false;
     if (val.contains("id")) {
-        const nlohmann::json& fieldValue = val.at("id");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("id"); !fieldValue.is_null()) {
             int64_t refVal_setId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
@@ -51,8 +50,7 @@ bool Order::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("petId")) {
-        const nlohmann::json& fieldValue = val.at("petId");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("petId"); !fieldValue.is_null()) {
             int64_t refVal_setPetId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setPetId);
             setPetId(refVal_setPetId);
@@ -60,8 +58,7 @@ bool Order::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("quantity")) {
-        const nlohmann::json& fieldValue = val.at("quantity");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("quantity"); !fieldValue.is_null()) {
             int32_t refVal_setQuantity;
             ok &= ModelBase::fromJson(fieldValue, refVal_setQuantity);
             setQuantity(refVal_setQuantity);
@@ -69,8 +66,7 @@ bool Order::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("shipDate")) {
-        const nlohmann::json& fieldValue = val.at("shipDate");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("shipDate"); !fieldValue.is_null()) {
             std::string refVal_setShipDate;
             ok &= ModelBase::fromJson(fieldValue, refVal_setShipDate);
             setShipDate(refVal_setShipDate);
@@ -78,8 +74,7 @@ bool Order::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("status")) {
-        const nlohmann::json& fieldValue = val.at("status");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("status"); !fieldValue.is_null()) {
             std::string refVal_setStatus;
             ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
             setStatus(refVal_setStatus);
@@ -87,8 +82,7 @@ bool Order::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("complete")) {
-        const nlohmann::json& fieldValue = val.at("complete");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("complete"); !fieldValue.is_null()) {
             bool refVal_setComplete;
             ok &= ModelBase::fromJson(fieldValue, refVal_setComplete);
             setComplete(refVal_setComplete);

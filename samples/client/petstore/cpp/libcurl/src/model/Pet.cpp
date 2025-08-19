@@ -42,8 +42,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
     bool ok = true;
     bool converted = false;
     if (val.contains("id")) {
-        const nlohmann::json& fieldValue = val.at("id");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("id"); !fieldValue.is_null()) {
             int64_t refVal_setId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
@@ -51,8 +50,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("category")) {
-        const nlohmann::json& fieldValue = val.at("category");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("category"); !fieldValue.is_null()) {
             std::shared_ptr<Category> refVal_setCategory;
             ok &= ModelBase::fromJson(fieldValue, refVal_setCategory);
             setCategory(refVal_setCategory);
@@ -60,8 +58,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("name")) {
-        const nlohmann::json& fieldValue = val.at("name");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("name"); !fieldValue.is_null()) {
             std::string refVal_setName;
             ok &= ModelBase::fromJson(fieldValue, refVal_setName);
             setName(refVal_setName);
@@ -69,8 +66,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("photoUrls")) {
-        const nlohmann::json& fieldValue = val.at("photoUrls");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("photoUrls"); !fieldValue.is_null()) {
             std::vector<std::string> refVal_setPhotoUrls;
             ok &= ModelBase::fromJson(fieldValue, refVal_setPhotoUrls);
             setPhotoUrls(refVal_setPhotoUrls);
@@ -78,8 +74,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("tags")) {
-        const nlohmann::json& fieldValue = val.at("tags");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("tags"); !fieldValue.is_null()) {
             std::vector<std::shared_ptr<Tag>> refVal_setTags;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTags);
             setTags(refVal_setTags);
@@ -87,8 +82,7 @@ bool Pet::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("status")) {
-        const nlohmann::json& fieldValue = val.at("status");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("status"); !fieldValue.is_null()) {
             std::string refVal_setStatus;
             ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
             setStatus(refVal_setStatus);

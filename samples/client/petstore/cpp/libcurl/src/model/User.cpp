@@ -48,8 +48,7 @@ bool User::fromJson(const nlohmann::json& val) {
     bool ok = true;
     bool converted = false;
     if (val.contains("id")) {
-        const nlohmann::json& fieldValue = val.at("id");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("id"); !fieldValue.is_null()) {
             int64_t refVal_setId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
@@ -57,8 +56,7 @@ bool User::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("username")) {
-        const nlohmann::json& fieldValue = val.at("username");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("username"); !fieldValue.is_null()) {
             std::string refVal_setUsername;
             ok &= ModelBase::fromJson(fieldValue, refVal_setUsername);
             setUsername(refVal_setUsername);
@@ -66,8 +64,7 @@ bool User::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("firstName")) {
-        const nlohmann::json& fieldValue = val.at("firstName");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("firstName"); !fieldValue.is_null()) {
             std::string refVal_setFirstName;
             ok &= ModelBase::fromJson(fieldValue, refVal_setFirstName);
             setFirstName(refVal_setFirstName);
@@ -75,8 +72,7 @@ bool User::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("lastName")) {
-        const nlohmann::json& fieldValue = val.at("lastName");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("lastName"); !fieldValue.is_null()) {
             std::string refVal_setLastName;
             ok &= ModelBase::fromJson(fieldValue, refVal_setLastName);
             setLastName(refVal_setLastName);
@@ -84,8 +80,7 @@ bool User::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("email")) {
-        const nlohmann::json& fieldValue = val.at("email");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("email"); !fieldValue.is_null()) {
             std::string refVal_setEmail;
             ok &= ModelBase::fromJson(fieldValue, refVal_setEmail);
             setEmail(refVal_setEmail);
@@ -93,8 +88,7 @@ bool User::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("password")) {
-        const nlohmann::json& fieldValue = val.at("password");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("password"); !fieldValue.is_null()) {
             std::string refVal_setPassword;
             ok &= ModelBase::fromJson(fieldValue, refVal_setPassword);
             setPassword(refVal_setPassword);
@@ -102,8 +96,7 @@ bool User::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("phone")) {
-        const nlohmann::json& fieldValue = val.at("phone");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("phone"); !fieldValue.is_null()) {
             std::string refVal_setPhone;
             ok &= ModelBase::fromJson(fieldValue, refVal_setPhone);
             setPhone(refVal_setPhone);
@@ -111,8 +104,7 @@ bool User::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("userStatus")) {
-        const nlohmann::json& fieldValue = val.at("userStatus");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("userStatus"); !fieldValue.is_null()) {
             int32_t refVal_setUserStatus;
             ok &= ModelBase::fromJson(fieldValue, refVal_setUserStatus);
             setUserStatus(refVal_setUserStatus);

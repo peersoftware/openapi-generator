@@ -33,8 +33,7 @@ bool r_ApiResponse::fromJson(const nlohmann::json& val) {
     bool ok = true;
     bool converted = false;
     if (val.contains("code")) {
-        const nlohmann::json& fieldValue = val.at("code");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("code"); !fieldValue.is_null()) {
             int32_t refVal_setCode;
             ok &= ModelBase::fromJson(fieldValue, refVal_setCode);
             setCode(refVal_setCode);
@@ -42,8 +41,7 @@ bool r_ApiResponse::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("type")) {
-        const nlohmann::json& fieldValue = val.at("type");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("type"); !fieldValue.is_null()) {
             std::string refVal_setType;
             ok &= ModelBase::fromJson(fieldValue, refVal_setType);
             setType(refVal_setType);
@@ -51,8 +49,7 @@ bool r_ApiResponse::fromJson(const nlohmann::json& val) {
         converted = true;
     }
     if (val.contains("message")) {
-        const nlohmann::json& fieldValue = val.at("message");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("message"); !fieldValue.is_null()) {
             std::string refVal_setMessage;
             ok &= ModelBase::fromJson(fieldValue, refVal_setMessage);
             setMessage(refVal_setMessage);

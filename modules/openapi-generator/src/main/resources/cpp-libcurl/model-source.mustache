@@ -151,8 +151,7 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
     {{#vars}}
     {{^isInherited}}
     if (val.contains("{{baseName}}")) {
-        const nlohmann::json& fieldValue = val.at("{{baseName}}");
-        if (!fieldValue.is_null()) {
+        if (const auto& fieldValue = val.at("{{baseName}}"); !fieldValue.is_null()) {
             {{{dataType}}} refVal_{{setter}};
             ok &= ModelBase::fromJson(fieldValue, refVal_{{setter}});
             {{setter}}(refVal_{{setter}});
