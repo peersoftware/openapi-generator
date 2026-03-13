@@ -19,14 +19,14 @@ import jakarta.annotation.Generated;
  * Dog
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Dog {
 
   private @Nullable String name;
 
   private @Nullable Integer age;
 
-  public Dog name(String name) {
+  public Dog name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -35,18 +35,18 @@ public class Dog {
    * Get name
    * @return name
    */
-  @Pattern(regexp = "^[a-zA-Z]+$", message="Name must contain only letters") @Size(max = 50) 
+  @Pattern(regexp = "^[a-zA-Z]+$", message = "Name must contain only letters") @Size(max = 50) 
   @Schema(name = "name", example = "Rex", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 
-  public Dog age(Integer age) {
+  public Dog age(@Nullable Integer age) {
     this.age = age;
     return this;
   }
@@ -56,14 +56,14 @@ public class Dog {
    * minimum: 0
    * @return age
    */
-  @Min(0) 
+  @Min(value = 0) 
   @Schema(name = "age", example = "5", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("age")
-  public Integer getAge() {
+  public @Nullable Integer getAge() {
     return age;
   }
 
-  public void setAge(Integer age) {
+  public void setAge(@Nullable Integer age) {
     this.age = age;
   }
 
@@ -99,7 +99,7 @@ public class Dog {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

@@ -27,7 +27,7 @@ import javax.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @Valid
@@ -305,7 +305,7 @@ public class AdditionalPropertiesClass {
     this.mapMapAnytype = mapMapAnytype;
   }
 
-  public AdditionalPropertiesClass anytype1(Object anytype1) {
+  public AdditionalPropertiesClass anytype1(@Nullable Object anytype1) {
     this.anytype1 = anytype1;
     return this;
   }
@@ -317,11 +317,11 @@ public class AdditionalPropertiesClass {
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_1")
-  public Object getAnytype1() {
+  public @Nullable Object getAnytype1() {
     return anytype1;
   }
 
-  public void setAnytype1(Object anytype1) {
+  public void setAnytype1(@Nullable Object anytype1) {
     this.anytype1 = anytype1;
   }
 
@@ -345,7 +345,7 @@ public class AdditionalPropertiesClass {
     this.anytype2 = anytype2;
   }
 
-  public AdditionalPropertiesClass anytype3(Object anytype3) {
+  public AdditionalPropertiesClass anytype3(@Nullable Object anytype3) {
     this.anytype3 = anytype3;
     return this;
   }
@@ -357,11 +357,11 @@ public class AdditionalPropertiesClass {
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_3")
-  public Object getAnytype3() {
+  public @Nullable Object getAnytype3() {
     return anytype3;
   }
 
-  public void setAnytype3(Object anytype3) {
+  public void setAnytype3(@Nullable Object anytype3) {
     this.anytype3 = anytype3;
   }
 
@@ -426,7 +426,7 @@ public class AdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

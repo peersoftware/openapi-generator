@@ -27,12 +27,12 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @JsonTypeName("AdditionalPropertiesObject")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class AdditionalPropertiesObjectDto {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesObjectDto name(String name) {
+  public AdditionalPropertiesObjectDto name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -44,11 +44,11 @@ public class AdditionalPropertiesObjectDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**
@@ -122,7 +122,7 @@ public class AdditionalPropertiesObjectDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

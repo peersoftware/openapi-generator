@@ -13,7 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
-import { ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './ChildWithNullable';
+import { type ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './ChildWithNullable';
 /**
  * 
  * @export
@@ -22,7 +22,7 @@ import { ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJ
 export interface ParentWithNullable {
     /**
      * 
-     * @type {string}
+     * @type {ParentWithNullableTypeEnum}
      * @memberof ParentWithNullable
      */
     type?: ParentWithNullableTypeEnum;
@@ -63,6 +63,7 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
         if (json['type'] === 'ChildWithNullable') {
             return ChildWithNullableFromJSONTyped(json, ignoreDiscriminator);
         }
+
     }
     return {
         

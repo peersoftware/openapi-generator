@@ -46,7 +46,7 @@ export interface Order {
     shipDate?: Date;
     /**
      * Order Status
-     * @type {string}
+     * @type {OrderStatusEnum}
      * @memberof Order
      */
     status?: OrderStatusEnum;
@@ -112,7 +112,7 @@ export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: bool
         'id': value['id'],
         'petId': value['petId'],
         'quantity': value['quantity'],
-        'shipDate': value['shipDate'] == null ? undefined : ((value['shipDate']).toISOString()),
+        'shipDate': value['shipDate'] == null ? value['shipDate'] : value['shipDate'].toISOString(),
         'status': value['status'],
         'complete': value['complete'],
     };

@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -40,6 +39,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -90,14 +90,22 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
     public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
+    public static final String GENERATE_GENERIC_RESPONSE_ENTITY = "generateGenericResponseEntity";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String USE_SEALED = "useSealed";
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
+    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
+    public static final String SPRING_API_VERSION = "springApiVersion";
+    public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
 
     @Getter
     public enum RequestMappingMode {
@@ -147,9 +155,12 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
     @Setter protected boolean useResponseEntity = true;
+    @Setter protected boolean generateGenericResponseEntity = false;
     @Setter protected boolean useEnumCaseInsensitive = false;
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
+    @Getter @Setter
+    protected boolean useSpringBoot4 = false;
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
@@ -157,6 +168,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean optionalAcceptNullable = true;
     @Getter @Setter
     protected boolean useSpringBuiltInValidation = false;
+    @Getter @Setter
+    protected boolean useDeductionForOneOfInterfaces = false;
+    @Getter @Setter
+    protected boolean useJackson3 = false;
 
     public SpringCodegen() {
         super();
@@ -185,6 +200,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+
+        // Enable discriminator-based oneOf interface generation by default
+        useOneOfInterfaces = true;
+        legacyDiscriminatorBehavior = false;
+        updateOption(USE_ONE_OF_INTERFACES, String.valueOf(useOneOfInterfaces));
+        updateOption(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, String.valueOf(legacyDiscriminatorBehavior));
 
         apiTestTemplateFiles.clear(); // TODO: add test template
 
@@ -237,6 +258,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions
                 .add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(SPRING_CONTROLLER, "Annotate the generated API as a Spring Controller", useSpringController));
+        cliOptions.add(CliOption.newString(X_IMPLEMENTS_SKIP, "Ability to choose interfaces that should NOT be implemented in the models despite their presence in vendor extension `x-implements`. Takes a list of fully qualified interface names. Example: yaml `xImplementsSkip: [com.some.pack.WithPhotoUrls]` skips implementing the interface `com.some.pack.WithPhotoUrls` in any schema", "empty list"));
+        cliOptions.add(CliOption.newString(SCHEMA_IMPLEMENTS, "Ability to supply interfaces per schema that should be implemented (serves similar purpose as vendor extension `x-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map"));
+
 
         CliOption requestMappingOpt = new CliOption(REQUEST_MAPPING_OPTION,
                 "Where to generate the class level @RequestMapping annotation.")
@@ -256,12 +280,20 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use the `ResponseEntity` type to wrap return values of generated API methods. "
                         + "If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity));
+        cliOptions.add(CliOption.newBoolean(GENERATE_GENERIC_RESPONSE_ENTITY,
+                "Use a generic type for the `ResponseEntity` wrapping return values of generated API methods. "
+                        + "If enabled, method are generated with return type ResponseEntity<?>",
+                generateGenericResponseEntity));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE,
                 "Use `equalsIgnoreCase` when String for enum comparison",
                 useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
-                "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
+                "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
                 useSpringBoot3));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4,
+                "Generate code and provide dependencies for use with Spring Boot 4.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
+                useSpringBoot4));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Set it in order to use jackson 3 dependencies (only allowed when `" + USE_SPRING_BOOT4 + "` is set and incompatible with `"+OPENAPI_NULLABLE+"`).", useJackson3));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
                 "Whether to generate constructors with required args for models",
                 generatedConstructorWithRequiredArgs));
@@ -270,6 +302,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use `ofNullable` instead of just `of` to accept null values when using Optional.",
                 optionalAcceptNullable));
 
+        cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "whether to use deduction for generated oneOf interfaces", useDeductionForOneOfInterfaces));
+        cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for 'version' attribute in @RequestMapping (for Spring 7 and above)."));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -359,9 +393,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToTypeAndWriteBack(REQUEST_MAPPING_OPTION, RequestMappingMode::valueOf, this::setRequestMappingMode);
 
-        useOneOfInterfaces = true;
-        legacyDiscriminatorBehavior = false;
-
         // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
 
@@ -433,14 +464,25 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(UNHANDLED_EXCEPTION_HANDLING, this::setUnhandledException);
         convertPropertyToBooleanAndWriteBack(USE_RESPONSE_ENTITY, this::setUseResponseEntity);
+        convertPropertyToBooleanAndWriteBack(GENERATE_GENERIC_RESPONSE_ENTITY, this::setGenerateGenericResponseEntity);
+        if (!useResponseEntity) {
+            this.setGenerateGenericResponseEntity(false);
+            this.additionalProperties.put(GENERATE_GENERIC_RESPONSE_ENTITY, false);
+        }
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
+        convertPropertyToBooleanAndWriteBack(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
         convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);
+        convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3, this::setUseSpringBoot3);
-        if (isUseSpringBoot3()) {
+        convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
+        if(isUseSpringBoot3() && isUseSpringBoot4()){
+            throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
+        }
+        if (isUseSpringBoot3() || isUseSpringBoot4()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
@@ -450,7 +492,22 @@ public class SpringCodegen extends AbstractJavaCodegen
             useJakartaEe = true;
             applyJakartaPackage();
         }
+        if(isUseJackson3() && !isUseSpringBoot4()){
+            throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
+        }
+        if(isUseJackson3() && isOpenApiNullable()){
+            throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+        }
+        if(this.useJackson3){
+            this.applyJackson3Package();
+        } else {
+            this.applyJackson2Package();
+        }
         convertPropertyToStringAndWriteBack(RESOURCE_FOLDER, this::setResourceFolder);
+
+
+        // override parent one
+        importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("Nullable", "org.springframework.lang.Nullable");
@@ -458,7 +515,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
-        if (isUseSpringBoot3()) {
+        if (isUseSpringBoot3() || isUseSpringBoot4()) {
             importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
         }
 
@@ -467,7 +524,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put("delegate-method", true);
         }
 
-        if (isUseSpringBoot3()) {
+        if (isUseSpringBoot4()) {
+            supportingFiles.add(new SupportingFile("pom-sb4.mustache", "", "pom.xml"));
+        } else if (isUseSpringBoot3()) {
             supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
         } else {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -547,12 +606,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
         }
 
-        if (!delegatePattern || delegateMethod) {
-            additionalProperties.put("jdk8-no-delegate", true);
-        }
-
         if (delegatePattern && !delegateMethod) {
-            additionalProperties.put("isDelegate", "true");
+            additionalProperties.put("isDelegate", true);
             apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
         }
 
@@ -637,18 +692,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportsAdditionalPropertiesWithComposedSchema = true;
     }
 
-    private boolean containsEnums() {
-        if (openAPI == null) {
-            return false;
-        }
+    protected void applyJackson2Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+    }
 
-        Components components = this.openAPI.getComponents();
-        if (components == null || components.getSchemas() == null) {
-            return false;
-        }
-
-        return components.getSchemas().values().stream()
-                .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
+    protected void applyJackson3Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
     }
 
     private boolean supportLibraryUseTags() {
@@ -685,7 +734,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
 
-        if (SPRING_BOOT.equals(library) && containsEnums()) {
+        if (SPRING_BOOT.equals(library) && ModelUtils.containsEnums(this.openAPI)) {
             supportingFiles.add(new SupportingFile("converter.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.java"));
         }
@@ -850,6 +899,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private void prepareVersioningParameters(List<CodegenOperation> operations) {
+        Object apiVersion = additionalProperties.get(SPRING_API_VERSION);
+        boolean hasApiVersion = apiVersion != null;
         for (CodegenOperation operation : operations) {
             if (operation.getHasHeaderParams()) {
                 List<CodegenParameter> versionParams = operation.headerParams.stream()
@@ -871,6 +922,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                         .collect(Collectors.toList());
                 operation.hasVersionQueryParams = !versionParams.isEmpty();
                 operation.vendorExtensions.put("versionQueryParamsList", versionParams);
+            }
+            if (hasApiVersion) {
+                operation.vendorExtensions.putIfAbsent(VendorExtension.X_SPRING_API_VERSION.getName(), apiVersion);
             }
         }
     }
@@ -960,11 +1014,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
             model.imports.add("Arrays");
         }
-
-        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
-        if (getName().contains("spring")) {
-            model.imports.add("Nullable");
-        }
     }
 
     @Override
@@ -974,6 +1023,16 @@ public class SpringCodegen extends AbstractJavaCodegen
             // remove swagger imports
             codegenModel.imports.remove("ApiModelProperty");
             codegenModel.imports.remove("ApiModel");
+        }
+
+        if (getAnnotationLibrary() != AnnotationLibrary.SWAGGER2) {
+            // remove swagger imports
+            codegenModel.imports.remove("Schema");
+        }
+
+        // Only add Nullable import for non-enum models that may have nullable fields
+        if (!Boolean.TRUE.equals(codegenModel.isEnum)) {
+            addSpringNullableImport(codegenModel.imports);
         }
 
         return codegenModel;
@@ -1038,6 +1097,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
             codegenOperation.imports.addAll(provideArgsClassSet);
         }
+
+        addSpringNullableImportForOperation(codegenOperation);
 
         if (reactive) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
@@ -1194,6 +1255,32 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
         extensions.add(VendorExtension.X_VERSION_PARAM);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
+        extensions.add(VendorExtension.X_SIZE_MESSAGE);
+        extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
+        extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
+        extensions.add(VendorExtension.X_SPRING_API_VERSION);
         return extensions;
+    }
+
+    private boolean isSpringCodegen() {
+        return getName().contains("spring");
+    }
+
+    private void addSpringNullableImport(Set<String> imports) {
+        if (isSpringCodegen()) {
+            imports.add("Nullable");
+        }
+    }
+
+    /**
+     * Adds Spring Nullable import if any parameter is nullable or optional.
+     */
+    private void addSpringNullableImportForOperation(CodegenOperation codegenOperation) {
+        if (isSpringCodegen()) {
+            codegenOperation.allParams.stream()
+                .filter(CodegenParameter::notRequiredOrIsNullable)
+                .findAny()
+                .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+        }
     }
 }
