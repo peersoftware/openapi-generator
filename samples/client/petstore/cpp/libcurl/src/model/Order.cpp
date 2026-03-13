@@ -92,6 +92,29 @@ bool Order::fromJson(const nlohmann::json& val) {
     return ok && converted;
 }
 
+Order::StatusEnum Order::toStatusEnum(std::string_view value) {
+    if (value == "placed") {
+        return StatusEnum::PLACED;
+    }
+    if (value == "approved") {
+        return StatusEnum::APPROVED;
+    }
+    if (value == "delivered") {
+        return StatusEnum::DELIVERED;
+    }
+    return StatusEnum::UNDEFINED_VALUE;
+}
+
+std::string_view Order::fromStatusEnum(const StatusEnum value) {
+    switch (value) {
+        case StatusEnum::PLACED: return "placed";
+        case StatusEnum::APPROVED: return "approved";
+        case StatusEnum::DELIVERED: return "delivered";
+        default:
+            return "";
+    }
+}
+
 int64_t Order::getId() const {
     return m_Id;
 }
@@ -160,9 +183,17 @@ const std::string& Order::getStatus() const {
     return m_Status;
 }
 
+Order::StatusEnum Order::getStatusEnum() const {
+    return toStatusEnum(m_Status);
+}
+
 void Order::setStatus(std::string_view value) {
     m_Status = value;
     m_StatusIsSet = true;
+}
+
+void Order::setStatus(StatusEnum value) {
+    setStatus(fromStatusEnum(value));
 }
 
 bool Order::statusIsSet() const {

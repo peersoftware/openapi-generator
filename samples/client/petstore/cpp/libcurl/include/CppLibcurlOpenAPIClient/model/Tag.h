@@ -45,13 +45,11 @@ public:
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
-
     void setId(int64_t value);
 
     const std::string& getName() const;
     bool nameIsSet() const;
     void unsetName();
-
     void setName(std::string_view value);
 
 

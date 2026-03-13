@@ -42,43 +42,51 @@ public:
     /////////////////////////////////////////////
     /// Order members
 
+    enum class StatusEnum {
+        UNDEFINED_VALUE,
+        PLACED,
+        APPROVED,
+        DELIVERED,
+    };
+    /// <summary>
+    /// Order Status
+    /// </summary>
+    static StatusEnum toStatusEnum(std::string_view value);
+    static std::string_view fromStatusEnum(const StatusEnum value);
+
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
-
     void setId(int64_t value);
 
     int64_t getPetId() const;
     bool petIdIsSet() const;
     void unsetPetId();
-
     void setPetId(int64_t value);
 
     int32_t getQuantity() const;
     bool quantityIsSet() const;
     void unsetQuantity();
-
     void setQuantity(int32_t value);
 
     const std::string& getShipDate() const;
     bool shipDateIsSet() const;
     void unsetShipDate();
-
     void setShipDate(std::string_view value);
 
     /// <summary>
     /// Order Status
     /// </summary>
     const std::string& getStatus() const;
+    StatusEnum getStatusEnum() const;
     bool statusIsSet() const;
     void unsetStatus();
-
     void setStatus(std::string_view value);
+    void setStatus(StatusEnum value);
 
     bool isComplete() const;
     bool completeIsSet() const;
     void unsetComplete();
-
     void setComplete(bool value);
 
 

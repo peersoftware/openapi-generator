@@ -45,43 +45,36 @@ public:
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
-
     void setId(int64_t value);
 
     const std::string& getUsername() const;
     bool usernameIsSet() const;
     void unsetUsername();
-
     void setUsername(std::string_view value);
 
     const std::string& getFirstName() const;
     bool firstNameIsSet() const;
     void unsetFirstName();
-
     void setFirstName(std::string_view value);
 
     const std::string& getLastName() const;
     bool lastNameIsSet() const;
     void unsetLastName();
-
     void setLastName(std::string_view value);
 
     const std::string& getEmail() const;
     bool emailIsSet() const;
     void unsetEmail();
-
     void setEmail(std::string_view value);
 
     const std::string& getPassword() const;
     bool passwordIsSet() const;
     void unsetPassword();
-
     void setPassword(std::string_view value);
 
     const std::string& getPhone() const;
     bool phoneIsSet() const;
     void unsetPhone();
-
     void setPhone(std::string_view value);
 
     /// <summary>
@@ -90,7 +83,6 @@ public:
     int32_t getUserStatus() const;
     bool userStatusIsSet() const;
     void unsetUserStatus();
-
     void setUserStatus(int32_t value);
 
 

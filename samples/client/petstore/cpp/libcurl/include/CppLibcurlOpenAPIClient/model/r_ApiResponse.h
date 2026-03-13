@@ -45,19 +45,16 @@ public:
     int32_t getCode() const;
     bool codeIsSet() const;
     void unsetCode();
-
     void setCode(int32_t value);
 
     const std::string& getType() const;
     bool typeIsSet() const;
     void unsetType();
-
     void setType(std::string_view value);
 
     const std::string& getMessage() const;
     bool messageIsSet() const;
     void unsetMessage();
-
     void setMessage(std::string_view value);
 
 

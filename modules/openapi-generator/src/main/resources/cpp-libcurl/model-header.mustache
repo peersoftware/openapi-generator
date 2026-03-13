@@ -71,7 +71,7 @@ public:
         /// {{{.}}}
         /// </summary>
         {{/enumDescription}}
-        {{classname}}_{{{name}}}{{^last}},{{/last}}
+        {{{name}}}{{^last}},{{/last}}
         {{/enumVars}}
         {{/allowableValues}}
     };
@@ -101,6 +101,47 @@ public:
     /////////////////////////////////////////////
     /// {{classname}} members
 
+    {{! ENUM DEFINITIONS }}
+    {{#vars}}
+    {{^isInherited}}
+    {{#isEnum}}
+    enum class {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}} {
+        UNDEFINED_VALUE,
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{{name}}}{{^last}},{{/last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+    };
+    {{#description}}
+    /// <summary>
+    /// {{{description}}}
+    /// </summary>
+    {{/description}}
+    {{/isEnum}}
+    {{/isInherited}}
+    {{/vars}}
+    {{#vars}}
+    {{^isInherited}}
+    {{#isEnum}}
+    {{#isContainer}}
+    {{! ENUM CONVERSIONS }}
+    static {{{enumName}}} to{{{enumName}}}(std::string_view value);
+    static std::string_view from{{{enumName}}}(const {{{enumName}}} value);
+    {{#isArray}}
+    static {{{datatypeWithEnum}}} to{{{enumName}}}(const {{{dataType}}}& value);
+    static {{{dataType}}} from{{{enumName}}}(const {{{datatypeWithEnum}}}& value);
+    {{/isArray}}
+    {{/isContainer}}
+    {{^isContainer}}
+    static {{{datatypeWithEnum}}} to{{{datatypeWithEnum}}}(std::string_view value);
+    static std::string_view from{{{datatypeWithEnum}}}(const {{{datatypeWithEnum}}} value);
+    {{/isContainer}}
+
+    {{/isEnum}}
+    {{/isInherited}}
+    {{/vars}}
+    {{! SETTER AND GETTERS }}
     {{#vars}}
     {{^isInherited}}
     {{#description}}
@@ -114,9 +155,13 @@ public:
     {{^vendorExtensions.x-cpp-is-class}}
     {{{dataType}}} {{getter}}() const;
     {{/vendorExtensions.x-cpp-is-class}}
+    {{#isEnum}}
+    {{^isMap}}
+    {{{datatypeWithEnum}}} {{getter}}Enum() const;
+    {{/isMap}}
+    {{/isEnum}}
     bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
-
     {{#vendorExtensions.x-cpp-is-class}}
     {{#vendorExtensions.x-cpp-is-std-string}}
     void {{setter}}(std::string_view value);
@@ -128,8 +173,16 @@ public:
     {{^vendorExtensions.x-cpp-is-class}}
     void {{setter}}({{{dataType}}} value);
     {{/vendorExtensions.x-cpp-is-class}}
-
+    {{#isEnum}}
+    {{#isArray}}
+    void {{setter}}(const {{{datatypeWithEnum}}}& value);
+    {{/isArray}}
+    {{^isArray}}
+    void {{setter}}({{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} value);
+    {{/isArray}}
+    {{/isEnum}}
     {{/isInherited}}
+
     {{/vars}}
 
 private:

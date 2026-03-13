@@ -47,44 +47,52 @@ public:
     /////////////////////////////////////////////
     /// Pet members
 
+    enum class StatusEnum {
+        UNDEFINED_VALUE,
+        AVAILABLE,
+        PENDING,
+        SOLD,
+    };
+    /// <summary>
+    /// pet status in the store
+    /// </summary>
+    static StatusEnum toStatusEnum(std::string_view value);
+    static std::string_view fromStatusEnum(const StatusEnum value);
+
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
-
     void setId(int64_t value);
 
     const std::shared_ptr<Category>& getCategory() const;
     bool categoryIsSet() const;
     void unsetCategory();
-
     void setCategory(const std::shared_ptr<Category>& value);
 
     const std::string& getName() const;
     bool nameIsSet() const;
     void unsetName();
-
     void setName(std::string_view value);
 
     const std::vector<std::string>& getPhotoUrls() const;
     bool photoUrlsIsSet() const;
     void unsetPhotoUrls();
-
     void setPhotoUrls(const std::vector<std::string>& value);
 
     const std::vector<std::shared_ptr<Tag>>& getTags() const;
     bool tagsIsSet() const;
     void unsetTags();
-
     void setTags(const std::vector<std::shared_ptr<Tag>>& value);
 
     /// <summary>
     /// pet status in the store
     /// </summary>
     const std::string& getStatus() const;
+    StatusEnum getStatusEnum() const;
     bool statusIsSet() const;
     void unsetStatus();
-
     void setStatus(std::string_view value);
+    void setStatus(StatusEnum value);
 
 
 private:

@@ -92,6 +92,29 @@ bool Pet::fromJson(const nlohmann::json& val) {
     return ok && converted;
 }
 
+Pet::StatusEnum Pet::toStatusEnum(std::string_view value) {
+    if (value == "available") {
+        return StatusEnum::AVAILABLE;
+    }
+    if (value == "pending") {
+        return StatusEnum::PENDING;
+    }
+    if (value == "sold") {
+        return StatusEnum::SOLD;
+    }
+    return StatusEnum::UNDEFINED_VALUE;
+}
+
+std::string_view Pet::fromStatusEnum(const StatusEnum value) {
+    switch (value) {
+        case StatusEnum::AVAILABLE: return "available";
+        case StatusEnum::PENDING: return "pending";
+        case StatusEnum::SOLD: return "sold";
+        default:
+            return "";
+    }
+}
+
 int64_t Pet::getId() const {
     return m_Id;
 }
@@ -176,9 +199,17 @@ const std::string& Pet::getStatus() const {
     return m_Status;
 }
 
+Pet::StatusEnum Pet::getStatusEnum() const {
+    return toStatusEnum(m_Status);
+}
+
 void Pet::setStatus(std::string_view value) {
     m_Status = value;
     m_StatusIsSet = true;
+}
+
+void Pet::setStatus(StatusEnum value) {
+    setStatus(fromStatusEnum(value));
 }
 
 bool Pet::statusIsSet() const {

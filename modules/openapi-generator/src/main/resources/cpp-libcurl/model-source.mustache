@@ -61,7 +61,7 @@ using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}std:
     switch (val) {
     {{#enumVars}}
     case {{value}}:
-        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+        return {{classname}}::e{{classname}}::{{name}};
     {{#-last}}
     default:
         break;
@@ -72,7 +72,7 @@ using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}std:
 {{^isNumeric}}
     {{#enumVars}}
     if (val == "{{{value}}}")
-        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+        return {{classname}}::e{{classname}}::{{name}};
     {{/enumVars}}
 {{/isNumeric}}
 {{/allowableValues}}
@@ -83,7 +83,7 @@ EnumUnderlyingType fromEnum({{classname}}::e{{classname}} e) {
 {{#allowableValues}}
     switch (e) {
 {{#enumVars}}
-    case {{classname}}::e{{classname}}::{{classname}}_{{name}}:
+    case {{classname}}::e{{classname}}::{{name}}:
         return {{#isNumeric}}{{value}}{{/isNumeric}}{{^isNumeric}}"{{value}}"{{/isNumeric}};
 {{#-last}}
     default:
@@ -165,6 +165,65 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
 
 {{#vars}}
 {{^isInherited}}
+{{#isEnum}}
+{{#isContainer}}
+{{classname}}::{{{enumName}}} {{classname}}::to{{{enumName}}}(std::string_view value) {
+{{/isContainer}}
+{{^isContainer}}
+{{classname}}::{{{datatypeWithEnum}}} {{classname}}::to{{{datatypeWithEnum}}}(std::string_view value) {
+{{/isContainer}}
+    {{#allowableValues}}
+    {{#enumVars}}
+    if (value == "{{value}}") {
+        return {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{name}};
+    }
+    {{/enumVars}}
+    {{/allowableValues}}
+    return {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::UNDEFINED_VALUE;
+}
+
+{{#isContainer}}
+std::string_view {{classname}}::from{{{enumName}}}(const {{{enumName}}} value) {
+{{/isContainer}}
+{{^isContainer}}
+std::string_view {{classname}}::from{{{datatypeWithEnum}}}(const {{{datatypeWithEnum}}} value) {
+{{/isContainer}}
+    switch (value) {
+        {{#allowableValues}}
+        {{#enumVars}}
+        case {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{name}}: return "{{value}}";
+        {{/enumVars}}
+        {{/allowableValues}}
+        default:
+            return "";
+    }
+}
+
+{{#isContainer}}
+{{#isArray}}
+{{{dataType}}} {{{classname}}}::from{{{enumName}}}(const {{{datatypeWithEnum}}}& value) {
+    {{{dataType}}} ret;
+    for (const auto& item : value) {
+        ret.emplace_back(from{{{enumName}}}(item));
+    }
+    return ret;
+}
+
+{{{baseType}}}<{{classname}}::{{{enumName}}}> {{{classname}}}::to{{{enumName}}}(const {{{dataType}}}& value) {
+    {{{datatypeWithEnum}}} ret;
+    for (const auto& item : value) {
+        ret.emplace_back(to{{{enumName}}}(item));
+    }
+    return ret;
+}
+
+{{/isArray}}
+{{/isContainer}}
+{{/isEnum}}
+{{/isInherited}}
+{{/vars}}
+{{#vars}}
+{{^isInherited}}
 {{#vendorExtensions.x-cpp-is-class}}
 const {{{dataType}}}& {{classname}}::{{getter}}() const {
 {{/vendorExtensions.x-cpp-is-class}}
@@ -173,6 +232,19 @@ const {{{dataType}}}& {{classname}}::{{getter}}() const {
 {{/vendorExtensions.x-cpp-is-class}}
     return m_{{name}};
 }
+{{#isEnum}}
+{{^isMap}}
+
+{{#isArray}}
+{{{baseType}}}<{{classname}}::{{{enumName}}}> {{classname}}::{{getter}}Enum() const {
+{{/isArray}}
+{{^isArray}}
+{{classname}}::{{{enumName}}} {{classname}}::{{getter}}Enum() const {
+{{/isArray}}
+    return to{{{enumName}}}(m_{{name}});
+}
+{{/isMap}}
+{{/isEnum}}
 
 {{#vendorExtensions.x-cpp-is-class}}
 {{#vendorExtensions.x-cpp-is-std-string}}
@@ -188,6 +260,17 @@ void {{classname}}::{{setter}}({{{dataType}}} value) {
     m_{{name}} = value;
     m_{{name}}IsSet = true;
 }
+{{#isEnum}}
+
+{{#isArray}}
+void {{classname}}::{{setter}}(const {{{datatypeWithEnum}}}& value) {
+{{/isArray}}
+{{^isArray}}
+void {{classname}}::{{setter}}({{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} value) {
+{{/isArray}}
+    {{setter}}(from{{{enumName}}}(value));
+}
+{{/isEnum}}
 
 bool {{classname}}::{{nameInCamelCase}}IsSet() const {
     return m_{{name}}IsSet;
