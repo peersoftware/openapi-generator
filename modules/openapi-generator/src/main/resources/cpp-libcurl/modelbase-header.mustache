@@ -175,10 +175,10 @@ bool ModelBase::fromJson(const nlohmann::json& val, std::map<std::string, T, std
     bool ok = true;
 
     if (val.is_object()) {
-        for (auto jitem = val.cbegin(); jitem != val.cend(); ++jitem) {
+        for (const auto &[jkey, jvalue] : val.items()) {
             T itemVal;
-            ok &= fromJson(jitem.value(), itemVal);
-            outVal.emplace(std::pair<std::string, T>(jitem.key(), std::move(itemVal)));
+            ok &= fromJson(jvalue, itemVal);
+            outVal.try_emplace(jkey, std::move(itemVal));
         }
     } else {
         ok = false;
