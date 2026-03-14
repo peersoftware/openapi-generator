@@ -35,6 +35,11 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
     protected String modelDirName = "model";
     protected String cmakeMin = "3.5";
 
+    /**
+     * nlohmann::json (for object, AnyType)
+     */
+    private static final String NLOHMANN_JSON = "nlohmann::json";
+
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
 
@@ -134,8 +139,10 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         typeMapping.put("ByteArray", "std::string");
         typeMapping.put("binary", "std::string");
         typeMapping.put("file", "std::string");
+        typeMapping.put("object", NLOHMANN_JSON);
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
+        typeMapping.put("AnyType", NLOHMANN_JSON);
 
         super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
@@ -146,6 +153,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
         importMapping.put("uint32_t", "#include <cstdint>");
         importMapping.put("int64_t", "#include <cstdint>");
         importMapping.put("uint64_t", "#include <cstdint>");
+        importMapping.put(NLOHMANN_JSON, "");
     }
 
     @Override
@@ -341,6 +349,15 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
     }
 
     /**
+     * Determine if the schema/type is fine to use directly without wrapping in std::shared_ptr.
+     */
+    private Boolean useWithoutSharedPointer(Schema schema, String openAPIType) {
+        return isStdStringSchema(schema)
+                || languageSpecificPrimitives.contains(openAPIType)
+                || openAPIType.equals(NLOHMANN_JSON);
+    }
+
+    /**
      * Optional - type declaration. This is a String which is used by the
      * templates to instantiate your types. There is typically special handling
      * for different property types
@@ -375,8 +392,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
             return "uint32_t";
         }
 
-        if (isStdStringSchema(schema)
-                || languageSpecificPrimitives.contains(openAPIType)) {
+        if (useWithoutSharedPointer(schema, openAPIType)) {
             return openAPIType;
         }
 
@@ -448,8 +464,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
             /* Check the type of any reference schema before making a shared pointer */
             inner = unaliasSchema(inner);
 
-            if (!isStdStringSchema(inner) &&
-                    !languageSpecificPrimitives.contains(innerType)) {
+            if (!useWithoutSharedPointer(inner, innerType)) {
                 innerType = "std::shared_ptr<" + innerType + ">";
             }
             return "std::vector<" + innerType + ">()";
@@ -461,7 +476,7 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
     }
 
     private void addVendorExtensions(String dataType, Map<String, Object> vendorExtensions) {
-        if (dataType.startsWith("std::")) {
+        if (dataType.startsWith("std::") || dataType.equals(NLOHMANN_JSON)) {
            vendorExtensions.put("x-cpp-is-class", true);
         }
 
