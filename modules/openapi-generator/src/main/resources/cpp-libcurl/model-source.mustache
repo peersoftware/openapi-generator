@@ -137,6 +137,14 @@ nlohmann::json {{classname}}::toJson() const {
     }
     {{/isInherited}}
     {{/vars}}
+    {{#additionalPropertiesType}}
+    // Serialize additional properties
+    if(m_AdditionalPropertiesIsSet) {
+        for(const auto& [propName, propValue] : m_AdditionalProperties) {
+            val[propName] = propValue;
+        }
+    }
+    {{/additionalPropertiesType}}
 
     return val;
 }
@@ -160,6 +168,24 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
     }
     {{/isInherited}}
     {{/vars}}
+    {{#additionalPropertiesType}}
+    // Capture additional properties (keys not defined in the schema)
+    if (val.is_object()) {
+        for (const auto &[jkey, jvalue] : val.items()) {
+            // Skip known properties
+            {{#vars}}
+            {{^isInherited}}
+            if (jkey == "{{baseName}}") {
+                continue;
+            }
+            {{/isInherited}}
+            {{/vars}}
+            // This is an additional property
+            m_AdditionalProperties[jkey] = jvalue;
+            m_AdditionalPropertiesIsSet = true;
+        }
+    }
+    {{/additionalPropertiesType}}
     return ok && converted;
 }
 
@@ -281,6 +307,31 @@ void {{classname}}::unset{{name}}() {
 }
 {{/isInherited}}
 {{/vars}}
+{{#additionalPropertiesType}}
+
+const {{classname}}::AdditionalPropertiesMap &{{classname}}::getAdditionalProperties() const {
+    return m_AdditionalProperties;
+}
+
+void {{classname}}::setAdditionalProperties(const AdditionalPropertiesMap& value) {
+    m_AdditionalProperties = value;
+    m_AdditionalPropertiesIsSet = true;
+}
+
+void {{classname}}::addAdditionalProperty(const std::string& key, const nlohmann::json& value) {
+    m_AdditionalProperties[key] = value;
+    m_AdditionalPropertiesIsSet = true;
+}
+
+bool {{classname}}::additionalPropertiesIsSet() const {
+    return m_AdditionalPropertiesIsSet;
+}
+
+void {{classname}}::unsetAdditionalProperties() {
+    m_AdditionalProperties.clear();
+    m_AdditionalPropertiesIsSet = false;
+}
+{{/additionalPropertiesType}}
 {{/isEnum}}
 {{/oneOf}}
 {{#modelNamespaceDeclarations}}

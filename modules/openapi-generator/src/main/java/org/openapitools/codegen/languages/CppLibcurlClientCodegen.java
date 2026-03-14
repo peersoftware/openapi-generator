@@ -236,6 +236,13 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
             }
         }
 
+        // Handle additionalProperties for models that have both properties and additionalProperties
+        Schema addlProps = ModelUtils.getAdditionalProperties(model);
+        if (addlProps != null && model.getProperties() != null && !model.getProperties().isEmpty()) {
+            // This model has both defined properties AND additionalProperties
+            codegenModel.additionalPropertiesType = getTypeDeclaration(addlProps);
+        }
+
         return codegenModel;
     }
 

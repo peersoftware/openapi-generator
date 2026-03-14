@@ -184,6 +184,24 @@ public:
     {{/isInherited}}
 
     {{/vars}}
+    {{#additionalPropertiesType}}
+    using AdditionalPropertiesMap = std::map<std::string, nlohmann::json, std::less<>>;
+
+    /// <summary>
+    /// Get additional properties (properties not defined in the schema)
+    /// </summary>
+    const AdditionalPropertiesMap& getAdditionalProperties() const;
+    bool additionalPropertiesIsSet() const;
+    void unsetAdditionalProperties();
+    /// <summary>
+    /// Set additional properties
+    /// </summary>
+    void setAdditionalProperties(const AdditionalPropertiesMap& value);
+    /// <summary>
+    /// Add a single additional property
+    /// </summary>
+    void addAdditionalProperty(const std::string& key, const nlohmann::json& value);
+    {{/additionalPropertiesType}}
 
 private:
     {{#vars}}
@@ -202,6 +220,10 @@ private:
     bool m_{{name}}IsSet{false};
     {{/isInherited}}
     {{/vars}}
+    {{#additionalPropertiesType}}
+    AdditionalPropertiesMap m_AdditionalProperties;
+    bool m_AdditionalPropertiesIsSet{false};
+    {{/additionalPropertiesType}}
 };
 
 {{/isEnum}}
