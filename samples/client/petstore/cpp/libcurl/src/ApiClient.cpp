@@ -146,6 +146,10 @@ std::string ApiClient::parameterToString(bool value) {
     return value ? "true" : "false";
 }
 
+std::string ApiClient::parameterToString(const org::openapitools::client::model::ModelBase& value) {
+    return value.toJson().dump();
+}
+
 static std::string urlEscape(struct Curl_easy *handle, const std::string &str) {
     auto escaped = curl_easy_escape(handle, str.c_str(), static_cast<int>(str.length()));
 

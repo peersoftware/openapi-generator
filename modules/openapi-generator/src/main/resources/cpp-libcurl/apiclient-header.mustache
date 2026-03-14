@@ -20,6 +20,9 @@
 
 #include "{{packageName}}/ApiConfiguration.h"
 #include "{{packageName}}/ApiResponse.h"
+{{^hasModelImport}}
+#include "{{packageName}}/ModelBase.h"
+{{/hasModelImport}}
 
 class CurlHandle;
 
@@ -43,6 +46,9 @@ public:
     static std::string parameterToString(float value);
     static std::string parameterToString(double value);
     static std::string parameterToString(bool value);
+    {{^hasModelImport}}
+    static std::string parameterToString(const {{modelNamespace}}::ModelBase& value);
+    {{/hasModelImport}}
     template<class T>
     static std::string parameterToString(const std::vector<T>& value);
     template<class T>

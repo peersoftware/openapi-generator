@@ -30,6 +30,7 @@
 
 #include "CppLibcurlOpenAPIClient/ApiConfiguration.h"
 #include "CppLibcurlOpenAPIClient/ApiResponse.h"
+#include "CppLibcurlOpenAPIClient/ModelBase.h"
 
 class CurlHandle;
 
@@ -51,6 +52,7 @@ public:
     static std::string parameterToString(float value);
     static std::string parameterToString(double value);
     static std::string parameterToString(bool value);
+    static std::string parameterToString(const org::openapitools::client::model::ModelBase& value);
     template<class T>
     static std::string parameterToString(const std::vector<T>& value);
     template<class T>

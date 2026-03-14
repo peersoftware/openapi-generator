@@ -138,6 +138,12 @@ std::string ApiClient::parameterToString(bool value) {
     return value ? "true" : "false";
 }
 
+{{^hasModelImport}}
+std::string ApiClient::parameterToString(const {{modelNamespace}}::ModelBase& value) {
+    return value.toJson().dump();
+}
+{{/hasModelImport}}
+
 static std::string urlEscape(struct Curl_easy *handle, const std::string &str) {
     auto escaped = curl_easy_escape(handle, str.c_str(), static_cast<int>(str.length()));
 
