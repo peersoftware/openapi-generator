@@ -53,9 +53,9 @@ nlohmann::json {{classname}}::toJson() const {
 {{#isEnum}}
 
 namespace {
-using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}std::string{{/isNumeric}};
+using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}std::string_view{{/isNumeric}};
 
-{{classname}}::e{{classname}} toEnum({{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}std::string_view{{/isNumeric}} val) {
+{{classname}}::e{{classname}} toEnum(EnumUnderlyingType val) {
 {{#allowableValues}}
 {{#isNumeric}}
     switch (val) {
@@ -111,7 +111,7 @@ bool {{classname}}::fromJson(const nlohmann::json& val) {
 }
 
 {{^isNumeric}}
-std::string {{classname}}::getValueString() const {
+std::string_view {{classname}}::getValueString() const {
     return fromEnum(m_value);
 }
 {{/isNumeric}}

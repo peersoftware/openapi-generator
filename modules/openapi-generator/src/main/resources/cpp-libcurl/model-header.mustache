@@ -77,7 +77,7 @@ public:
     };
 
     e{{classname}} getValue() const;
-    {{^isNumeric}}std::string getValueString() const;{{/isNumeric}}
+    {{^isNumeric}}std::string_view getValueString() const;{{/isNumeric}}
     void setValue(e{{classname}} const value);
 
 private:
