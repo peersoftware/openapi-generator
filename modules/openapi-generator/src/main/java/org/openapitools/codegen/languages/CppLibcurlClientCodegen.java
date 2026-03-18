@@ -310,6 +310,15 @@ public class CppLibcurlClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
+    public String toEnumVarName(String value, String datatype) {
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value);
+        }
+
+        return super.toEnumVarName(value, datatype);
+    }
+
+    @Override
     public String toModelFilename(String name) {
         return toModelName(name);
     }
