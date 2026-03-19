@@ -48,9 +48,7 @@ void ApiConfiguration::setEnableCookies(bool value) { m_EnableCookies = value; }
 bool ApiConfiguration::getFollowRedirects() const { return m_FollowRedirects; }
 
 void ApiConfiguration::setFollowRedirects(bool value) { m_FollowRedirects = value; }
-{{#hasAuthMethods}}
-{{#authMethods}}
-{{#isBasicBasic}}
+{{#hasHttpBasicMethods}}
 
 const std::string &ApiConfiguration::getUsername() const { return m_Username; }
 
@@ -63,16 +61,28 @@ const std::string &ApiConfiguration::getPassword() const { return m_Password; }
 void ApiConfiguration::setPassword(std::string_view value) {
     m_Password = value;
 }
-{{/isBasicBasic}}
-{{#isOAuth}}
+{{/hasHttpBasicMethods}}
+{{#hasOAuthMethods}}
 
 const std::string &ApiConfiguration::getAccessToken() const { return m_AccessToken; }
 
 void ApiConfiguration::setAccessToken(std::string_view value) {
     m_AccessToken = value;
 }
-{{/isOAuth}}
-{{#isApiKey}}
+{{/hasOAuthMethods}}
+{{#hasApiKeyMethods}}
+
+const std::string *ApiConfiguration::getApiKey(std::string_view key) const {
+    if (auto it = m_ApiKeys.find(key); it != m_ApiKeys.end()) {
+        return &it->second;
+    }
+
+    return nullptr;
+}
+
+void ApiConfiguration::setApiKey(const std::string &key, std::string_view value) {
+    m_ApiKeys[key] = value;
+}
 
 const std::map<std::string, std::string, std::less<>> &ApiConfiguration::getApiKeys() const {
     return m_ApiKeys;
@@ -81,10 +91,7 @@ const std::map<std::string, std::string, std::less<>> &ApiConfiguration::getApiK
 void ApiConfiguration::setApiKeys(const std::map<std::string, std::string, std::less<>> &value) {
     m_ApiKeys = value;
 }
-{{/isApiKey}}
-{{/authMethods}}
-{{/hasAuthMethods}}
-
+{{/hasApiKeyMethods}}
 
 {{#apiNamespaceDeclarations}}
 }

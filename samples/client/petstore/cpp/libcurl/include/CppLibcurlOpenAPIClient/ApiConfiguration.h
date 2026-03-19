@@ -62,6 +62,8 @@ public:
 
     const std::string &getAccessToken() const;
     void setAccessToken(std::string_view value);
+    const std::string *getApiKey(std::string_view key) const;
+    void setApiKey(const std::string &key, std::string_view value);
     const std::map<std::string, std::string, std::less<>> &getApiKeys() const;
     void setApiKeys(const std::map<std::string, std::string, std::less<>> &value);
 

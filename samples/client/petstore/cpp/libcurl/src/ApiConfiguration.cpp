@@ -63,6 +63,18 @@ void ApiConfiguration::setAccessToken(std::string_view value) {
     m_AccessToken = value;
 }
 
+const std::string *ApiConfiguration::getApiKey(std::string_view key) const {
+    if (auto it = m_ApiKeys.find(key); it != m_ApiKeys.end()) {
+        return &it->second;
+    }
+
+    return nullptr;
+}
+
+void ApiConfiguration::setApiKey(const std::string &key, std::string_view value) {
+    m_ApiKeys[key] = value;
+}
+
 const std::map<std::string, std::string, std::less<>> &ApiConfiguration::getApiKeys() const {
     return m_ApiKeys;
 }
@@ -70,6 +82,5 @@ const std::map<std::string, std::string, std::less<>> &ApiConfiguration::getApiK
 void ApiConfiguration::setApiKeys(const std::map<std::string, std::string, std::less<>> &value) {
     m_ApiKeys = value;
 }
-
 
 }

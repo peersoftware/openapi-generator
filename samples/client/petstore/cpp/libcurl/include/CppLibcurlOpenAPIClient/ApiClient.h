@@ -41,7 +41,7 @@ public:
     explicit ApiClient(std::shared_ptr<const ApiConfiguration> configuration = nullptr);
     virtual ~ApiClient();
 
-    std::shared_ptr<const ApiConfiguration> getConfiguration() const;
+    const std::shared_ptr<const ApiConfiguration>& getConfiguration() const;
     void setConfiguration(std::shared_ptr<const ApiConfiguration> configuration);
 
     static std::string parameterToString(std::string value);

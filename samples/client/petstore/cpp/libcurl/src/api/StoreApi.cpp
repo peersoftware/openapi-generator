@@ -126,6 +126,11 @@ StoreApi::getInventory(
         throw std::invalid_argument("StoreApi->getInventory does not consume any supported media type");
     }
 
+    if (const auto* localVarApiKey = m_ApiClient->getConfiguration()->getApiKey("api_key");
+            localVarApiKey != nullptr) {
+        localVarHeaderParams["api_key"] = *localVarApiKey;
+    }
+
     auto response = m_ApiClient->callApi(
         localVarPath, "GET", localVarQueryParams, localVarHeaderParams,
         localVarFormParams, localVarRequestHttpContentType, localVarHttpBody);

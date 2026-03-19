@@ -98,7 +98,7 @@ ApiClient::ApiClient(std::shared_ptr<const ApiConfiguration> configuration )
 /* Need to hide the destructor definition to hide curl implementation */
 ApiClient::~ApiClient() = default;
 
-std::shared_ptr<const ApiConfiguration> ApiClient::getConfiguration() const {
+const std::shared_ptr<const ApiConfiguration>& ApiClient::getConfiguration() const {
     return m_Configuration;
 }
 void ApiClient::setConfiguration(std::shared_ptr<const ApiConfiguration> configuration) {
@@ -317,21 +317,6 @@ ApiResponse ApiClient::callApi(
         curl_easy_setopt(curlHandle, CURLOPT_FOLLOWLOCATION, 1L);
     }
 
-    {{#hasAuthMethods}}
-    {{#authMethods}}
-    {{#isApiKey}}
-    // this would only be generated for apiKey authentication
-    if (const auto &apiKeys = m_Configuration->getApiKeys(); !apiKeys.empty()) {
-        for (const auto &[key, value] : apiKeys) {
-            std::string apiKey = key + ": " + value;
-
-            m_curl->AppendHeader(apiKey.c_str());
-        }
-    }
-    {{/isApiKey}}
-    {{/authMethods}}
-    {{/hasAuthMethods}}
-
     std::string url =
         BuildTargetUrl(curlHandle, m_Configuration->getBaseUrl(), path, queryParams);
     std::string responseData;
@@ -343,9 +328,7 @@ ApiResponse ApiClient::callApi(
     curl_easy_setopt(curlHandle, CURLOPT_VERBOSE,
                     0L);  // Set to 1 to enable debug
 
-    {{#hasAuthMethods}}
-    {{#authMethods}}
-    {{#isBasicBasic}}
+    {{#hasHttpBasicMethods}}
     // this would only be generated for basic authentication:
     if (!m_Configuration->getUsername().empty() &&
             !m_Configuration->getPassword().empty()) {
@@ -355,17 +338,15 @@ ApiResponse ApiClient::callApi(
         curl_easy_setopt(curlHandle, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_easy_setopt(curlHandle, CURLOPT_USERPWD, authToken.c_str());
     }
-    {{/isBasicBasic}}
-    {{#isOAuth}}
+    {{/hasHttpBasicMethods}}
+    {{#hasOAuthMethods}}
     // this would only be generated for OAuth2 authentication
     const auto &accessToken = m_Configuration->getAccessToken();
     if (!accessToken.empty()) {
         // curl_easy_setopt(curlHandle, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
         curl_easy_setopt(curlHandle, CURLOPT_XOAUTH2_BEARER, accessToken.c_str());
     }
-    {{/isOAuth}}
-    {{/authMethods}}
-    {{/hasAuthMethods}}
+    {{/hasOAuthMethods}}
 
     if (!postData.empty()) {
         setPostData(curlHandle, postData);

@@ -85,6 +85,11 @@ UserApi::createUser(
         throw std::invalid_argument("UserApi->createUser does not consume any supported media type");
     }
 
+    if (const auto* localVarApiKey = m_ApiClient->getConfiguration()->getApiKey("api_key");
+            localVarApiKey != nullptr) {
+        localVarHeaderParams["api_key"] = *localVarApiKey;
+    }
+
     auto response = m_ApiClient->callApi(
         localVarPath, "POST", localVarQueryParams, localVarHeaderParams,
         localVarFormParams, localVarRequestHttpContentType, localVarHttpBody);
@@ -147,6 +152,11 @@ UserApi::createUsersWithArrayInput(
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
     } else {
         throw std::invalid_argument("UserApi->createUsersWithArrayInput does not consume any supported media type");
+    }
+
+    if (const auto* localVarApiKey = m_ApiClient->getConfiguration()->getApiKey("api_key");
+            localVarApiKey != nullptr) {
+        localVarHeaderParams["api_key"] = *localVarApiKey;
     }
 
     auto response = m_ApiClient->callApi(
@@ -213,6 +223,11 @@ UserApi::createUsersWithListInput(
         throw std::invalid_argument("UserApi->createUsersWithListInput does not consume any supported media type");
     }
 
+    if (const auto* localVarApiKey = m_ApiClient->getConfiguration()->getApiKey("api_key");
+            localVarApiKey != nullptr) {
+        localVarHeaderParams["api_key"] = *localVarApiKey;
+    }
+
     auto response = m_ApiClient->callApi(
         localVarPath, "POST", localVarQueryParams, localVarHeaderParams,
         localVarFormParams, localVarRequestHttpContentType, localVarHttpBody);
@@ -263,6 +278,11 @@ UserApi::deleteUser(
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
     } else {
         throw std::invalid_argument("UserApi->deleteUser does not consume any supported media type");
+    }
+
+    if (const auto* localVarApiKey = m_ApiClient->getConfiguration()->getApiKey("api_key");
+            localVarApiKey != nullptr) {
+        localVarHeaderParams["api_key"] = *localVarApiKey;
     }
 
     auto response = m_ApiClient->callApi(
@@ -468,6 +488,11 @@ UserApi::logoutUser(
         throw std::invalid_argument("UserApi->logoutUser does not consume any supported media type");
     }
 
+    if (const auto* localVarApiKey = m_ApiClient->getConfiguration()->getApiKey("api_key");
+            localVarApiKey != nullptr) {
+        localVarHeaderParams["api_key"] = *localVarApiKey;
+    }
+
     auto response = m_ApiClient->callApi(
         localVarPath, "GET", localVarQueryParams, localVarHeaderParams,
         localVarFormParams, localVarRequestHttpContentType, localVarHttpBody);
@@ -530,6 +555,11 @@ UserApi::updateUser(
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
     } else {
         throw std::invalid_argument("UserApi->updateUser does not consume any supported media type");
+    }
+
+    if (const auto* localVarApiKey = m_ApiClient->getConfiguration()->getApiKey("api_key");
+            localVarApiKey != nullptr) {
+        localVarHeaderParams["api_key"] = *localVarApiKey;
     }
 
     auto response = m_ApiClient->callApi(

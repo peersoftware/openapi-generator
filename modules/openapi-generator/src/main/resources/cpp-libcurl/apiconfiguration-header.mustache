@@ -52,25 +52,23 @@ public:
     bool getFollowRedirects() const;
     void setFollowRedirects(bool value);
 
-    {{#hasAuthMethods}}
-    {{#authMethods}}
-    {{#isBasicBasic}}
+    {{#hasHttpBasicMethods}}
     const std::string &getUsername() const;
     void setUsername(std::string_view value);
 
     const std::string &getPassword() const;
     void setPassword(std::string_view value);
-    {{/isBasicBasic}}
-    {{#isOAuth}}
+    {{/hasHttpBasicMethods}}
+    {{#hasOAuthMethods}}
     const std::string &getAccessToken() const;
     void setAccessToken(std::string_view value);
-    {{/isOAuth}}
-    {{#isApiKey}}
+    {{/hasOAuthMethods}}
+    {{#hasApiKeyMethods}}
+    const std::string *getApiKey(std::string_view key) const;
+    void setApiKey(const std::string &key, std::string_view value);
     const std::map<std::string, std::string, std::less<>> &getApiKeys() const;
     void setApiKeys(const std::map<std::string, std::string, std::less<>> &value);
-    {{/isApiKey}}
-    {{/authMethods}}
-    {{/hasAuthMethods}}
+    {{/hasApiKeyMethods}}
 
 private:
     std::string m_BaseUrl;
@@ -83,20 +81,16 @@ private:
     bool m_EnableCookies{false};   /* Enable cookie support */
     bool m_FollowRedirects{false}; /* Follow HTTP 3xx redirects */
 
-    {{#hasAuthMethods}}
-    {{#authMethods}}
-    {{#isBasicBasic}}
+    {{#hasHttpBasicMethods}}
     std::string m_Username;
     std::string m_Password;
-    {{/isBasicBasic}}
-    {{#isOAuth}}
+    {{/hasHttpBasicMethods}}
+    {{#hasOAuthMethods}}
     std::string m_AccessToken;
-    {{/isOAuth}}
-    {{#isApiKey}}
+    {{/hasOAuthMethods}}
+    {{#hasApiKeyMethods}}
     std::map<std::string, std::string, std::less<>> m_ApiKeys;
-    {{/isApiKey}}
-    {{/authMethods}}
-    {{/hasAuthMethods}}
+    {{/hasApiKeyMethods}}
 };
 
 {{#apiNamespaceDeclarations}}

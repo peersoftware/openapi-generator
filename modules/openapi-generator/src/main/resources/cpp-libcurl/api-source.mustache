@@ -177,6 +177,24 @@ using org::openapitools::client::api::replaceAll;
     } else {
         throw std::invalid_argument("{{classname}}->{{operationId}} does not consume any supported media type");
     }
+    {{#authMethods}}
+    {{#isApiKey}}
+    {{#isKeyInHeader}}
+
+    if (const auto* localVarApiKey = m_ApiClient->getConfiguration()->getApiKey("{{name}}");
+            localVarApiKey != nullptr) {
+        localVarHeaderParams["{{keyParamName}}"] = *localVarApiKey;
+    }
+    {{/isKeyInHeader}}
+    {{#isKeyInQuery}}
+
+    if (const auto* localVarApiKey = m_ApiClient->getConfiguration()->getApiKey("{{name}}");
+            localVarApiKey != nullptr) {
+        localVarQueryParams["{{keyParamName}}"] = *localVarApiKey;
+    }
+    {{/isKeyInQuery}}
+    {{/isApiKey}}
+    {{/authMethods}}
 
     auto response = m_ApiClient->callApi(
         localVarPath, "{{httpMethod}}", localVarQueryParams, localVarHeaderParams,

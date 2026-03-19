@@ -106,7 +106,7 @@ ApiClient::ApiClient(std::shared_ptr<const ApiConfiguration> configuration )
 /* Need to hide the destructor definition to hide curl implementation */
 ApiClient::~ApiClient() = default;
 
-std::shared_ptr<const ApiConfiguration> ApiClient::getConfiguration() const {
+const std::shared_ptr<const ApiConfiguration>& ApiClient::getConfiguration() const {
     return m_Configuration;
 }
 void ApiClient::setConfiguration(std::shared_ptr<const ApiConfiguration> configuration) {
@@ -321,15 +321,6 @@ ApiResponse ApiClient::callApi(
 
     if (m_Configuration->getFollowRedirects()) {
         curl_easy_setopt(curlHandle, CURLOPT_FOLLOWLOCATION, 1L);
-    }
-
-    // this would only be generated for apiKey authentication
-    if (const auto &apiKeys = m_Configuration->getApiKeys(); !apiKeys.empty()) {
-        for (const auto &[key, value] : apiKeys) {
-            std::string apiKey = key + ": " + value;
-
-            m_curl->AppendHeader(apiKey.c_str());
-        }
     }
 
     std::string url =
