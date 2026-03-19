@@ -240,7 +240,7 @@ ApiResponse ApiClient::callApi(
         const std::map<std::string, std::string, std::less<>> &queryParams,
         const std::map<std::string, std::string, std::less<>> &headerParams,
         const std::map<std::string, std::string, std::less<>> &formParams,
-        const std::string &contentType,
+        std::string_view contentType,
         const std::string &postData) const {
     if (!postData.empty() && !formParams.empty()) {
         throw std::invalid_argument("Cannot have body and form params");
@@ -259,7 +259,7 @@ ApiResponse ApiClient::callApi(
     if (contentType.empty()) {
         m_curl->AppendHeader("Content-Type: application/json");
     } else {
-        std::string header = "Content-Type: " + contentType;
+        std::string header = "Content-Type: " + std::string{contentType};
 
         m_curl->AppendHeader(header.c_str());
     }

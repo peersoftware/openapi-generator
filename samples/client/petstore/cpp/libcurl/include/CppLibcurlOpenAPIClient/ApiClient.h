@@ -64,7 +64,7 @@ public:
         const std::map<std::string, std::string, std::less<>> &queryParams,
         const std::map<std::string, std::string, std::less<>> &headerParams,
         const std::map<std::string, std::string, std::less<>> &formParams,
-        const std::string &contentType,
+        std::string_view contentType,
         const std::string &postData
     ) const;
 

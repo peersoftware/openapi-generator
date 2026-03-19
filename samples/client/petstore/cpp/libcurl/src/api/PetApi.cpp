@@ -46,11 +46,11 @@ PetApi::addPet(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.emplace("application/xml");
     localVarResponseHttpContentTypes.emplace("application/json");
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -65,12 +65,12 @@ PetApi::addPet(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
     localVarConsumeHttpContentTypes.emplace("application/json");
     localVarConsumeHttpContentTypes.emplace("application/xml");
 
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -126,9 +126,9 @@ PetApi::deletePet(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -143,14 +143,14 @@ PetApi::deletePet(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
 
     if (apiKey)
     {
         localVarHeaderParams["api_key"] = ApiClient::parameterToString(*apiKey);
     }
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -181,11 +181,11 @@ PetApi::findPetsByStatus(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.emplace("application/xml");
     localVarResponseHttpContentTypes.emplace("application/json");
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -200,11 +200,11 @@ PetApi::findPetsByStatus(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
 
         localVarQueryParams["status"] = ApiClient::parameterToString(status);
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -253,11 +253,11 @@ PetApi::findPetsByTags(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.emplace("application/xml");
     localVarResponseHttpContentTypes.emplace("application/json");
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -272,11 +272,11 @@ PetApi::findPetsByTags(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
 
         localVarQueryParams["tags"] = ApiClient::parameterToString(tags);
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -326,11 +326,11 @@ PetApi::getPetById(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.emplace("application/xml");
     localVarResponseHttpContentTypes.emplace("application/json");
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -345,10 +345,10 @@ PetApi::getPetById(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
 
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -407,11 +407,11 @@ PetApi::updatePet(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.emplace("application/xml");
     localVarResponseHttpContentTypes.emplace("application/json");
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -426,12 +426,12 @@ PetApi::updatePet(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
     localVarConsumeHttpContentTypes.emplace("application/json");
     localVarConsumeHttpContentTypes.emplace("application/xml");
 
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -488,9 +488,9 @@ PetApi::updatePetWithForm(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -505,7 +505,7 @@ PetApi::updatePetWithForm(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
     localVarConsumeHttpContentTypes.emplace("application/x-www-form-urlencoded");
 
     if (name)
@@ -517,7 +517,7 @@ PetApi::updatePetWithForm(
         localVarFormParams["status"] = ApiClient::parameterToString(*status);
     }
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -551,10 +551,10 @@ PetApi::uploadFile(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.emplace("application/json");
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -569,7 +569,7 @@ PetApi::uploadFile(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
     localVarConsumeHttpContentTypes.emplace("multipart/form-data");
 
     if (additionalMetadata)
@@ -581,7 +581,7 @@ PetApi::uploadFile(
         localVarFormParams["file"] = ApiClient::parameterToString(*file);
     }
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible

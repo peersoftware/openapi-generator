@@ -42,9 +42,9 @@ StoreApi::deleteOrder(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -59,10 +59,10 @@ StoreApi::deleteOrder(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
 
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -92,10 +92,10 @@ StoreApi::getInventory(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.emplace("application/json");
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -110,10 +110,10 @@ StoreApi::getInventory(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
 
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -168,11 +168,11 @@ StoreApi::getOrderById(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.emplace("application/xml");
     localVarResponseHttpContentTypes.emplace("application/json");
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -187,10 +187,10 @@ StoreApi::getOrderById(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
 
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
@@ -244,11 +244,11 @@ StoreApi::placeOrder(
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.emplace("application/xml");
     localVarResponseHttpContentTypes.emplace("application/json");
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -263,11 +263,11 @@ StoreApi::placeOrder(
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
     localVarConsumeHttpContentTypes.emplace("application/json");
 
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible

@@ -53,12 +53,12 @@ using org::openapitools::client::api::replaceAll;
     std::map<std::string, std::string, std::less<>> localVarHeaderParams;
     std::map<std::string, std::string, std::less<>> localVarFormParams;
 
-    std::unordered_set<std::string> localVarResponseHttpContentTypes;
+    std::unordered_set<std::string_view> localVarResponseHttpContentTypes;
     {{#produces}}
     localVarResponseHttpContentTypes.emplace("{{{mediaType}}}");
     {{/produces}}
 
-    std::string localVarResponseHttpContentType;
+    std::string_view localVarResponseHttpContentType;
 
     // use JSON if possible
     if (localVarResponseHttpContentTypes.empty()) {
@@ -84,7 +84,7 @@ using org::openapitools::client::api::replaceAll;
 
     localVarHeaderParams["Accept"] = localVarResponseHttpContentType;
 
-    std::unordered_set<std::string> localVarConsumeHttpContentTypes;
+    std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
     {{#consumes}}
     localVarConsumeHttpContentTypes.emplace("{{{mediaType}}}");
     {{/consumes}}
@@ -137,7 +137,7 @@ using org::openapitools::client::api::replaceAll;
     {{/isBodyParam}}
     {{/allParams}}
 
-    std::string localVarRequestHttpContentType;
+    std::string_view localVarRequestHttpContentType;
     std::string localVarHttpBody;
 
     // use JSON if possible
