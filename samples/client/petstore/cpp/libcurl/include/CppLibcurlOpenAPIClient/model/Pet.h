@@ -53,9 +53,7 @@ public:
         PENDING,
         SOLD,
     };
-    /// <summary>
-    /// pet status in the store
-    /// </summary>
+
     static StatusEnum toStatusEnum(std::string_view value);
     static std::string_view fromStatusEnum(const StatusEnum value);
 

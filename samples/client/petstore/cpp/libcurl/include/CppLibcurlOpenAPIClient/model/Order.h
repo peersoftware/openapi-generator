@@ -48,9 +48,7 @@ public:
         APPROVED,
         DELIVERED,
     };
-    /// <summary>
-    /// Order Status
-    /// </summary>
+
     static StatusEnum toStatusEnum(std::string_view value);
     static std::string_view fromStatusEnum(const StatusEnum value);
 
