@@ -23,7 +23,6 @@
 namespace org::openapitools::client::api {
 
 using namespace org::openapitools::client::model;
-using org::openapitools::client::api::replaceAll;
 
 UserApi::UserApi(const std::shared_ptr<const ApiClient> &apiClient)
     : m_ApiClient(apiClient) {
