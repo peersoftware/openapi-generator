@@ -341,7 +341,8 @@ ApiResponse ApiClient::callApi(
         curl_easy_setopt(curlHandle, CURLOPT_XOAUTH2_BEARER, accessToken.c_str());
     }
 
-    if (!postData.empty()) {
+    // POST request must initialize the data/size, so set if there is data or when there is nothing
+    if (!postData.empty() || (formParams.empty() && method == "POST")) {
         setPostData(curlHandle, postData);
     }
 

@@ -76,10 +76,8 @@ PetApi::addPet(
     if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
-        nlohmann::json localVarJson;
+        auto localVarJson = ModelBase::toJson(pet);
 
-        localVarJson = ModelBase::toJson(pet);
-        
         localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
@@ -437,10 +435,8 @@ PetApi::updatePet(
     if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
-        nlohmann::json localVarJson;
+        auto localVarJson = ModelBase::toJson(pet);
 
-        localVarJson = ModelBase::toJson(pet);
-        
         localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";

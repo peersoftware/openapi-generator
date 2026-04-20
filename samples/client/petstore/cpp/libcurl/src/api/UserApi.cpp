@@ -73,10 +73,8 @@ UserApi::createUser(
     if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
-        nlohmann::json localVarJson;
+        auto localVarJson = ModelBase::toJson(user);
 
-        localVarJson = ModelBase::toJson(user);
-        
         localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
@@ -135,18 +133,18 @@ UserApi::createUsersWithArrayInput(
     if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
-        nlohmann::json localVarJson;
-
         {
-            localVarJson = nlohmann::json::array();
+            auto localVarJson = nlohmann::json::array();
+
             for (auto& localVarItem : user) {
                 if (localVarItem.get()) {
                     localVarJson.push_back(localVarItem->toJson());
                 }
                 
             }
+
+            localVarHttpBody = localVarJson.dump();
         }
-                localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
     } else {
@@ -204,18 +202,18 @@ UserApi::createUsersWithListInput(
     if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
-        nlohmann::json localVarJson;
-
         {
-            localVarJson = nlohmann::json::array();
+            auto localVarJson = nlohmann::json::array();
+
             for (auto& localVarItem : user) {
                 if (localVarItem.get()) {
                     localVarJson.push_back(localVarItem->toJson());
                 }
                 
             }
+
+            localVarHttpBody = localVarJson.dump();
         }
-                localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
     } else {
@@ -545,10 +543,8 @@ UserApi::updateUser(
     if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
-        nlohmann::json localVarJson;
+        auto localVarJson = ModelBase::toJson(user);
 
-        localVarJson = ModelBase::toJson(user);
-        
         localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";

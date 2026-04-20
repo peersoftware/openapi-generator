@@ -348,7 +348,8 @@ ApiResponse ApiClient::callApi(
     }
     {{/hasOAuthMethods}}
 
-    if (!postData.empty()) {
+    // POST request must initialize the data/size, so set if there is data or when there is nothing
+    if (!postData.empty() || (formParams.empty() && method == "POST")) {
         setPostData(curlHandle, postData);
     }
 

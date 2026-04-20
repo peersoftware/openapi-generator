@@ -273,10 +273,8 @@ StoreApi::placeOrder(
     if (localVarConsumeHttpContentTypes.empty() ||
             localVarConsumeHttpContentTypes.find("application/json") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/json";
-        nlohmann::json localVarJson;
+        auto localVarJson = ModelBase::toJson(order);
 
-        localVarJson = ModelBase::toJson(order);
-        
         localVarHttpBody = localVarJson.dump();
     } else if (localVarConsumeHttpContentTypes.find("application/x-www-form-urlencoded") != localVarConsumeHttpContentTypes.end()) {
         localVarRequestHttpContentType = "application/x-www-form-urlencoded";
