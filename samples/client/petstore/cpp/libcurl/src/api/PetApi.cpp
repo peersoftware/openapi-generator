@@ -28,6 +28,10 @@ PetApi::PetApi(const std::shared_ptr<const ApiClient> &apiClient)
     : m_ApiClient(apiClient) {
 }
 
+const std::shared_ptr<const ApiClient>& PetApi::getClient() const {
+    return m_ApiClient;
+}
+
 std::pair<ApiResponse, std::shared_ptr<Pet>>
 PetApi::addPet(
     const std::shared_ptr<Pet>& pet

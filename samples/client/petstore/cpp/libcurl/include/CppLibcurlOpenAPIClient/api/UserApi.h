@@ -38,6 +38,8 @@ class  UserApi {
 public:
     explicit UserApi(const std::shared_ptr<const ApiClient> &apiClient);
 
+    const std::shared_ptr<const ApiClient>& getClient() const;
+
     /// <summary>
     /// Create user
     /// </summary>

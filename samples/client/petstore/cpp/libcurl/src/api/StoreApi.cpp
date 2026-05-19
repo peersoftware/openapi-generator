@@ -28,6 +28,10 @@ StoreApi::StoreApi(const std::shared_ptr<const ApiClient> &apiClient)
     : m_ApiClient(apiClient) {
 }
 
+const std::shared_ptr<const ApiClient>& StoreApi::getClient() const {
+    return m_ApiClient;
+}
+
 ApiResponse
 StoreApi::deleteOrder(
     const std::string& orderId

@@ -38,6 +38,8 @@ class  StoreApi {
 public:
     explicit StoreApi(const std::shared_ptr<const ApiClient> &apiClient);
 
+    const std::shared_ptr<const ApiClient>& getClient() const;
+
     /// <summary>
     /// Delete purchase order by ID
     /// </summary>

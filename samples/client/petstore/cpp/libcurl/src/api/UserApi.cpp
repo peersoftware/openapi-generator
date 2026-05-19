@@ -28,6 +28,10 @@ UserApi::UserApi(const std::shared_ptr<const ApiClient> &apiClient)
     : m_ApiClient(apiClient) {
 }
 
+const std::shared_ptr<const ApiClient>& UserApi::getClient() const {
+    return m_ApiClient;
+}
+
 ApiResponse
 UserApi::createUser(
     const std::shared_ptr<User>& user

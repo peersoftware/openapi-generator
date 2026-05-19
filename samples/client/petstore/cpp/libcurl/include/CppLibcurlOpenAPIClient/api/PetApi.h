@@ -39,6 +39,8 @@ class  PetApi {
 public:
     explicit PetApi(const std::shared_ptr<const ApiClient> &apiClient);
 
+    const std::shared_ptr<const ApiClient>& getClient() const;
+
     /// <summary>
     /// Add a new pet to the store
     /// </summary>

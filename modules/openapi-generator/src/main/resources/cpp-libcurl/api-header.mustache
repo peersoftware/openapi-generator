@@ -29,6 +29,8 @@ class {{declspec}} {{classname}} {
 public:
     explicit {{classname}}(const std::shared_ptr<const ApiClient> &apiClient);
 
+    const std::shared_ptr<const ApiClient>& getClient() const;
+
     {{#operation}}
     /// <summary>
     /// {{{summary}}}

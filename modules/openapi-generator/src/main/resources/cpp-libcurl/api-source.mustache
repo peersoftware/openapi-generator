@@ -21,6 +21,10 @@ using namespace {{modelNamespace}};
     : m_ApiClient(apiClient) {
 }
 
+const std::shared_ptr<const ApiClient>& {{classname}}::getClient() const {
+    return m_ApiClient;
+}
+
 {{#operation}}
 {{#returnType}}std::pair<ApiResponse, {{{returnType}}}>{{/returnType}}{{^returnType}}ApiResponse{{/returnType}}
 {{classname}}::{{operationId}}(
