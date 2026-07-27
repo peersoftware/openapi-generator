@@ -106,14 +106,14 @@ const std::shared_ptr<const ApiClient>& {{classname}}::getClient() const {
     {{^required}}
         {{^isPrimitiveType}}
         {{^isContainer}}
-    if ({{paramName}} && *{{paramName}} != nullptr)
+    if ({{paramName}}.has_value() && *{{paramName}} != nullptr)
         {{/isContainer}}
         {{/isPrimitiveType}}
         {{#isPrimitiveType}}
-    if ({{paramName}})
+    if ({{paramName}}.has_value())
         {{/isPrimitiveType}}
         {{#isContainer}}
-    if ({{paramName}})
+    if ({{paramName}}.has_value())
         {{/isContainer}}
     {
     {{/required}}
@@ -178,7 +178,7 @@ const std::shared_ptr<const ApiClient>& {{classname}}::getClient() const {
         localVarHttpBody = localVarJson.dump();
         {{/required}}
         {{^required}}
-        if ({{paramName}}) {
+        if ({{paramName}}.has_value()) {
             auto localVarJson = ModelBase::toJson(*{{paramName}});
 
             localVarHttpBody = localVarJson.dump();

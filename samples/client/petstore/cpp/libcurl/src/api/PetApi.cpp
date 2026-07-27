@@ -146,7 +146,7 @@ PetApi::deletePet(
 
     std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
 
-    if (apiKey)
+    if (apiKey.has_value())
     {
         localVarHeaderParams["api_key"] = ApiClient::parameterToString(*apiKey);
     }
@@ -507,11 +507,11 @@ PetApi::updatePetWithForm(
     std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
     localVarConsumeHttpContentTypes.emplace("application/x-www-form-urlencoded");
 
-    if (name)
+    if (name.has_value())
     {
         localVarFormParams["name"] = ApiClient::parameterToString(*name);
     }
-    if (status)
+    if (status.has_value())
     {
         localVarFormParams["status"] = ApiClient::parameterToString(*status);
     }
@@ -571,11 +571,11 @@ PetApi::uploadFile(
     std::unordered_set<std::string_view> localVarConsumeHttpContentTypes;
     localVarConsumeHttpContentTypes.emplace("multipart/form-data");
 
-    if (additionalMetadata)
+    if (additionalMetadata.has_value())
     {
         localVarFormParams["additionalMetadata"] = ApiClient::parameterToString(*additionalMetadata);
     }
-    if (file)
+    if (file.has_value())
     {
         localVarFormParams["file"] = ApiClient::parameterToString(*file);
     }
